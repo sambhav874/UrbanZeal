@@ -49,17 +49,17 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/men" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
+            <Link href="/products/men" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
               Men
             </Link>
           </li>
           <li>
-            <Link href="/women" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
+            <Link href="/products/women" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
               Women
             </Link>
           </li>
           <li>
-            <Link href="/kids" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
+            <Link href="/products/kids" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
               Kids
             </Link>
           </li>
@@ -81,17 +81,17 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/men" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
+              <Link href="/products/men" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
                 Men
               </Link>
             </li>
             <li>
-              <Link href="/women" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
+              <Link href="/products/women" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
                 Women
               </Link>
             </li>
             <li>
-              <Link href="/kids" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
+              <Link href="/products/kids" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
                 Kids
               </Link>
             </li>
