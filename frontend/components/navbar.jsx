@@ -1,7 +1,4 @@
-// frontend/components/Navbar.jsx
-
 "use client"
-// frontend/components/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -68,6 +65,16 @@ const Navbar = () => {
               Contact
             </Link>
           </li>
+          <li>
+            <Link href="/login" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
+              Login
+            </Link>
+          </li>
+          <li>
+            <Link href="/register" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">
+              Register
+            </Link>
+          </li>
         </ul>
       ) : (
         <div className={`fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-45 text-white transition-all duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -98,6 +105,16 @@ const Navbar = () => {
             <li>
               <Link href="/contact" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
                 Contact
+              </Link>
+            </li>
+            <li>
+              <Link href="/login" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link href="/register" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4" onClick={handleLinkClick}>
+                Register
               </Link>
             </li>
           </ul>
