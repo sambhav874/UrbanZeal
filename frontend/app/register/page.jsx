@@ -8,16 +8,28 @@ const Register = () => {
     const [userCreated, setUserCreated] = useState(false);
     const [creatingUser, setCreatingUser] = useState(false);
 
+    const [error , setError]  = useState(false);
+
+
     async function handleFormSubmit(ev) {
-        ev.preventDefault();
-        setCreatingUser(true);
-        await fetch('/api/register', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: { "Content-Type": "application/json" }
-        });
-        setCreatingUser(false);
+         ev.preventDefault();
+    setCreatingUser(true);
+    setError(false);
+    setUserCreated(false);
+
+    const response = await fetch('/api/register', {
+        method: 'POST',
+        body: JSON.stringify({email, password}),
+        headers: {'Content-Type': 'application/json'},
+      });
+
+    if (response.ok) {
         setUserCreated(true);
+      }
+      else {
+        setError(true);
+      }
+      setCreatingUser(false);
     }
 
     return (
@@ -27,8 +39,14 @@ const Register = () => {
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create a new account</h2>
                 </div>
                 {userCreated && (
-                    <div className="my-8 text-center">
+                    <div className="my-8 text-center text-black">
                         User created.<br /> Now you can {' '}
+                        <Link className='underline' href={'/login'}>&raquo;</Link>
+                    </div>
+                )}
+                {error && (
+                    <div className="my-8 text-center text-black">
+                        An error has occured.<br /> Please try again later .
                         <Link className='underline' href={'/login'}>&raquo;</Link>
                     </div>
                 )}
@@ -55,7 +73,9 @@ const Register = () => {
                 <button onClick={() => signIn('google')} type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Log in with Google
                 </button>
+                <div className='text-center border-t pt-4 my-4 text-black' >Existing Account?{' '} <Link className='underline' href={'/login'}>Login Here &raque;</Link></div>
             </div>
+            
         </div>
     );
 };
