@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Carousel from '../components/Carousel';
 import {carouselImages} from '../app/data/carouselPhotos'
-import { useSession, signIn, signOut } from "next-auth/react"
 
  // Import Footer component
 
