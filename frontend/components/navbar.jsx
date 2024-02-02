@@ -1,15 +1,21 @@
-'use client'
+"use client"
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const session = useSession();
-  console.log(session);
   const status = session.status;
+  const userData = session.data?.user;
+  let userName = userData?.name || userData?.email;
+  if(userName && userName.includes(' ')){
+    userName = userName.split(' ')[0];
+  }
+
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -18,6 +24,7 @@ const Navbar = () => {
       const handleResize = () => {
         setIsLargeScreen(window.innerWidth >= 768);
         setIsSidebarOpen(false);
+        setIsDropdownOpen(false);
       };
 
       window.addEventListener("resize", handleResize);
@@ -32,8 +39,13 @@ const Navbar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   const handleLinkClick = () => {
     setIsSidebarOpen(false);
+    setIsDropdownOpen(false);
   };
 
   return (
@@ -49,14 +61,17 @@ const Navbar = () => {
           <li><Link href="/products/kids" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">Kids</Link></li>
           <li><Link href="/contact" className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4">Contact</Link></li>
           <li>
-            <div>
-              {status === 'authenticated' ? (
-                <button className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4 rounded-xl border-2 border-white p-2" onClick={() => signOut()}>Logout</button>
-              ) : (
-                <>
-                  <Link className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4 rounded-full border-2 p-4 border-white" href="/login">Login</Link>
-                  <Link href="/register" className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4 rounded-full border-2 p-4 border-white">Register</Link>
-                </>
+            <div className="relative">
+              <button
+                className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4 rounded-full border-2 p-4 m-2 border-white"
+                onClick={toggleDropdown}
+              >
+                {userName}
+              </button>
+              {status === 'authenticated' && isDropdownOpen && (
+                <ul className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg">
+                  <li><button className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => signOut()}>Logout</button></li>
+                </ul>
               )}
             </div>
           </li>
@@ -81,6 +96,9 @@ const Navbar = () => {
                   </>
                 )}
               </div>
+            </li>
+            <li>
+              <div className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4">{userName}</div>
             </li>
           </ul>
         </div>
