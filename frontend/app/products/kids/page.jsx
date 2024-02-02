@@ -3,14 +3,16 @@ import React from 'react';
 import { freshArrivalsMen } from '../../data/menProducts';
 import { clothingCategories } from '../../data/menCategories';
 import Link from 'next/link';
-import Carousel from '@/components/Carousel';
+import { kidsCarouselImages } from '../../data/kidsCarousel';
+import CarouselKids from './../../../components/carouselKids';
+
 
 const Kids = () => {
     return (
         <div className="mx-[5%] px-2 py-8">
             {/* Clothing Categories */}
-            <div className="text-3xl font-bold mb-4">Mens</div>
-            <Carousel/>
+            <div className="text-3xl font-bold mb-4">Kids</div>
+            <CarouselKids images={kidsCarouselImages} />
             <h2 className="text-xl font-bold mb-4">Clothing Categories</h2>
             <div className="mb-8 overflow-x-auto scrolling-wrapper">
                 <div className="flex flex-nowrap">

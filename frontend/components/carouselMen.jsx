@@ -32,8 +32,8 @@ const CarouselMen = ({ images }) => {
         ))}
       </div>
       {/* Slider controls */}
-      <button className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 focus:outline-none" onClick={prevSlide}>&#10094;</button>
-      <button className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 focus:outline-none" onClick={nextSlide}>&#10095;</button>
+      <button className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 -translate-x-1/2 focus:outline-none border-none" onClick={prevSlide}>&#10094;</button>
+      <button className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 translate-x-1/2 focus:outline-none border-none" onClick={nextSlide}>&#10095;</button>
     </div>
   );
 };

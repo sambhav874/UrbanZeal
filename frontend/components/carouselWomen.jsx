@@ -1,6 +1,7 @@
+// carouselMen.jsx (or whatever filename you prefer)
 import React, { useState, useEffect } from 'react';
 
-const Carousel = ({ images }) => {
+const CarouselWomen = ({ images }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = images.length;
 
@@ -37,4 +38,4 @@ const Carousel = ({ images }) => {
   );
 };
 
-export default Carousel;
+export default CarouselWomen;

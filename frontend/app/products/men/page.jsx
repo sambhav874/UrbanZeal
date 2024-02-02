@@ -3,7 +3,7 @@ import React from 'react';
 import { freshArrivalsMen } from '../../data/menProducts';
 import { clothingCategories } from '../../data/menCategories';
 import Link from 'next/link';
-import CarouselMen from '@/components/carouselMen'; // Adjusted import path
+import CarouselMen from './../../../components/carouselMen'; // Adjusted import path
 import { menCarouselImages } from '../../data/menCarousel';
 
 const Men = () => {

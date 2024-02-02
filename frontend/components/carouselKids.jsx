@@ -1,6 +1,9 @@
+// carouselKids.jsx
+'use client'
+// carouselKids.jsx
 import React, { useState, useEffect } from 'react';
 
-const Carousel = ({ images }) => {
+const CarouselKids = ({ images }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = images.length;
 
@@ -37,4 +40,4 @@ const Carousel = ({ images }) => {
   );
 };
 
-export default Carousel;
+export default CarouselKids;
