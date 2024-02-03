@@ -21,9 +21,9 @@ const Carousel = ({ images }) => {
   }, [currentSlide]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full z-0">
       {/* Carousel wrapper */}
-      <div className="relative h-96 overflow-hidden rounded-lg">
+      <div className="relative h-96 overflow-hidden rounded-lg z-0">
         {images.map((slide, index) => (
           <div key={index} className={`carousel-item ${index === currentSlide ? 'block' : 'hidden'}`}>
             <img src={slide} className="absolute inset-0 w-full h-full object-cover" alt={`Slide ${index + 1}`} />
