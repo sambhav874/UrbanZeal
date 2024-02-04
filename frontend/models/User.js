@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 
 
 const userSchema = new Schema({
+    name: {type: String , required: true},
     email: {type : String , required : true , unique : true},
     password: {type : String , required : true , validate :pass=> {
         if(!pass?.length || pass.length < 5){
