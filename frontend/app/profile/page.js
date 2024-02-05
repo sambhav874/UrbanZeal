@@ -1,14 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image"; // Import Image component from 'next/image'
 
 const Home = () => {
   const { data: session, status } = useSession();
-  const [userName, setUserName] = useState(session?.user?.name || "");
+  const [userName, setUserName] = useState("");
+  const [image , setImage] = useState('');
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false); 
+
+  useEffect(() => {
+    if(status === 'authenticated'){
+        setUserName(session.user.name);
+        setImage(session.user.image);
+    }
+  },[session,status]);
 
   async function handleProfileInfoUpdate(ev) {
     ev.preventDefault();
@@ -31,10 +39,13 @@ const Home = () => {
     if(files?.length === 1){
         const data = new FormData();
         data.set('file' , files[0]);
-        await fetch('/api/upload' , {
+        const response = await fetch('/api/upload' , {
             method: "POST",
             body: data,
         });
+        const link = await response.json();
+        setImage(link);
+        console.log(link);
     }
   }
 
@@ -63,13 +74,16 @@ const Home = () => {
           <div>
             {/* Use the Image component for image rendering */}
             <div className="p-2 rounded-lg">
-              <Image
-                src={userImage}
+                {image && (
+                    <Image
+                src={image}
                 className="w-full h-full rounded-lg mb-2"
                 width={250}
                 height={250}
                 alt="User Avatar"
               />
+                )}
+              
               <label>
                 <input type="file" className="hidden" onChange={handleFileChange}></input>
                 <span className='block rounded-lg p-2 text-center border-gray-300 cursor-pointer border' type="button">Change Avatar</span>

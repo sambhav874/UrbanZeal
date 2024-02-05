@@ -26,7 +26,7 @@ export async function POST(req){
         }
         const buffer = Buffer.concat(chunks);
 
-        const bucket = "urban-zeal";
+        const bucket = "urbanzeal-ecom";
 
         console.log(newFileName);
 
