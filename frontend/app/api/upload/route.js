@@ -4,6 +4,7 @@ import uniqid from 'uniqid'
 export async function POST(req){
 
     const data = await req.formData() ;
+
     if(data.get('file')){
         
         const file = data.get('file');
@@ -26,17 +27,18 @@ export async function POST(req){
         }
         const buffer = Buffer.concat(chunks);
 
-        const bucket = "urbanzeal-ecom";
+        const bucket = "urbanzeal";
 
         console.log(newFileName);
 
-        s3Client.send(new PutObjectCommand({
+        const params = {
             Bucket: bucket,
             Key: newFileName,
             ACL : 'public-read',
             ContentType: file.type,
             Body : buffer
-        }))
+        }
+        s3Client.send(new PutObjectCommand(params));
 
         const link = 'https://'+bucket+'.s3.amazonaws.com/'+newFileName;
         console.log(link);

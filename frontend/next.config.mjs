@@ -8,7 +8,7 @@ const nextConfig = {
         },
     {
         protocol:'https',
-        hostname: 'urbanzeal-ecom.s3.amazonaws.com'
+        hostname: 'urbanzeal.s3.amazonaws.com'
     }],
         
     }

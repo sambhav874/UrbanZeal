@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image"; // Import Image component from 'next/image'
 
-const Home = () => {
+const profile = () => {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState("");
   const [image , setImage] = useState('');
@@ -25,7 +25,7 @@ const Home = () => {
     const response = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: userName }),
+      body: JSON.stringify({ name: userName , image}),
     });
     setIsSaving(false);
     if(response.ok){
@@ -45,7 +45,7 @@ const Home = () => {
         });
         const link = await response.json();
         setImage(link);
-        console.log(link);
+        console.log(link , response);
     }
   }
 
@@ -116,4 +116,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default profile;
