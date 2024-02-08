@@ -6,6 +6,6 @@ Technologies Used :
 -Tailwind CSS
 -Oauth Authentication
 -React.js
--AWS
+-AWS(S3 : storing user assets)
 
 (Project Under Development)
