@@ -4,15 +4,16 @@ import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import InfoBox from './../../components/layout/InfoBox'
-import SuccessBox from './../../components/layout/SuccessBox' // Import Image component from 'next/image'
+import SuccessBox from './../../components/layout/SuccessBox'
+import toast from 'react-hot-toast'; // Import Image component from 'next/image'
 
 const profile = () => {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState("");
   const [image , setImage] = useState('');
-  const [saved, setSaved] = useState(false);
-  const [isUploading , setIsUploading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false); 
+  
+  
+  
 
   useEffect(() => {
     if(status === 'authenticated'){
@@ -23,17 +24,30 @@ const profile = () => {
 
   async function handleProfileInfoUpdate(ev) {
     ev.preventDefault();
-    setSaved(false);
-    setIsSaving(true);
-    const response = await fetch("/api/profile", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: userName , image}),
+    
+    toast('Saving....');
+
+    
+
+    const savingPromise = new Promise(async (resolve, reject) => {
+        const response = await fetch('/api/profile', {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name: userName , image}),
+        });
+        if (response.ok)
+          resolve()
+        else
+          reject();
+      });
+  
+      
+    await toast.promise(savingPromise , {
+        loading: 'Saving...',
+        success: 'Profile Saved ...!',
+        error: 'Upload Error ...'
     });
-    setIsSaving(false);
-    if(response.ok){
-        setSaved(true);
-    }
+    
   }
 
   async function handleFileChange(ev) {
@@ -42,32 +56,47 @@ const profile = () => {
     if (files?.length === 1) {
       const data = new FormData();
       data.set('file', files[0]);
-      setIsUploading(true);
   
-      const response = await fetch('/api/upload', {
-        method: "POST",
-        body: data,
-      });
+      // Show a loading toast while uploading
+      const loadingToastId = toast.promise(
+        new Promise((resolve, reject) => {
+          // Upload the file
+          fetch('/api/upload', {
+            method: 'POST',
+            body: data,
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`Upload failed: ${response.statusText}`);
+              }
+              return response.json();
+            })
+            .then((responseData) => {
+              // Access the actual image URL from the response
+              const imageURL = responseData.url || responseData.path || responseData.imageUrl || responseData.link; // Adjust based on your API response structure
+              if (!imageURL) {
+                throw new Error('Missing image URL in response');
+              }
+              resolve(imageURL);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }),
+        {
+          loading: 'Uploading...',
+          success: 'Profile image uploaded!',
+          error: 'Upload failed. Please try again.',
+        }
+      );
   
-      if (!response.ok) {
-        console.error('Error uploading image:', response.statusText);
-        setIsUploading(false);
-        return; // Handle upload error gracefully
+      try {
+        const imageURL = await loadingToastId;
+        setImage(imageURL);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        toast.error('Upload failed. Please try again.');
       }
-  
-      const responseData = await response.json(); // Parse JSON response
-  
-      // Access the actual image URL from the response data
-      const imageURL = responseData.url || responseData.path || responseData.imageUrl || responseData.link; // Adjust based on your API response structure
-  
-      if (!imageURL) {
-        console.error('Missing image URL in response:', responseData);
-        setIsUploading(false);
-        return; 
-      }
-  
-      setImage(imageURL);
-      setIsUploading(false);
     }
   }
   if (status === "loading") {
@@ -83,13 +112,7 @@ const profile = () => {
     <div className="mt-8">
       <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
       <div className="max-w-md mx-auto border border-black">
-        {saved && (<SuccessBox>Profile Saved ..!</SuccessBox>)}
-
-        {isSaving && (
-            <InfoBox>Saving...</InfoBox>
-        )}
-
-        {isUploading && (<InfoBox>Uploading...</InfoBox>)}
+        
         
         <div className="flex gap-2 items-center">
           <div>
