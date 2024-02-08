@@ -2,13 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Image from "next/image"; // Import Image component from 'next/image'
+import Image from "next/image";
+import InfoBox from './../../components/layout/InfoBox'
+import SuccessBox from './../../components/layout/SuccessBox' // Import Image component from 'next/image'
 
 const profile = () => {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState("");
   const [image , setImage] = useState('');
   const [saved, setSaved] = useState(false);
+  const [isUploading , setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false); 
 
   useEffect(() => {
@@ -33,22 +36,40 @@ const profile = () => {
     }
   }
 
-  async function handleFileChange(ev){
+  async function handleFileChange(ev) {
     const files = ev.target.files;
-    
-    if(files?.length === 1){
-        const data = new FormData();
-        data.set('file' , files[0]);
-        const response = await fetch('/api/upload' , {
-            method: "POST",
-            body: data,
-        });
-        const link = await response.json();
-        setImage(link);
-        console.log(link , response);
+  
+    if (files?.length === 1) {
+      const data = new FormData();
+      data.set('file', files[0]);
+      setIsUploading(true);
+  
+      const response = await fetch('/api/upload', {
+        method: "POST",
+        body: data,
+      });
+  
+      if (!response.ok) {
+        console.error('Error uploading image:', response.statusText);
+        setIsUploading(false);
+        return; // Handle upload error gracefully
+      }
+  
+      const responseData = await response.json(); // Parse JSON response
+  
+      // Access the actual image URL from the response data
+      const imageURL = responseData.url || responseData.path || responseData.imageUrl || responseData.link; // Adjust based on your API response structure
+  
+      if (!imageURL) {
+        console.error('Missing image URL in response:', responseData);
+        setIsUploading(false);
+        return; 
+      }
+  
+      setImage(imageURL);
+      setIsUploading(false);
     }
   }
-
   if (status === "loading") {
     return "loading....";
   }
@@ -62,13 +83,13 @@ const profile = () => {
     <div className="mt-8">
       <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
       <div className="max-w-md mx-auto border border-black">
-        {saved && (<h2 className="text-center bg-green-100 p-4 rounded-lg border text-black border-green-400">
-        Profile Saved !
-        </h2>)}
+        {saved && (<SuccessBox>Profile Saved ..!</SuccessBox>)}
 
-        {isSaving && (<h2 className="text-center bg-blue-100 p-4 rounded-lg border text-black border-blue-400">
-        Saving ....
-        </h2>)}
+        {isSaving && (
+            <InfoBox>Saving...</InfoBox>
+        )}
+
+        {isUploading && (<InfoBox>Uploading...</InfoBox>)}
         
         <div className="flex gap-2 items-center">
           <div>
@@ -76,7 +97,7 @@ const profile = () => {
             <div className="p-2 rounded-lg">
                 {image && (
                     <Image
-                src={image}
+                src={`${image}`}
                 className="w-full h-full rounded-lg mb-2"
                 width={250}
                 height={250}
@@ -92,7 +113,7 @@ const profile = () => {
           </div>
           <form className="grow" onSubmit={handleProfileInfoUpdate}>
             <input
-              type="text"
+              type="text" className="text-black"
               value={userName}
               onChange={(ev) => setUserName(ev.target.value)}
               placeholder="First and Last Name"
