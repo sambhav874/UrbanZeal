@@ -10,6 +10,11 @@ import toast from 'react-hot-toast'; // Import Image component from 'next/image'
 const profile = () => {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState("");
+  const [phoneNumber , setPhoneNumber] = useState("");
+  const [streetAddress , setStreetAddress] = useState("");
+  const [city , setCity] = useState("");
+  const [postalAddress , setPostalAddress] = useState("");
+  const [country , setCountry] = useState("");
   const [image , setImage] = useState('');
   
   
@@ -19,6 +24,8 @@ const profile = () => {
     if(status === 'authenticated'){
         setUserName(session.user.name);
         setImage(session.user.image);
+        setPhoneNumber(session.user.phoneNumber);
+
     }
   },[session,status]);
 
@@ -33,7 +40,7 @@ const profile = () => {
         const response = await fetch('/api/profile', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ name: userName , image}),
+          body: JSON.stringify({ name: userName , image , streetAddress , phoneNumber , city , country , postalAddress }),
         });
         if (response.ok)
           resolve()
@@ -146,6 +153,49 @@ const profile = () => {
               className="text-black"
               disabled={true}
               value={session?.user?.email} // Use optional chaining to avoid errors if session or user is undefined
+            ></input>
+
+            <input
+              type="tel"
+              className="text-black"
+              onChange={(ev) => setPhoneNumber(ev.target.value)}
+              value={phoneNumber} 
+              placeholder="Phone Number"
+            ></input>
+
+            <input
+              type="text" className="text-black"
+              value={streetAddress}
+              onChange={(ev) => setStreetAddress(ev.target.value)}
+              placeholder="Street Address"
+            ></input>
+            
+            <div className="flex gap-4">
+
+            <input
+              type="text" className="text-black"
+              value={postalAddress}
+              onChange={(ev) => setPostalAddress(ev.target.value)}
+              placeholder="Postal Address"
+            ></input>
+
+            <input
+              type="text" className="text-black"
+              value={city}
+              onChange={(ev) => setCity(ev.target.value)}
+              placeholder="City"
+            ></input>
+            
+
+            </div>
+            
+            
+            
+            <input
+              type="text" className="text-black"
+              value={country}
+              onChange={(ev) => setUserName(ev.target.value)}
+              placeholder="Country"
             ></input>
             <button
               type="submit"
