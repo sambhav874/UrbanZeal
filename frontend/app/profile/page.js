@@ -1,73 +1,76 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import InfoBox from './../../components/layout/InfoBox'
-import SuccessBox from './../../components/layout/SuccessBox'
-import toast from 'react-hot-toast'; // Import Image component from 'next/image'
+import toast from 'react-hot-toast';
 
-const profile = () => {
+const Profile = () => {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState("");
-  const [phoneNumber , setPhoneNumber] = useState("");
-  const [streetAddress , setStreetAddress] = useState("");
-  const [city , setCity] = useState("");
-  const [postalAddress , setPostalAddress] = useState("");
-  const [country , setCountry] = useState("");
-  const [image , setImage] = useState('');
-  
-  
-  
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [country, setCountry] = useState("");
+  const [image, setImage] = useState('');
 
   useEffect(() => {
-    if(status === 'authenticated'){
-        setUserName(session.user.name);
-        setImage(session.user.image);
-        setPhoneNumber(session.user.phoneNumber);
-
+    if (status === 'authenticated' && session) {
+      setUserName(session.user.name || "");
+      setImage(session.user.image || "");
+      fetch("/api/profile")
+        .then(response => response.json())
+        .then(data => {
+          setPhoneNumber(data.phoneNumber || "");
+          setCity(data.city || "");
+          setPincode(data.pincode || "");
+          setCountry(data.country || "");
+          setStreetAddress(data.streetAddress || "");
+        })
+        .catch(error => {
+          console.error("Error fetching profile data:", error);
+        });
     }
-  },[session,status]);
+  }, [session, status]);
 
   async function handleProfileInfoUpdate(ev) {
     ev.preventDefault();
     
     toast('Saving....');
 
-    
-
     const savingPromise = new Promise(async (resolve, reject) => {
+      try {
         const response = await fetch('/api/profile', {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ name: userName , image , streetAddress , phoneNumber , city , country , postalAddress }),
+          body: JSON.stringify({ name: userName, image, streetAddress, phoneNumber, city, country, pincode }),
         });
-        if (response.ok)
-          resolve()
-        else
+        if (response.ok) {
+          resolve();
+        } else {
           reject();
-      });
-  
-      
-    await toast.promise(savingPromise , {
-        loading: 'Saving...',
-        success: 'Profile Saved ...!',
-        error: 'Upload Error ...'
+        }
+      } catch (error) {
+        reject(error);
+      }
     });
-    
+
+    await toast.promise(savingPromise, {
+      loading: 'Saving...',
+      success: 'Profile Saved!',
+      error: 'Upload Error...',
+    });
   }
 
   async function handleFileChange(ev) {
     const files = ev.target.files;
-  
+
     if (files?.length === 1) {
       const data = new FormData();
       data.set('file', files[0]);
-  
-      // Show a loading toast while uploading
+
       const loadingToastId = toast.promise(
         new Promise((resolve, reject) => {
-          // Upload the file
           fetch('/api/upload', {
             method: 'POST',
             body: data,
@@ -79,8 +82,7 @@ const profile = () => {
               return response.json();
             })
             .then((responseData) => {
-              // Access the actual image URL from the response
-              const imageURL = responseData.url || responseData.path || responseData.imageUrl || responseData.link; // Adjust based on your API response structure
+              const imageURL = responseData.url || responseData.path || responseData.imageUrl || responseData.link;
               if (!imageURL) {
                 throw new Error('Missing image URL in response');
               }
@@ -96,7 +98,7 @@ const profile = () => {
           error: 'Upload failed. Please try again.',
         }
       );
-  
+
       try {
         const imageURL = await loadingToastId;
         setImage(imageURL);
@@ -106,35 +108,30 @@ const profile = () => {
       }
     }
   }
+
   if (status === "loading") {
-    return "loading....";
+    return "Loading...";
   }
   if (status === "unauthenticated") {
     return redirect("/login");
   }
 
-  const userImage = session?.user?.image; // Use optional chaining to avoid errors if session or user is undefined
-
   return (
     <div className="mt-8">
       <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
       <div className="max-w-md mx-auto border border-black">
-        
-        
         <div className="flex gap-2 items-center">
           <div>
-            {/* Use the Image component for image rendering */}
             <div className="p-2 rounded-lg">
-                {image && (
-                    <Image
-                src={`${image}`}
-                className="w-full h-full rounded-lg mb-2"
-                width={250}
-                height={250}
-                alt="User Avatar"
-              />
-                )}
-              
+              {image && (
+                <Image
+                  src={`${image}`}
+                  className="w-full h-full rounded-lg mb-2"
+                  width={250}
+                  height={250}
+                  alt="User Avatar"
+                />
+              )}
               <label>
                 <input type="file" className="hidden" onChange={handleFileChange}></input>
                 <span className='block rounded-lg p-2 text-center border-gray-300 cursor-pointer border' type="button">Change Avatar</span>
@@ -142,61 +139,77 @@ const profile = () => {
             </div>
           </div>
           <form className="grow" onSubmit={handleProfileInfoUpdate}>
-            <input
-              type="text" className="text-black"
-              value={userName}
-              onChange={(ev) => setUserName(ev.target.value)}
-              placeholder="First and Last Name"
-            ></input>
-            <input
-              type="email"
-              className="text-black"
-              disabled={true}
-              value={session?.user?.email} // Use optional chaining to avoid errors if session or user is undefined
-            ></input>
-
-            <input
-              type="tel"
-              className="text-black"
-              onChange={(ev) => setPhoneNumber(ev.target.value)}
-              value={phoneNumber} 
-              placeholder="Phone Number"
-            ></input>
-
-            <input
-              type="text" className="text-black"
-              value={streetAddress}
-              onChange={(ev) => setStreetAddress(ev.target.value)}
-              placeholder="Street Address"
-            ></input>
-            
+            <label>
+              First and Last Name:
+              <input
+                type="text"
+                className="text-black"
+                value={userName}
+                onChange={(ev) => setUserName(ev.target.value)}
+                placeholder="First and Last Name"
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                className="text-black"
+                disabled={true}
+                value={session?.user?.email}
+              />
+            </label>
+            <label>
+              Phone Number:
+              <input
+                type="tel"
+                className="text-black"
+                onChange={(ev) => setPhoneNumber(ev.target.value)}
+                value={phoneNumber}
+                placeholder="Phone Number"
+              />
+            </label>
+            <label>
+              Street Address:
+              <input
+                type="text"
+                className="text-black"
+                onChange={(ev) => setStreetAddress(ev.target.value)}
+                value={streetAddress}
+                placeholder="Street Address"
+              />
+            </label>
             <div className="flex gap-4">
-
-            <input
-              type="text" className="text-black"
-              value={postalAddress}
-              onChange={(ev) => setPostalAddress(ev.target.value)}
-              placeholder="Postal Address"
-            ></input>
-
-            <input
-              type="text" className="text-black"
-              value={city}
-              onChange={(ev) => setCity(ev.target.value)}
-              placeholder="City"
-            ></input>
-            
-
+              <label>
+                Pincode:
+                <input
+                  type="text"
+                  className="text-black"
+                  onChange={(ev) => setPincode(ev.target.value)}
+                  value={pincode}
+                  placeholder="Pincode"
+                />
+              </label>
+              <label>
+                City:
+                <input
+                  type="text"
+                  className="text-black"
+                  onChange={(ev) => setCity(ev.target.value)}
+                  value={city}
+                  placeholder="City"
+                />
+              </label>
             </div>
-            
-            
-            
-            <input
-              type="text" className="text-black"
-              value={country}
-              onChange={(ev) => setUserName(ev.target.value)}
-              placeholder="Country"
-            ></input>
+            <label>
+              Country:
+              <input
+                type="text"
+                className="text-black"
+                onChange={(ev) => setCountry(ev.target.value)}
+                value={country}
+                placeholder="Country"
+              />
+            </label>
             <button
               type="submit"
               className="border-2 hover:bg-white hover:text-slate-900 bg-black text-white"
@@ -210,4 +223,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;

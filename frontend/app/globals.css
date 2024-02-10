@@ -35,7 +35,8 @@ body {
 input[type="email"],
 input[type="password"],
 input[type="tel"],
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
   @apply block w-full my-2 rounded-xl;
   @apply border p-2 border-gray-300 bg-gray-100;
 }
@@ -43,7 +44,8 @@ input[type="text"] {
 input[type="email"]:disabled,
 input[type="password"]:disabled,
 input[type="text"]:disabled,
-input[type="tel"] {
+input[type="tel"]:disabled,
+input[type="number"]:disabled {
   @apply bg-gray-300 cursor-not-allowed;
 }
 

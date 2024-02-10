@@ -7,7 +7,7 @@ const userSchema = new Schema({
     streetAddress : {type:String},
     city :{ type : String },
     country:{type : String},
-    postalCode:{type : String},
+    pincode:{type : String},
     
     password: {type : String , required : true , validate :pass=> {
         if(!pass?.length || pass.length < 5){
