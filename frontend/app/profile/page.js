@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -13,6 +14,7 @@ const Profile = () => {
   const [pincode, setPincode] = useState("");
   const [country, setCountry] = useState("");
   const [image, setImage] = useState('');
+  const [isAdmin , setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (status === 'authenticated' && session) {
@@ -26,6 +28,7 @@ const Profile = () => {
           setPincode(data.pincode || "");
           setCountry(data.country || "");
           setStreetAddress(data.streetAddress || "");
+          setIsAdmin(data.admin);
         })
         .catch(error => {
           console.error("Error fetching profile data:", error);
@@ -118,8 +121,9 @@ const Profile = () => {
 
   return (
     <div className="mt-8">
-      <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
-      <div className="max-w-md mx-auto border border-black">
+        
+      <UserTabs isAdmin={isAdmin}/>
+      <div className="max-w-md mx-auto border mt-8 border-black">
         <div className="flex gap-2 items-center">
           <div>
             <div className="p-2 rounded-lg">
