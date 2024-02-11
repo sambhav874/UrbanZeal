@@ -4,12 +4,14 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import UserTabs from './../../components/layout/UserTabs'
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
+  const [profileFetched , setProfileFetched] = useState(false);
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
   const [country, setCountry] = useState("");
@@ -29,6 +31,7 @@ const Profile = () => {
           setCountry(data.country || "");
           setStreetAddress(data.streetAddress || "");
           setIsAdmin(data.admin);
+          setProfileFetched(true);
         })
         .catch(error => {
           console.error("Error fetching profile data:", error);
@@ -112,7 +115,7 @@ const Profile = () => {
     }
   }
 
-  if (status === "loading") {
+  if (status === "loading" || !profileFetched) {
     return "Loading...";
   }
   if (status === "unauthenticated") {
