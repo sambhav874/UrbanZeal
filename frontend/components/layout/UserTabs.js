@@ -22,7 +22,7 @@ export default function UserTabs({ isAdmin }) {
           </Link>
 
           <Link
-            className={path === "/store_items" ? "active" : ""}
+            className={path === "/store-items" ? "active" : ""}
             href={"/store-items"}
           >
             Store Items
