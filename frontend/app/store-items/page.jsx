@@ -1,5 +1,5 @@
-// StoreItemsPage.js
-'use client';
+'use client'
+
 
 import { useProfile } from "../../components/UseProfile";
 import EditableImage from "../../components/layout/EditableImage";
@@ -17,7 +17,28 @@ export default function StoreItemsPage() {
 
   async function handleFormSubmit(ev) {
     ev.preventDefault();
-    const data = { image, itemName, itemPrice, itemDescription, itemCategory };
+
+    
+    if (!itemName || !itemPrice || !itemDescription || !itemCategory || !image) {
+      toast.error('Please fill in all required fields.');
+      return;
+    }
+
+    // Convert price to a valid number before sending to API
+    const priceAsNumber = parseFloat(itemPrice);
+    if (isNaN(priceAsNumber)) {
+      toast.error('Invalid price format. Please enter a valid number.');
+      return;
+    }
+
+    const data = {
+      image,
+      name: itemName,
+      description: itemDescription,
+      price: priceAsNumber, // Use priceAsNumber
+      category: itemCategory,
+    };
+
     const savingPromise = new Promise(async (resolve, reject) => {
       try {
         const response = await fetch('/api/store-items', {
@@ -34,12 +55,19 @@ export default function StoreItemsPage() {
         reject(error);
       }
     });
-    console.log(data);
+
     await toast.promise(savingPromise, {
       loading: "Saving the Item, Please wait ...",
       success: "Item Saved Successfully!",
       error: "Error Saving The Item, Try Again Later"
     });
+
+    // Clear form fields after successful submission
+    setItemName('');
+    setItemDescription('');
+    setItemPrice('');
+    setItemCategory('');
+    setImage('');
   }
 
   if (loading) {
@@ -60,15 +88,16 @@ export default function StoreItemsPage() {
           </div>
           <div className="grow">
             <label>Store items Name</label>
-            <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)}></input>
+            <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)} required></input>
             <label>Price</label>
-            <input type="text" value={itemPrice} onChange={(e) => setItemPrice(e.target.value)}></input>
+            <input type="text" value={itemPrice} onChange={(e) => setItemPrice(e.target.value)} required></input>
             <label>Description</label>
-            <input type="text" value={itemDescription} onChange={(e) => setItemDescription(e.target.value)}></input>
+            <input type="text" value={itemDescription} onChange={(e) => setItemDescription(e.target.value)} required></input>
             <label>Category</label>
             <select
               value={itemCategory}
               onChange={(e) => setItemCategory(e.target.value)}
+              required
             >
               <option value="">Select category</option>
               <option value="men">Men</option>
