@@ -21,7 +21,10 @@ export default function StoreItemsPage() {
   return (
     <div className="my-8 max-w-md mx-auto">
       <UserTabs isAdmin={true} />
-      <Link href={'/store-items/new'} >Create new Store Item</Link>
+      <div className="my-8">
+      <Link className="block w-full text-gray-700 font-semibold border border-gray-300 rounded-xl px-6 py-2" href={'/store-items/new'}>Create new Store Item
+      <Right />
+      </Link></div>
     </div>
   );
 }
