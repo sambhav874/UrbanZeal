@@ -1,9 +1,14 @@
-import {useProfile} from './../../../components/UseProfile'
+'use client'
 
+import {useProfile} from './../../../components/UseProfile'
+import Link from 'next/link'
 import EditableImage from "./../../../components/layout/EditableImage";
 import UserTabs from "./../../../components/layout/UserTabs";
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import Left from './../../../components/icons/Left'
+import { redirect } from 'next/navigation';
+
 
 
 export default function newStoreItemPage(){
@@ -13,7 +18,7 @@ export default function newStoreItemPage(){
   const [itemDescription, setItemDescription] = useState('');
   const [itemPrice, setItemPrice] = useState('');
   const [image, setImage] = useState('');
-
+  const [redirectTo , setRedirect] = useState(false);
   async function handleFormSubmit(ev) {
     
     ev.preventDefault();
@@ -68,8 +73,13 @@ export default function newStoreItemPage(){
     setItemPrice('');
     setItemCategory('');
     setImage('');
+
+    setRedirect(true);
   }
 
+  if(redirectTo){
+    return redirect('/store-items')
+  }
 
     const {loading , data } = useProfile();
 
@@ -85,7 +95,13 @@ export default function newStoreItemPage(){
     return(
         <div className="my-8">
       <UserTabs isAdmin={true} />
-      <form onSubmit={handleFormSubmit} className="mt-8 max-w-md mx-auto">
+
+      <div className="my-8  max-w-md mx-auto">
+      <Link className="flex w-full text-gray-700 justify-center gap-2 font-semibold border border-gray-300 rounded-xl px-6 py-2" href={'/store-items/'}><Left style={{ width: "12px", height: "12px" }}/>Show all the store items
+      
+      </Link></div>
+
+      <form onSubmit={handleFormSubmit} className="mt-8 max-w-md  mx-auto">
         <div className="flex items-start gap-4" style={{ gridTemplateColumns: '3fr 7fr' }}>
           <div>
             <EditableImage link={image} setLink={setImage} />

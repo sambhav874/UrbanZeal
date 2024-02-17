@@ -9,3 +9,10 @@ export async function POST(req){
     console.log(data);
     return Response.json(storeItemsDoc);
 }
+
+export async function GET(){
+    mongoose.connect(process.env.MONGO_URI);
+    return Response.json(
+        await StoreItems.find()
+    )
+}
