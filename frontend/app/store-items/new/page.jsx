@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Left from './../../../components/icons/Left'
 import { redirect } from 'next/navigation';
+import StoreItemSizeProp from '../../../components/layout/StoreItemSizeProp';
 
 
 
@@ -18,6 +19,8 @@ export default function newStoreItemPage(){
   const [itemDescription, setItemDescription] = useState('');
   const [itemPrice, setItemPrice] = useState('');
   const [image, setImage] = useState('');
+  const [sizes, setSizes] = useState([]);
+
   const [redirectTo , setRedirect] = useState(false);
   async function handleFormSubmit(ev) {
     
@@ -42,6 +45,7 @@ export default function newStoreItemPage(){
       description: itemDescription,
       price: priceAsNumber, // Use priceAsNumber
       category: itemCategory,
+      sizes: sizes
     };
 
     const savingPromise = new Promise(async (resolve, reject) => {
@@ -73,6 +77,7 @@ export default function newStoreItemPage(){
     setItemPrice('');
     setItemCategory('');
     setImage('');
+    setSizes('');
 
     setRedirect(true);
   }
@@ -124,6 +129,7 @@ export default function newStoreItemPage(){
               <option value="women">Women</option>
               <option value="kids">Kids</option>
             </select>
+            <StoreItemSizeProp addLabel={'Add item Size'} name={'Sizes'} props={sizes} setProps={setSizes} />
           </div>
           <div>
             <button className="mb-2" type="submit">Create</button>

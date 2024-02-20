@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Left from './../../../../components/icons/Left'
 import { redirect, useParams } from 'next/navigation';
-import Trash from './../../../../components/icons/Trash'
-import Plus from './../../../../components/icons/Plus'
+import StoreItemSizeProp from './../../../../components/layout/StoreItemSizeProp'
 
 
 
@@ -24,32 +23,8 @@ export default function EditStoreItemPage(){
   const [itemPrice, setItemPrice] = useState('');
   const [image, setImage] = useState('');
   const [redirectTo , setRedirect] = useState(false);
-  const [sizes , setSizes] = useState('');
-
-function addSize(){
+  const [sizes , setSizes] = useState([]);
   
-  setSizes(oldSizes => {
-    return [...oldSizes , {name : '' , price : 0}]
-  })
-
-}
-
-function editSize(ev , index , prop){
-
-  const newValue = ev.target.value;
-  setSizes(prevSizes => {
-    const newSizes = [...prevSizes]
-    newSizes[index][prop] = newValue ;
-    return newSizes;
-  })
-
-
-}
-
-  function removeSize(indexToRemove){
-    setSizes(prev => prev.filter(( v , index) => index !== indexToRemove))
-  }
-
   useEffect(() => {
     fetch('/api/store-items').then(res => {
       res.json().then(items => {
@@ -171,27 +146,7 @@ function editSize(ev , index , prop){
               <option value="kids">Kids</option>
             </select>
 
-            <div className='bg-gray-200 p-2 rounded-md mb-2' >
-              <label>Sizes</label>
-              {sizes?.length > 0 && sizes.map((size , index) => (
-                <div className='flex gap-2 items-end'>
-                  <div>
-                    <label>Size Name</label>
-                  <input onChange={ev => editSize(ev , index , 'name')} type='text' placeholder='Size Name' value={size.name}></input></div>
-                  <div>
-                  <label>Extra Price</label>
-                  <input onChange={ev => editSize(ev , index , 'price')} type='text' placeholder='Price' value={size.price}></input>
-                  </div>
-                  <div>
-                  
-                  <button type='button' onClick={() => removeSize(index)} className='bg-white mb-2 px-2'> <Trash /></button>
-                  </div>
-                </div>
-              ))}
-              <button onClick={addSize} className='bg-black items-center'>
-                <Plus className='w-4 h-4'/><span>Add item Size</span></button>
-            </div>
-
+            <StoreItemSizeProp addLabel={'Add item Size'} name={'Sizes'} props={sizes} setProps={setSizes} />
           </div>
           <div>
             <button className="mb-2" type="submit">Create</button>
