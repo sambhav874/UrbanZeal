@@ -19,7 +19,7 @@ export default function newStoreItemPage(){
   const [itemDescription, setItemDescription] = useState('');
   const [itemPrice, setItemPrice] = useState('');
   const [image, setImage] = useState('');
-  const [sizes, setSizes] = useState([]);
+  const [sizes, setSizes] = useState(storeItem?.sizes ||  []);
 
   const [redirectTo , setRedirect] = useState(false);
   async function handleFormSubmit(ev) {

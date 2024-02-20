@@ -7,6 +7,7 @@ export async function POST(req){
     const data = await req.json();
     const storeItemsDoc = await StoreItems.create(data);
     console.log(data);
+    
     return Response.json(storeItemsDoc);
 }
 

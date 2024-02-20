@@ -34,6 +34,7 @@ export default function EditStoreItemPage(){
         setItemCategory(item.itemCategory);
         setItemDescription(item.itemDescription);
         setItemPrice(item.itemPrice);
+        setSizes(item.setSizes);
       })
     })
   } , [])
@@ -62,6 +63,7 @@ export default function EditStoreItemPage(){
       description: itemDescription,
       price: priceAsNumber, // Use priceAsNumber
       category: itemCategory,
+      sizes : sizes ,
       _id : id
     };
 
