@@ -36,7 +36,8 @@ export default function StoreItemSizeProp({ name, addLabel, props, setProps }) {
       {props?.length > 0 && props.map((size, index) => (
         <div key={index} className='flex gap-2 items-end'>
           <div>
-            <label>{name}</label>
+            <div><h3 className='text-gray-800'>{name}</h3></div>
+            
             <input
               onChange={ev => editProp(ev, index, 'name')}
               type='text'

@@ -1,32 +1,47 @@
 'use client'
 
-import {useProfile} from './../../../components/UseProfile'
-import Link from 'next/link'
-import EditableImage from "./../../../components/layout/EditableImage";
-import UserTabs from "./../../../components/layout/UserTabs";
-import { useEffect, useState } from 'react';
+import { useProfile } from './../../../components/UseProfile';
+import Link from 'next/link';
+import EditableImage from './../../../components/layout/EditableImage';
+import UserTabs from './../../../components/layout/UserTabs';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import Left from './../../../components/icons/Left'
+import Left from './../../../components/icons/Left';
 import { redirect } from 'next/navigation';
 import StoreItemSizeProp from '../../../components/layout/StoreItemSizeProp';
 
-
-
-export default function newStoreItemPage(){
-
+export default function newStoreItemPage() {
   const [itemCategory, setItemCategory] = useState('');
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
   const [itemPrice, setItemPrice] = useState('');
   const [image, setImage] = useState('');
-  const [sizes, setSizes] = useState(storeItem?.sizes ||  []);
+  const [sizes, setSizes] = useState([]);
 
-  const [redirectTo , setRedirect] = useState(false);
+  const [redirectTo, setRedirect] = useState(false);
+  const { loading, data } = useProfile();
+  const [categories, setCategories] = useState([]); // New state for categories
+
+  useEffect(() => {
+    fetchCategories(); // Fetch categories on component mount
+  }, []);
+
+  async function fetchCategories() {
+    try {
+      const response = await fetch('/api/categories');
+      if (response.ok) {
+        const categoriesData = await response.json();
+        setCategories(categoriesData);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
+
   async function handleFormSubmit(ev) {
-    
     ev.preventDefault();
 
-    
+    // Check if all required fields are filled
     if (!itemName || !itemPrice || !itemDescription || !itemCategory || !image) {
       toast.error('Please fill in all required fields.');
       return;
@@ -43,9 +58,9 @@ export default function newStoreItemPage(){
       image,
       name: itemName,
       description: itemDescription,
-      price: priceAsNumber, // Use priceAsNumber
+      price: priceAsNumber,
       category: itemCategory,
-      sizes: sizes
+      sizes: sizes,
     };
 
     const savingPromise = new Promise(async (resolve, reject) => {
@@ -66,9 +81,9 @@ export default function newStoreItemPage(){
     });
 
     await toast.promise(savingPromise, {
-      loading: "Saving the Item, Please wait ...",
-      success: "Item Saved Successfully!",
-      error: "Error Saving The Item, Try Again Later"
+      loading: 'Saving the Item, Please wait ...',
+      success: 'Item Saved Successfully!',
+      error: 'Error Saving The Item, Try Again Later',
     });
 
     // Clear form fields after successful submission
@@ -82,29 +97,30 @@ export default function newStoreItemPage(){
     setRedirect(true);
   }
 
-  if(redirectTo){
-    return redirect('/store-items')
+  if (redirectTo) {
+    return redirect('/store-items');
   }
 
-    const {loading , data } = useProfile();
+  if (loading) {
+    return 'Loading menu item data ...';
+  }
 
-    if(loading){
-        return "Loading menu item data ...";
-    }
+  if (!data.admin) {
+    return 'Not an Admin ....';
+  }
 
-    if(!data.admin){
-        return "Not an Admin ...."
-    }
-
-
-    return(
-        <div className="my-8">
+  return (
+    <div className="my-8">
       <UserTabs isAdmin={true} />
 
       <div className="my-8  max-w-md mx-auto">
-      <Link className="flex w-full text-gray-700 justify-center gap-2 font-semibold border border-gray-300 rounded-xl px-6 py-2" href={'/store-items/'}><Left style={{ width: "12px", height: "12px" }}/>Show all the store items
-      
-      </Link></div>
+        <Link
+          className="flex w-full text-gray-700 justify-center gap-2 font-semibold border border-gray-300 rounded-xl px-6 py-2"
+          href={'/store-items/'}
+        >
+          <Left style={{ width: '12px', height: '12px' }} /> Show all the store items
+        </Link>
+      </div>
 
       <form onSubmit={handleFormSubmit} className="mt-8 max-w-md  mx-auto">
         <div className="flex items-start gap-4" style={{ gridTemplateColumns: '3fr 7fr' }}>
@@ -125,9 +141,11 @@ export default function newStoreItemPage(){
               required
             >
               <option value="">Select category</option>
-              <option value="men">Men</option>
-              <option value="women">Women</option>
-              <option value="kids">Kids</option>
+              {categories.map(category => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             <StoreItemSizeProp addLabel={'Add item Size'} name={'Sizes'} props={sizes} setProps={setSizes} />
           </div>
@@ -137,6 +155,5 @@ export default function newStoreItemPage(){
         </div>
       </form>
     </div>
-    )
-
+  );
 }
