@@ -204,7 +204,7 @@ async function handleFormSubmit(ev) {
       <StoreItemSizeProp addLabel={'Add item Size'} name={'Sizes'} props={sizes} setProps={setSizes} />
     </div>
     <div>
-      <button className="mb-2" type="submit">Create</button>
+      <button className="mb-2" type="submit">Edit</button>
     </div>
   </div>
 </form>
