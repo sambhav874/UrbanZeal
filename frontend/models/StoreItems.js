@@ -11,6 +11,7 @@ const storeItemsSchema = new Schema({
     description: { type : String},
     price: { type : Number},
     category: { type : String}, 
+    subcategory: { type : String},
     sizes : {type : [extraPriceSchema]}
 }, {timestamps : true})
 

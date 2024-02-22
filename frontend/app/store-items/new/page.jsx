@@ -17,13 +17,16 @@ export default function newStoreItemPage() {
   const [itemPrice, setItemPrice] = useState('');
   const [image, setImage] = useState('');
   const [sizes, setSizes] = useState([]);
+  const [itemsubCategory , setItemsubCategory] = useState('');
 
   const [redirectTo, setRedirect] = useState(false);
   const { loading, data } = useProfile();
-  const [categories, setCategories] = useState([]); // New state for categories
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setsubCategories] = useState([]); // New state for categories
 
   useEffect(() => {
-    fetchCategories(); // Fetch categories on component mount
+    fetchCategories();
+    fetchSubCategories(); // Fetch categories on component mount
   }, []);
 
   async function fetchCategories() {
@@ -35,6 +38,18 @@ export default function newStoreItemPage() {
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
+    }
+  }
+
+  async function fetchSubCategories() {
+    try {
+      const response = await fetch('/api/subcategories');
+      if (response.ok) {
+        const subcategoriesData = await response.json();
+        setsubCategories(subcategoriesData);
+      }
+    } catch (error) {
+      console.error('Error fetching sub categories:', error);
     }
   }
 
@@ -60,6 +75,7 @@ export default function newStoreItemPage() {
       description: itemDescription,
       price: priceAsNumber,
       category: itemCategory,
+      subcategory: itemsubCategory ,
       sizes: sizes,
     };
 
@@ -91,6 +107,7 @@ export default function newStoreItemPage() {
     setItemDescription('');
     setItemPrice('');
     setItemCategory('');
+    setItemsubCategory('');
     setImage('');
     setSizes('');
 
@@ -144,6 +161,18 @@ export default function newStoreItemPage() {
               {categories.map(category => (
                 <option key={category._id} value={category.name}>
                   {category.name}
+                </option>
+              ))}
+            </select>
+            <select
+              value={itemsubCategory}
+              onChange={(e) => setItemsubCategory(e.target.value)}
+              required
+            >
+              <option value="">Select sub category</option>
+              {subcategories.map(subcategory => (
+                <option key={subcategory._id} value={subcategory.name}>
+                  {subcategory.name}
                 </option>
               ))}
             </select>

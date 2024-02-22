@@ -20,9 +20,6 @@ export async function PUT(req){
 
 }
 
-
-
-
 export async function GET(){
     mongoose.connect(process.env.MONGO_URI);
     return Response.json(
