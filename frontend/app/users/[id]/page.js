@@ -16,6 +16,7 @@ export default function EditUserPage(){
     return(
         <div className="mt-8 mx-auto max-w-2xl">
             <UserTabs isAdmin={true} />
+            <div className="mt-8"></div>
         </div>
     )
 }
