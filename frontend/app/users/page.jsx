@@ -4,13 +4,14 @@ import toast from "react-hot-toast";
 import { useProfile } from "../../components/UseProfile";
 import UserTabs from "../../components/layout/UserTabs";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function UsersPage(){
+export default function UsersPage() {
 
-    const [users , setUsers] = useState([]);
-    const {loading , data } = useProfile();
+    const [users, setUsers] = useState([]);
+    const { loading, data } = useProfile();
 
-    useEffect(()=>{
+    useEffect(() => {
         renderUsers();
     })
     async function renderUsers() {
@@ -27,39 +28,51 @@ export default function UsersPage(){
             throw error;
         }
     }
-    
-    
 
-    if(loading){
+
+
+    if (loading) {
         return <p>Loading user data...</p>;
     }
 
-    if(!data.admin){
+    if (!data.admin) {
         return <p>Not an Admin...</p>;
     }
 
     return (
-        <div className="mt-8 max-w-xl mx-auto">
+        <div className="mt-8 max-w-2xl mx-auto">
             <UserTabs isAdmin={true} />
             <h1>Users Page</h1>
-        
 
-        <div>
-            {users?.length > 0 && users.map(c => (
-                <div key={c._id} className="bg-gray-300 p-4 flex rounded-lg gap-2 text-black">
 
-                  <div className="gap-2 p-2 m-2">
-                    <span>
-                {c.name}
-                    </span>
-                    <span>
-                {c.email}
-                    </span>
-                  </div>
+            <div className="mt-8">
+                {users?.length > 0 && users.map(c => (
+                    <div className="bg-gray-300 p-2 m-2 flex rounded-lg gap-2 text-black items-center" key={c._id} >
 
-                </div>
-            ))}
-        </div>
+                        
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 grow">
+                                <div className="text-gray-700">
+                                    {!!c.name && (<span>
+                                {c.name || 'No Name'}
+                            </span>)}
+                            {!c.name && (<span className="italic ">
+                                No Name
+                            </span>)}
+                                </div>
+                                
+                                <span className="text-gray-600">
+                                    {c.email}
+                                </span>
+                            </div>
+                            <div className="justify-end">
+                                <Link href={'/users/'+users._id}>Edit</Link>
+                                
+                            </div>
+
+                        </div>
+
+                ))}
+            </div>
         </div>
     )
 }
