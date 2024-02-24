@@ -26,3 +26,11 @@ export async function GET(){
         await StoreItems.find()
     )
 }
+
+export async  function DELETE(req){
+    mongoose.connect(process.env.MONGO_URI)
+    const url = new URL(req.url);
+    const _id = url.searchParams.get('_id')
+    await StoreItems.deleteOne({_id});
+    return Response.json(true);
+}
