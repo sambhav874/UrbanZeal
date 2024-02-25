@@ -8,4 +8,4 @@ Technologies Used :
 -React.js
 -AWS(S3 : storing user assets)
 
-(Project Under Development)
+(Project Under Development : Admin Page Done .)
