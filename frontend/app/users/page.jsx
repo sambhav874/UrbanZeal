@@ -12,22 +12,12 @@ export default function UsersPage() {
     const { loading, data } = useProfile();
 
     useEffect(() => {
-        renderUsers();
-    })
-    async function renderUsers() {
-        try {
-            const response = await fetch('/api/users');
-            if (response.ok) {
-                const usersData = await response.json();
-                setUsers(usersData);
-                return 'All users fetched successfully!';
-            } else {
-                throw new Error('Failed to fetch users');
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
+        fetch('/api/users').then(response => {
+          response.json().then(users => {
+            setUsers(users);
+          });
+        })
+      }, []);
 
 
 
@@ -46,26 +36,26 @@ export default function UsersPage() {
 
 
             <div className="mt-8">
-                {users?.length > 0 && users.map(c => (
-                    <div className="bg-gray-300 p-2 m-2 flex rounded-lg gap-2 text-black items-center" key={c._id} >
+                {users?.length > 0 && users.map(user => (
+                    <div className="bg-gray-300 p-2 m-2 flex rounded-lg gap-2 text-black items-center" key={user._id} >
 
                         
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 grow">
                                 <div className="text-gray-700">
-                                    {!!c.name && (<span>
-                                {c.name || 'No Name'}
+                                    {!!user.name && (<span>
+                                {user.name || 'No Name'}
                             </span>)}
-                            {!c.name && (<span className="italic ">
+                            {!user.name && (<span className="italic ">
                                 No Name
                             </span>)}
                                 </div>
                                 
                                 <span className="text-gray-600">
-                                    {c.email}
+                                    {user.email}
                                 </span>
                             </div>
                             <div className="justify-end">
-                                <Link href={'/users/'+users._id}>Edit</Link>
+                                <Link href={'/users/'+user._id}>Edit</Link>
                                 
                             </div>
 

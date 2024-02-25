@@ -3,16 +3,18 @@
 import {useState} from 'react'
 import EditableImage from './EditableImage';
 
-export default function UserForm({user}){
 
+export default function UserForm({user , onSave }){
 
-    const [userName, setUserName] = useState(user?.username || "");
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
-  const [streetAddress, setStreetAddress] = useState(user?.streetAddress || "");
-  const [city, setCity] = useState(user?.city || "");
-  const [pincode, setPincode] = useState(user?.pincode || "");
-  const [country, setCountry] = useState(user?.country || "");
-  const [image, setImage] = useState(user?.image || '');
+    const [userName, setUserName] = useState(user?.name || "");
+    const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
+    const [streetAddress, setStreetAddress] = useState(user?.streetAddress || "");
+    
+    const [city, setCity] = useState(user?.city || "");
+    const [pincode, setPincode] = useState(user?.pincode || "");
+    const [country, setCountry] = useState(user?.country || "");
+    const [image, setImage] = useState(user?.image || '');
+    
 
 return(
     <div className="flex gap-2 items-center">
@@ -21,7 +23,9 @@ return(
               <EditableImage link={image} setLink={setImage} />
             </div>
           </div>
-          <form className="grow" onSubmit={handleProfileInfoUpdate}>
+          <form className="grow" onSubmit={ev => onSave(ev , 
+            {name:userName , phoneNumber , streetAddress , city , image , pincode , country }
+            )}>
             <label>
               First and Last Name:
               <input
@@ -38,7 +42,7 @@ return(
                 type="email"
                 className="text-black"
                 disabled={true}
-                value={session?.user?.email}
+                value={user?.email}
               />
             </label>
             <label>
