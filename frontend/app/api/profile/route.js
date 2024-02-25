@@ -19,7 +19,7 @@ export async function PUT(req) {
     const email = session.user.email;
   }
 
-  const user = await User.findOne(filter);
+  const user = await User.findOne(filter); 
   await User.updateOne(filter, { name, image });
 
   await UserInfo.findOneAndUpdate({email : user.email}, otherUserInfo, { upsert: true });
