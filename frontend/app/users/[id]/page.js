@@ -12,12 +12,11 @@ export default function EditUserPage(){
     const [user , setUser] = useState(null);
     const {id} = useParams();
     const {loading , data } = useProfile();
-    console.log(id);
+    
 
     useEffect(() => {
-        fetch('/api/users').then(res => {
-          res.json().then(users => {
-            const user = users.find(u => u._id === id);
+        fetch('/api/profile?_id='+id).then(res => {
+          res.json().then(user => {
             setUser(user);
           });
         })
