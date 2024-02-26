@@ -23,6 +23,6 @@
       "@/components/*": ["./frontend/components/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/contact/page.js", "components/productCard.jsx", "app/api/auth/[...nextauth]/route.js", "libs/mongoConnect.js", "app/profile/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/contact/page.js", "components/productCard.jsx", "app/api/auth/[...nextauth]/route.js", "libs/mongoConnect.js", "app/profile/page.js", "app/page.jsx", "app/products/page.jsx"],
   "exclude": ["node_modules"]
 }

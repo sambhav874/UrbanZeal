@@ -4,7 +4,7 @@ import { freshArrivalsMen } from '../../data/menProducts';
 import { clothingCategories } from '../../data/menCategories';
 import Link from 'next/link';
 import { kidsCarouselImages } from '../../data/kidsCarousel';
-import CarouselKids from './../../../components/carouselKids';
+import CarouselKids from '../../../components/carouselKids';
 
 
 const Kids = () => {

@@ -3,12 +3,19 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Carousel from '../components/Carousel';
-import {carouselImages} from '../app/data/carouselPhotos'
-
- // Import Footer component
+import {carouselImages} from './data/carouselPhotos'
+import { useEffect, useState } from 'react';
+import StoreItem from '../components/store/StoreItem'
 
 const HomePage = () => {
   
+  const [featuredProducts , setFeaturedProducts] = useState([]);
+  useEffect(() => {
+    fetch('/api/store-items').then(res => res.json().then(storeItems => {
+      setFeaturedProducts(storeItems.slice(-3));
+    }));
+  } , [])
+
   return (
     <div>
       <Head>
@@ -27,10 +34,9 @@ const HomePage = () => {
       {/* Featured Products */}
       <h2 className="text-2xl font-bold mb-6">Featured Products</h2>
       <div className="grid grid-cols-3 gap-6">
-        {/* Replace the following divs with your featured product components */}
-        <div className="bg-gray-700 p-5 rounded-md shadow-md">Featured Product 1</div>
-        <div className="bg-gray-700 p-5 rounded-md shadow-md">Featured Product 2</div>
-        <div className="bg-gray-700 p-5 rounded-md shadow-md">Featured Product 3</div>
+        {featuredProducts?.length > 0 && featuredProducts.map(product => (
+          <StoreItem key={product._id} {...product}/>
+        )) }
       </div>
 
       {/* Call-to-action button */}

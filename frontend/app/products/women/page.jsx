@@ -2,7 +2,7 @@
 import React from 'react';
 import { freshArrivalsMen } from '../../data/menProducts';
 import { clothingCategories } from '../../data/menCategories';
-import CarouselWomen from './../../../components/carouselMen';
+import CarouselWomen from '../../../components/carouselMen';
 import Link from 'next/link';
 import { womenCarouselImages } from '../../data/womenCarousel';
 

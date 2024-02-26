@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <AppProvider>
       <body className={inter.className}>
         <Toaster /><Navbar />{children}<Footer /></body></AppProvider>
