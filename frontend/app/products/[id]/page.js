@@ -6,10 +6,12 @@ import CarouselMen from '../../../components/carouselMen';
 import { menCarouselImages } from '../../data/menCarousel';
 import { freshArrivalsMen } from '../../data/menProducts';
 import StoreItem from '../../../components/store/StoreItem';
+import { useParams } from 'next/navigation';
 
 const Men = () => {
   const [subCategories, setSubCategories] = useState([]);
   const [items, setItems] = useState([]);
+  const {id} = useParams();
 
   useEffect(() => {
     fetch('/api/subcategories')
@@ -22,7 +24,7 @@ const Men = () => {
       .then(res => res.json())
       .then(items => {
         // Filter items with category 'Men'
-        const menItems = items.filter(item => item.category === 'Men' ); 
+        const menItems = items.filter(item => item.category ===  ); 
         setItems(menItems.slice(-5));
       });
   
