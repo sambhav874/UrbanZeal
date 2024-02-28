@@ -15,7 +15,9 @@ const Men = () => {
     fetch('/api/subcategories')
       .then(res => res.json())
       .then(subCategory => {
-        setSubCategories(subCategory);
+        
+        const  subCatArray = subCategory.filter(subcat =>  subcat.parentCategory === 'Men');
+        setSubCategories(subCatArray);
       });
 
       fetch('/api/store-items')

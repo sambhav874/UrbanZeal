@@ -32,7 +32,7 @@ const ProductPage = () => {
         {categories.map(product => (
           
           <div key={product._id}  > 
-          <Link href={`/products/${product._id}`}>
+          <Link href={`/products/${product.name}`}>
               <p className="text-xl font-semibold mb-2">{product.name}</p>
             </Link>
               </div>

@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect } from 'react';
 import UserTabs from './../../components/layout/UserTabs';
 import toast from 'react-hot-toast';
@@ -9,12 +8,27 @@ import { useProfile } from './../../components/UseProfile';
 export default function SubcategoriesPage() {
   const [subcategoryName, setSubcategoryName] = useState('');
   const [subcategories, setSubcategories] = useState([]);
+  const [itemCategory, setItemCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const { loading: profileLoading, data: profileData } = useProfile();
   const [editedSubcategory, setEditedSubcategory] = useState(null);
 
   useEffect(() => {
+    fetchCategories();
     fetchSubcategories();
   }, []);
+
+  async function fetchCategories() {
+    try {
+      const response = await fetch("/api/categories");
+      if (response.ok) {
+        const categoriesData = await response.json();
+        setCategories(categoriesData);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
 
   function fetchSubcategories() {
     fetch('/api/subcategories').then(res => {
@@ -27,7 +41,8 @@ export default function SubcategoriesPage() {
   async function handleSubcategorySubmit(ev) {
     ev.preventDefault();
     const creationPromise = new Promise(async (resolve, reject) => {
-      const data = {name:subcategoryName};
+      const data = { name: subcategoryName , parentCategory: itemCategory };
+      
       if (editedSubcategory) {
         data._id = editedSubcategory._id;
       }
@@ -37,6 +52,7 @@ export default function SubcategoriesPage() {
         body: JSON.stringify(data),
       });
       setSubcategoryName('');
+      setItemCategory('');
       fetchSubcategories();
       setEditedSubcategory(null);
       if (response.ok)
@@ -46,8 +62,8 @@ export default function SubcategoriesPage() {
     });
     await toast.promise(creationPromise, {
       loading: editedSubcategory
-                 ? 'Updating SubCategory...'
-                 : 'Creating your new SubCategory...',
+        ? 'Updating SubCategory...'
+        : 'Creating your new SubCategory...',
       success: editedSubcategory ? 'SubCategory updated' : 'SubCategory created',
       error: 'Error, sorry...',
     });
@@ -95,9 +111,23 @@ export default function SubcategoriesPage() {
               )}
             </label>
             <input type="text"
-                   value={subcategoryName}
-                   onChange={ev => setSubcategoryName(ev.target.value)}
+              value={subcategoryName}
+              onChange={ev => setSubcategoryName(ev.target.value)}
             />
+
+            <label>Category</label>
+            <select
+              value={itemCategory}
+              onChange={(e) => setItemCategory(e.target.value)}
+              required
+            >
+              <option value="">Select category</option>
+              {categories.map((category) => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="pb-2 flex gap-2">
             <button className="border border-primary" type="submit">
@@ -108,6 +138,7 @@ export default function SubcategoriesPage() {
               onClick={() => {
                 setEditedSubcategory(null);
                 setSubcategoryName('');
+                setItemCategory('');
               }}>
               Cancel
             </button>
@@ -125,10 +156,11 @@ export default function SubcategoriesPage() {
             </div>
             <div className="flex gap-1">
               <button type="button"
-                      onClick={() => {
-                        setEditedSubcategory(c);
-                        setSubcategoryName(c.name);
-                      }}
+                onClick={() => {
+                  setEditedSubcategory(c);
+                  setSubcategoryName(c.name);
+                  setItemCategory(c.itemCategory);
+                }}
               >
                 Edit
               </button>
