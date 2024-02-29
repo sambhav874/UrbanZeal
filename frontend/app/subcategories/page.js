@@ -4,6 +4,7 @@ import UserTabs from './../../components/layout/UserTabs';
 import toast from 'react-hot-toast';
 import DeleteButton from './../../components/DeleteButton';
 import { useProfile } from './../../components/UseProfile';
+import EditableImage from '../../components/layout/EditableImage';
 
 export default function SubcategoriesPage() {
   const [subcategoryName, setSubcategoryName] = useState('');
@@ -12,6 +13,7 @@ export default function SubcategoriesPage() {
   const [categories, setCategories] = useState([]);
   const { loading: profileLoading, data: profileData } = useProfile();
   const [editedSubcategory, setEditedSubcategory] = useState(null);
+  const [image , setImage] = useState("");
 
   useEffect(() => {
     fetchCategories();
@@ -41,7 +43,7 @@ export default function SubcategoriesPage() {
   async function handleSubcategorySubmit(ev) {
     ev.preventDefault();
     const creationPromise = new Promise(async (resolve, reject) => {
-      const data = { name: subcategoryName , parentCategory: itemCategory };
+      const data = { name: subcategoryName , parentCategory: itemCategory , image: image};
       
       if (editedSubcategory) {
         data._id = editedSubcategory._id;
@@ -53,6 +55,7 @@ export default function SubcategoriesPage() {
       });
       setSubcategoryName('');
       setItemCategory('');
+      setImage('');
       fetchSubcategories();
       setEditedSubcategory(null);
       if (response.ok)
@@ -128,6 +131,8 @@ export default function SubcategoriesPage() {
                 </option>
               ))}
             </select>
+
+            <EditableImage link={image} setLink={setImage} />
           </div>
           <div className="pb-2 flex gap-2">
             <button className="border border-primary" type="submit">
@@ -139,6 +144,7 @@ export default function SubcategoriesPage() {
                 setEditedSubcategory(null);
                 setSubcategoryName('');
                 setItemCategory('');
+                setImage('');
               }}>
               Cancel
             </button>
@@ -160,6 +166,7 @@ export default function SubcategoriesPage() {
                   setEditedSubcategory(c);
                   setSubcategoryName(c.name);
                   setItemCategory(c.itemCategory);
+                  setImage(c.image);
                 }}
               >
                 Edit

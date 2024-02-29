@@ -4,9 +4,9 @@ import mongoose from "mongoose";
 
 export async function POST(req) {
   mongoose.connect(process.env.MONGO_URI);
-  const { name , parentCategory } = await req.json();
+  const { name , parentCategory , image } = await req.json();
   if (await isAdmin()) {
-    const subcategoryDoc = await Subcategory.create({ name , parentCategory });
+    const subcategoryDoc = await Subcategory.create({ name , parentCategory , image });
     
     return Response.json(subcategoryDoc);
   } else {
@@ -19,7 +19,7 @@ export async function PUT(req) {
     const {_id, name , parentCategory} = await req.json();
     if (await isAdmin()) {
       
-      await Subcategory.updateOne({_id}, {name , parentCategory});
+      await Subcategory.updateOne({_id}, {name , parentCategory , image});
     }
     return Response.json(true);
   }
