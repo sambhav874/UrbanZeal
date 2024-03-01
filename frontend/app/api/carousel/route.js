@@ -6,16 +6,32 @@ mongoose.connect(process.env.MONGO_URI);
 
 export async function POST(req, res) {
   try {
-    const { imageUrl, menImageUrl, womenImageUrl, kidsImageUrl } = req.body;
+    const { imageUrl, menImageUrl, womenImageUrl, kidsImageUrl } = await req.json();
     console.log(imageUrl, menImageUrl, womenImageUrl, kidsImageUrl)
     if (await isAdmin()) {
+      const createdDocs = [];
       // Create documents only if the URLs are provided
-      const imageDoc =  await Image.create({ imageUrl }) ;
-      const menImageDoc =await MenImage.create({ menImageUrl });
-      const womenImageDoc = await WomenImage.create({ womenImageUrl });
-      const kidsImageDoc = await KidsImage.create({ kidsImageUrl });
+      if (imageUrl) {
+        const imageDoc = await Image.create({ imageUrl });
+        createdDocs.push(imageDoc);
+      }
+
+      if (menImageUrl) {
+        const menImageDoc = await MenImage.create({ menImageUrl });
+        createdDocs.push(menImageDoc);
+      }
+
+      if (womenImageUrl) {
+        const womenImageDoc = await WomenImage.create({ womenImageUrl });
+        createdDocs.push(womenImageDoc);
+      }
+
+      if (kidsImageUrl) {
+        const kidsImageDoc = await KidsImage.create({ kidsImageUrl });
+        createdDocs.push(kidsImageDoc);
+      }
       
-      return Response.json({ imageDoc, menImageDoc, womenImageDoc, kidsImageDoc });
+      return Response.json({ createdDocs });
     } else {
       return Response.json({ message: "Unauthorized" });
     }
