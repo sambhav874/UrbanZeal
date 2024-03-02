@@ -54,21 +54,54 @@ export async function GET(req, res) {
   }
 }
 
+
 export async function DELETE(req, res) {
-  try {
-    const { _id } = req.query;
-    if (await isAdmin()) {
-      // Delete documents for all image types
-      await Image.deleteOne({ _id });
-      await MenImage.deleteOne({ _id });
-      await WomenImage.deleteOne({ _id });
-      await KidsImage.deleteOne({ _id });
-      return Response.json({ success: true });
-    } else {
-      return Response.json({ message: "Unauthorized" });
+    try {
+        
+      const url = new URL(req.url);
+      const _id = url.searchParams.get('_id');
+      const { category } = req.query;
+      console.log(_id, category);
+  
+      if (!req.query) {
+        return Response.json({ message: "Missing parameters" });
+      }
+  
+  
+      if (await isAdmin()) {
+        if (!_id || !category) {
+          // Handle case where _id or category is missing
+          return Response.json({ message: "Missing _id or category parameter" });
+        }
+  
+
+            // Determine the collection based on the category
+            let collection;
+            switch (category) {
+                case 'image':
+                    collection = Image;
+                    break;
+                case 'men':
+                    collection = MenImage;
+                    break;
+                case 'women':
+                    collection = WomenImage;
+                    break;
+                case 'kids':
+                    collection = KidsImage;
+                    break;
+                default:
+                    return Response.json({ message: "Invalid category" });
+            }
+
+            // Delete the document from the respective collection
+            await collection.deleteOne({ _id });
+            return Response.json({ success: true });
+        } else {
+            return Response.json({ message: "Unauthorized" });
+        }
+    } catch (error) {
+        console.log(error);
+        return Response.json({ message: "Internal Server Error" });
     }
-  } catch (error) {
-    console.error(error);
-    return Response.json({ message: "Internal Server Error" });
-  }
 }
