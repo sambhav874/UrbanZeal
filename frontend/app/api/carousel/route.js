@@ -56,24 +56,20 @@ export async function GET(req, res) {
 
 
 export async function DELETE(req, res) {
-    try {
-        
-      const url = new URL(req.url);
-      const _id = url.searchParams.get('_id');
-      const { category } = req.query;
-      console.log(_id, category);
-  
-      if (!req.query) {
-        return Response.json({ message: "Missing parameters" });
+  try {
+    const url = new URL(req.url);
+    const _id = url.searchParams.get('_id');
+    const category = url.searchParams.get('category');
+    console.log(category);
+
+    
+
+
+    if (await isAdmin()) {
+      if (!category) {
+        // Handle case where _id or category is missing
+        return Response.json({ message: "Missing _id or category parameter" });
       }
-  
-  
-      if (await isAdmin()) {
-        if (!_id || !category) {
-          // Handle case where _id or category is missing
-          return Response.json({ message: "Missing _id or category parameter" });
-        }
-  
 
             // Determine the collection based on the category
             let collection;
