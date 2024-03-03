@@ -8,12 +8,26 @@ import { useEffect, useState } from 'react';
 import StoreItem from '../components/store/StoreItem'
 
 const HomePage = () => {
+
+  const [carousel , setCarousel] = useState([]);
   
   const [featuredProducts , setFeaturedProducts] = useState([]);
   useEffect(() => {
     fetch('/api/store-items').then(res => res.json().then(storeItems => {
       setFeaturedProducts(storeItems.slice(-3));
     }));
+
+    fetch('/api/carousel')
+  .then(res => res.json())
+  .then(carouselImages => {
+    const Images = carouselImages.images.map(menImage =>  Image.imageUrl);
+    console.log(Images); 
+    setCarousel(Images);
+  })
+  .catch(error => console.error('Error fetching men images:', error));
+
+
+
   } , [])
 
   return (
@@ -28,7 +42,7 @@ const HomePage = () => {
         <p className="text-lg mb-6">Explore our latest collection of clothing.</p>
 
         {/* Carousel */}
-        <Carousel images={carouselImages} />
+        <Carousel images={carousel} />
       </div>
 
       {/* Featured Products */}

@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import CarouselMen from '../../../components/carouselMen';
-import { menCarouselImages } from '../../data/menCarousel';
-import { freshArrivalsMen } from '../../data/menProducts';
+import Carousel from '../../../components/Carousel';
 import StoreItem from '../../../components/store/StoreItem';
 
 const Men = () => {
   const [subCategories, setSubCategories] = useState([]);
+  const [carousel, setCarousel] = useState([]);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -27,16 +26,25 @@ const Men = () => {
         const menItems = items.filter(item => item.category === 'Men' ); 
         setItems(menItems.slice(-5));
       });
-  
+
+      fetch('/api/carousel')
+  .then(res => res.json())
+  .then(carouselImages => {
+    const menImages = carouselImages.menImages.map(menImage => menImage.menImageUrl);
+    console.log(menImages); 
+    setCarousel(menImages);
+  })
+  .catch(error => console.error('Error fetching men images:', error));
 
   }, []);
+
 
   
 
   return (
     <div className="container mx-auto mt-8">
       <div className="text-3xl font-bold mb-4">Mens</div>
-      <CarouselMen images={menCarouselImages} />
+      <Carousel images={carousel} />
 
       <h1 className="text-3xl font-semibold mb-4">Our categories</h1>
       <div className="grid grid-cols-3 gap-4">

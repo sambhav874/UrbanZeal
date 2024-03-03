@@ -60,8 +60,6 @@ export async function DELETE(req, res) {
     const url = new URL(req.url);
     const _id = url.searchParams.get('_id');
     const category = url.searchParams.get('category');
-    console.log(category);
-
     
 
 

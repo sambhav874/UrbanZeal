@@ -11,8 +11,7 @@ const Carousel = () => {
     const [menImage, setMenImage] = useState("");
     const [womenImage, setWomenImage] = useState("");
     const [kidsImage, setKidsImage] = useState("");
-    const {id} = useParams();
-    
+    const { id } = useParams();
 
     const [carouselImages, setCarouselImages] = useState({
         images: [],
@@ -60,7 +59,7 @@ const Carousel = () => {
                 const response = await fetch(`/api/carousel?_id=${_id}&category=${category}`, {
                     method: 'DELETE'
                 });
-                
+
                 if (response.ok) {
                     resolve();
                 } else {
@@ -75,34 +74,9 @@ const Carousel = () => {
             });
 
             // Remove the image from the state based on the category
-            switch (category) {
-                case 'image':
-                    setCarouselImages(prevState => ({
-                        ...prevState,
-                        images: prevState.images.filter(img => img._id !== _id)
-                    }));
-                    break;
-                case 'men':
-                    setCarouselImages(prevState => ({
-                        ...prevState,
-                        menImages: prevState.menImages.filter(img => img._id !== _id)
-                    }));
-                    break;
-                case 'women':
-                    setCarouselImages(prevState => ({
-                        ...prevState,
-                        womenImages: prevState.womenImages.filter(img => img._id !== _id)
-                    }));
-                    break;
-                case 'kids':
-                    setCarouselImages(prevState => ({
-                        ...prevState,
-                        kidsImages: prevState.kidsImages.filter(img => img._id !== _id)
-                    }));
-                    break;
-                default:
-                    break;
-            }
+            const updatedCarouselImages = { ...carouselImages };
+            updatedCarouselImages[`${category}Images`] = updatedCarouselImages[`${category}Images`].filter(img => img._id !== _id);
+            setCarouselImages(updatedCarouselImages);
         } catch (error) {
             console.error('Error deleting image:', error);
         }
@@ -119,52 +93,76 @@ const Carousel = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto my-8 p-2">
-            <h1 className="text-3xl font-bold text-center">Upload Carousel Images</h1>
-            <div>
-                <EditableImage link={image} setLink={(data) => uploadImage(data, 'image')} />
-                {carouselImages.images.map(carouselImage => (
-                    <div key={carouselImage._id} className="carousel-card">
-                        <Image src={carouselImage.imageUrl} width={200} height={200} alt="Carousel Image" />
-                        <DeleteButton label="Delete" onDelete={() => handleDelete(carouselImage._id, 'image')} />
+        <div className="max-w-5xl mx-auto my-8 p-4">
+            <h1 className="text-3xl font-bold text-center mb-4">Upload Carousel Images</h1>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Image Upload Section */}
+                <div className="mb-4">
+                    <h2 className="text-lg font-bold mb-2">Image</h2>
+                    <EditableImage link={image} setLink={(data) => uploadImage(data, 'image')} />
+                    <div className="grid grid-cols-1 gap-4">
+                        {carouselImages.images.map(carouselImage => (
+                            <div key={carouselImage._id} className="carousel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 hover:shadow-xl relative">
+                                <Image src={carouselImage.imageUrl} width={200} height={200} alt="Carousel Image" className="object-cover w-full h-full" />
+                                <div className="absolute bottom-2 left-2">
+                                    <DeleteButton label="Delete" onDelete={() => handleDelete(carouselImage._id, 'image')} className="bg-red-500  text-white rounded-full p-2 cursor-pointer" />
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
+
+                {/* Men Upload Section */}
+                <div className="mb-4">
+                    <h2 className="text-lg font-bold mb-2">Men</h2>
+                    <EditableImage link={menImage} setLink={(data) => uploadImage(data, 'men')} />
+                    <div className="grid grid-cols-1 gap-4">
+                        {carouselImages.menImages.map(menImage => (
+                            <div key={menImage._id} className="carousel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 hover:shadow-xl relative">
+                                <Image src={menImage.menImageUrl} width={200} height={200} alt="Men Image" className="object-cover w-full h-full" />
+                                <div className="absolute bottom-2 left-2">
+                                    <DeleteButton label="Delete" onDelete={() => handleDelete(menImage._id, 'men')} className="bg-red-500 text-white rounded-full p-2 cursor-pointer " />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Women Upload Section */}
+                <div className="mb-4">
+                    <h2 className="text-lg font-bold mb-2">Women</h2>
+                    <EditableImage link={womenImage} setLink={(data) => uploadImage(data, 'women')} />
+                    <div className="grid grid-cols-1 gap-4">
+                        {carouselImages.womenImages.map(womenImage => (
+                            <div key={womenImage._id} className="carousel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 hover:shadow-xl relative">
+                                <Image src={womenImage.womenImageUrl} width={200} height={200} alt="Women Image" className="object-cover w-full h-full" />
+                                <div className="absolute bottom-2 left-2">
+                                    <DeleteButton label="Delete" onDelete={() => handleDelete(womenImage._id, 'women')} className="bg-red-500 text-white rounded-full p-2 cursor-pointer" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Kids Upload Section */}
+                <div className="mb-4">
+                    <h2 className="text-lg font-bold mb-2">Kids</h2>
+                    <EditableImage link={kidsImage} setLink={(data) => uploadImage(data, 'kids')} />
+                    <div className="grid grid-cols-1 gap-4">
+                        {carouselImages.kidsImages.map(kidsImage => (
+                            <div key={kidsImage._id} className="carousel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 hover:shadow-xl relative">
+                                <Image src={kidsImage.kidsImageUrl} width={200} height={200} alt="Kids Image" className="object-cover w-full h-full" />
+                                <div className="absolute bottom-2 left-2">
+                                    <DeleteButton label="Delete" onDelete={() => handleDelete(kidsImage._id, 'kids')} className="bg-red-500 text-white rounded-full p-2 cursor-pointer" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
 
-            {/* Render Men Images */}
-            <div>
-                <EditableImage link={menImage} setLink={(data) => uploadImage(data, 'men')} />
-                {carouselImages.menImages.map(menImage => (
-                    <div key={menImage._id} className="carousel-card">
-                        <Image src={menImage.menImageUrl} width={200} height={200} alt="Men Image" />
-                        <DeleteButton label="Delete" onDelete={() => handleDelete(menImage._id, 'men')} />
-                    </div>
-                ))}
-            </div>
-
-            {/* Render Women Images */}
-            <div>
-                <EditableImage link={womenImage} setLink={(data) => uploadImage(data, 'women')} />
-                {carouselImages.womenImages.map(womenImage => (
-                    <div key={womenImage._id} className="carousel-card">
-                        <Image src={womenImage.womenImageUrl} width={200} height={200} alt="Women Image" />
-                        <DeleteButton label="Delete" onDelete={() => handleDelete(womenImage._id, 'women')} />
-                    </div>
-                ))}
-            </div>
-
-            {/* Render Kids Images */}
-            <div>
-                <EditableImage link={kidsImage} setLink={(data) => uploadImage(data, 'kids')} />
-                {carouselImages.kidsImages.map(kidsImage => (
-                    <div key={kidsImage._id} className="carousel-card">
-                        <Image src={kidsImage.kidsImageUrl} width={200} height={200} alt="Kids Image" />
-                        <DeleteButton label="Delete" onDelete={() => handleDelete(kidsImage._id, 'kids')} />
-                    </div>
-                ))}
-            </div>
-
-            <button className="m-4" onClick={handleSubmit}>Submit</button>
+            <button className="m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleSubmit}>Submit</button>
         </div>
     );
 };
