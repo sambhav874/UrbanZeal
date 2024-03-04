@@ -3,7 +3,6 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Carousel from '../components/Carousel';
-import {carouselImages} from './data/carouselPhotos'
 import { useEffect, useState } from 'react';
 import StoreItem from '../components/store/StoreItem'
 

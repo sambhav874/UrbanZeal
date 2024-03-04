@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { CartContext } from "./AppContext";
 
 const Navbar = () => {
   const session = useSession();
@@ -11,6 +12,8 @@ const Navbar = () => {
   if (userName && userName.includes(" ")) {
     userName = userName.split(" ")[0];
   }
+
+  const {cartProducts} = useContext(CartContext);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -101,7 +104,30 @@ const Navbar = () => {
               Contact
             </Link>
           </li>
+
           <li>
+            <Link href="/cart" >
+              Cart
+              <button className="text-white relative">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M14.995 5.568A.75.75 0 0 1 14.25 6H5.75a.75.75 0 0 1-.745-.636L4.235 2.27a.75.75 0 0 0-1.485.178l.77 3.09H2.75a.75.75 0 0 0 0 1.5h1.28l2.08 8.318a.75.75 0 0 0 .735.582h6.14a.75.75 0 0 0 .743-.653l1.222-8.317h1.28a.75.75 0 0 0 0-1.5h-1.5zM6.114 5.5h7.772L14.177 13H7.736l-1.106-4.404L6.114 5.5zM10 15a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+                  />
+                </svg>
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
+                  {cartProducts?.length}
+                </span>
+              </button>
+            </Link>
+          </li>
+          <li>
+
             <div className="relative">
               <Link href={'/profile'}
                 className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4 rounded-full border-2 p-4 m-2 border-white"
@@ -119,6 +145,9 @@ const Navbar = () => {
                       Logout
                     </button>
                   </li>
+
+                  
+
                 </ul>
               )}
             </div>
@@ -148,7 +177,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/products/men"
+                href="/products/Men"
                 className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
                 onClick={handleLinkClick}
               >
@@ -157,7 +186,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/products/women"
+                href="/products/Women"
                 className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
                 onClick={handleLinkClick}
               >
@@ -166,7 +195,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/products/kids"
+                href="/products/Kids"
                 className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
                 onClick={handleLinkClick}
               >
@@ -183,6 +212,19 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
+              <Link href="/cart" >
+                <button
+                  className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
+                  onClick={handleLinkClick}
+                >
+                  Cart
+                  <span className="relative -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
+                    {cartProducts.length}
+                  </span>
+                </button>
+              </Link>
+            </li>
+            <li>
               <div>
                 {status === "authenticated" ? (
                   <button
@@ -191,6 +233,7 @@ const Navbar = () => {
                   >
                     Logout
                   </button>
+                  
                 ) : (
                   <>
                     <Link href="/login">Login</Link>
@@ -210,6 +253,7 @@ const Navbar = () => {
                 onClick={toggleDropdown}
               />
             </li>
+            
           </ul>
         </div>
       )}
