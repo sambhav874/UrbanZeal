@@ -18,6 +18,19 @@ export function AppProvider({children}){
         }
     }
 
+    function clearCart(){
+        setCartProducts([]);
+        saveCartProductsToLocalStorage([]);
+    }
+
+    function removeCartProduct(indexToRemove){
+        setCartProducts(prevCartProduct => {
+            const newCartProducts = prevCartProduct.filter((v , index) => index != indexToRemove);
+            saveCartProductsToLocalStorage(newCartProducts);
+            return newCartProducts;
+        })
+    }
+
     useEffect(() => {
         if(ls && ls.getItem('cart')){
             setCartProducts( JSON.parse(ls.getItem('cart')));
@@ -35,7 +48,7 @@ export function AppProvider({children}){
 
     return(
         <SessionProvider>
-            <CartContext.Provider value={{cartProducts , setCartProducts , addToCart}}>
+            <CartContext.Provider value={{cartProducts , setCartProducts , addToCart , removeCartProduct}}>
             {children}
             </CartContext.Provider>
         </SessionProvider>
