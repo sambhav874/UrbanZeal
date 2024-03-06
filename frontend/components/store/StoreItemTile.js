@@ -1,7 +1,7 @@
 export default function StoreItemTile(
     {onAddToCart , ...item}
 ){
-    const {name , description ,  price, image } = item;
+    const {name , description ,  price, image , sizes } = item;
     return(
         <div className="bg-gray-200 p-4 rounded-lg items-center group hover:bg-white hover:shadow-md hover:shadow-black/25 transition-all">
         <div className="text-center">
@@ -11,7 +11,8 @@ export default function StoreItemTile(
         <p className="text-gray-500 text-sm line-clamp-3">
             {description}
         </p>
-        <button onClick={onAddToCart} className="mt-4 text-white bg-black rounded-full px-8 py-2">Add to card Rs.{price}</button>
+        <button onClick={onAddToCart} className="mt-4 text-white bg-black rounded-full px-8 py-2">
+            {(sizes?.length > 0) ? (<span>Add to Cart (From Rs.{price})</span>):(<span>Add to card Rs.{price}</span>)}</button>
     </div>
     )
 }

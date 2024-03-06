@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useContext, useState } from "react";
 import { CartContext } from "../AppContext";
 import { toast } from "react-hot-toast";
@@ -15,22 +11,15 @@ const StoreItem = (storeItem) => {
   const { addToCart } = useContext(CartContext);
 
   function handleAddToCartButtonClick() {
-
-    const hasOptions = sizes.length > 0
-    if(hasOptions && !showPopUp){
-        
-        setShowPopUp(true);
-        return ;}
-      
-      addToCart(storeItem , selectedSize);
-
-      setShowPopUp(false);
-      toast.success("Product added to Cart !");
-      
-    
-    
+    const hasOptions = sizes.length > 0;
+    if (hasOptions && !showPopUp) {
+      setShowPopUp(true);
+      return;
     }
-    
+      
+    addToCart(storeItem, selectedSize);
+    setShowPopUp(false);
+    toast.success("Product added to Cart !");
   }
 
   let selectedPrice = price ;
@@ -59,7 +48,6 @@ const StoreItem = (storeItem) => {
                 </div>
                 <div className="max-w-sm text-2xl font-medium">{name}</div>
                 <div className="flex flex-col mb-2 space-y-3 text-center md:text-left">
-                  
                   <p className="text-5xl font-bold">Rs .{price}/-</p>
                   <p className="text-sm font-light text-gray-200 dark:text-black">
                     This offer is available till 7 June or as long as the stock
@@ -67,41 +55,37 @@ const StoreItem = (storeItem) => {
                   </p>
                 </div>
                 <div className="overflow-y-scroll">
-                <p className="text-center text-gray-300 text-md mb-2">{description}</p></div>
-                {sizes?.length > 0 && (
-                <div className="text-center md:text-left">
-                  <h3 className="text-sm font-semibold text-gray-700">
-                    Pick your size
-                  </h3>
-                  {sizes.map((size, index) => (
-                    <label
-                      key={index}
-                      className="flex items-center gap-2 p-2 border mb-1"
-                    >
-                      <input type="radio" onClick={()=>{setSelectedSize(size)}} checked={selectedSize?.name === size.name} name="size" className="form-radio" />
-                      <span>{size.name} ${price + size.price}</span>
-                    </label>
-                  ))}
+                  <p className="text-center text-gray-300 text-md mb-2">{description}</p>
                 </div>
-              )}
+                {sizes?.length > 0 && (
+                  <div className="text-center md:text-left">
+                    <h3 className="text-sm font-semibold text-gray-700">
+                      Pick your size
+                    </h3>
+                    {sizes.map((size, index) => (
+                      <label
+                        key={index}
+                        className="flex items-center gap-2 p-2 border mb-1"
+                      >
+                        <input type="radio" onClick={()=>{setSelectedSize(size)}} checked={selectedSize?.name === size.name} name="size" className="form-radio" />
+                        <span>{size.name} ${price + size.price}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
                 <div className="group">
-                  <button className="w-full transition-all duration-150 bg-blue-700 text-white border-b-8 border-b-blue-700 rounded-lg group-hover:border-t-8 group-hover:border-b-0 group-hover:bg-blue-700 group-hover:border-t-blue-700 group-hover:shadow-lg">
+                  <button onClick={handleAddToCartButtonClick} className="w-full transition-all duration-150 bg-blue-700 text-white border-b-8 border-b-blue-700 rounded-lg group-hover:border-t-8 group-hover:border-b-0 group-hover:bg-blue-700 group-hover:border-t-blue-700 group-hover:shadow-lg">
                     <div className="px-8  duration-150  rounded-lg group-hover:bg-blue-700">
                       Add to Cart {selectedPrice}
                     </div>
                   </button>
                 </div>
-                
-               
-                        <button
-                        onClick={()=>setShowPopUp(false)}
-                            class="flex items-center justify-center  border-2 border-gray-300 rounded-lg shadow-sm hover:bg-opacity-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-150">
-                            
-                            <span>Cancel</span>
-                        </button>
-                      
-                    
-                
+                <button
+                  onClick={()=>setShowPopUp(false)}
+                  className="flex items-center justify-center border-2 border-gray-300 rounded-lg shadow-sm hover:bg-opacity-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-150"
+                >
+                  <span>Cancel</span>
+                </button>
               </div>
             </div>
           </div>
