@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const StoreItem = (storeItem) => {
   const { image, name, price, description, sizes } = storeItem;
-  const [selectedSize , setSelectedSize] = useState(sizes?.[0] || null);
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || null);
   const [showPopUp, setShowPopUp] = useState(false);
   const { addToCart } = useContext(CartContext);
 
@@ -22,16 +22,11 @@ const StoreItem = (storeItem) => {
     toast.success("Product added to Cart !");
   }
 
-  let selectedPrice = price ;
-  if (selectedPrice){
-    selectedPrice += selectedSize?.price;
-  }
-
   return (
     <>
       {showPopUp && (
-        <div onClick={() => {setShowPopUp(false)}} className="fixed  inset-0 flex items-center justify-center bg-black bg-opacity-80">
-          <div onClick={ev => ev.stopPropagation()} className="flex flex-col p-6 m-3 space-y-10 bg-slate-500  rounded-2xl shadow-2xl md:flex-row md:space-y-0 md:space-x-10 md:m-0 md:p-16">
+        <div onClick={() => setShowPopUp(false)} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+          <div onClick={ev => ev.stopPropagation()} className="flex flex-col p-6 m-3 space-y-10 bg-slate-500 rounded-2xl shadow-2xl md:flex-row md:space-y-0 md:space-x-10 md:m-0 md:p-16">
             <div className="p-2 mx-1 mt-1 pb-4 space-x-10 items-center flex rounded-xl bg-slate-800">
               <Image
                 src={image}
@@ -67,7 +62,13 @@ const StoreItem = (storeItem) => {
                         key={index}
                         className="flex items-center gap-2 p-2 border mb-1"
                       >
-                        <input type="radio" onClick={()=>{setSelectedSize(size)}} checked={selectedSize?.name === size.name} name="size" className="form-radio" />
+                        <input 
+                          type="radio" 
+                          onChange={() => setSelectedSize(size)} // Handle onChange event
+                          checked={selectedSize?.name === size.name} 
+                          name="size" 
+                          className="form-radio" 
+                        />
                         <span>{size.name} ${price + size.price}</span>
                       </label>
                     ))}
@@ -76,12 +77,12 @@ const StoreItem = (storeItem) => {
                 <div className="group">
                   <button onClick={handleAddToCartButtonClick} className="w-full transition-all duration-150 bg-blue-700 text-white border-b-8 border-b-blue-700 rounded-lg group-hover:border-t-8 group-hover:border-b-0 group-hover:bg-blue-700 group-hover:border-t-blue-700 group-hover:shadow-lg">
                     <div className="px-8  duration-150  rounded-lg group-hover:bg-blue-700">
-                      Add to Cart {selectedPrice}
+                      Add to Cart {selectedSize && price + selectedSize.price}
                     </div>
                   </button>
                 </div>
                 <button
-                  onClick={()=>setShowPopUp(false)}
+                  onClick={() => setShowPopUp(false)}
                   className="flex items-center justify-center border-2 border-gray-300 rounded-lg shadow-sm hover:bg-opacity-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-150"
                 >
                   <span>Cancel</span>

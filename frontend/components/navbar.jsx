@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { CartContext } from "./AppContext";
+import ShoppingCart from './icons/ShoppingCart'
 
 const Navbar = () => {
   const session = useSession();
@@ -107,19 +108,9 @@ const Navbar = () => {
 
           <li>
             <Link href="/cart" >
-              Cart
+              
               <button className="text-white relative">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M14.995 5.568A.75.75 0 0 1 14.25 6H5.75a.75.75 0 0 1-.745-.636L4.235 2.27a.75.75 0 0 0-1.485.178l.77 3.09H2.75a.75.75 0 0 0 0 1.5h1.28l2.08 8.318a.75.75 0 0 0 .735.582h6.14a.75.75 0 0 0 .743-.653l1.222-8.317h1.28a.75.75 0 0 0 0-1.5h-1.5zM6.114 5.5h7.772L14.177 13H7.736l-1.106-4.404L6.114 5.5zM10 15a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
-                  />
-                </svg>
+                <ShoppingCart />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
                   {cartProducts?.length}
                 </span>
@@ -213,6 +204,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/cart" >
+                <ShoppingCart / >
                 <button
                   className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
                   onClick={handleLinkClick}

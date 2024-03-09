@@ -5,11 +5,20 @@ import { useState , useEffect } from 'react';
 
 export const CartContext = createContext({});
 
+
+export function cartProductPrice(cartProduct) {
+        let price = cartProduct.basePrice;
+        if (cartProduct.size) {
+          price += cartProduct.size.price;
+        }
+        
+        return price;
+      }
+
 export function AppProvider({children}){
 
     const [cartProducts , setCartProducts] = useState([]);
-    const [item , setItem] = useState([]);
-
+   
     const ls = typeof window !== 'undefined' ? window.localStorage : null ;
 
     function saveCartProductsToLocalStorage(cartProducts){
@@ -18,6 +27,7 @@ export function AppProvider({children}){
         }
     }
 
+    
     function clearCart(){
         setCartProducts([]);
         saveCartProductsToLocalStorage([]);
@@ -37,18 +47,20 @@ export function AppProvider({children}){
         }
     } , [])
 
-    function addToCart(product , size=null , extras=[]){
+    function addToCart(product, size=null, extras=[]) {
         setCartProducts(prevProducts => {
-            const cartProduct =  {...product , size , extras}
-            const newProducts = [...prevProducts , cartProduct]
-            saveCartProductsToLocalStorage(newProducts);
-            return newProducts;
-        })
-    }
+          const cartProduct = {...product, size, extras};
+          const newProducts = [...prevProducts, cartProduct];
+          saveCartProductsToLocalStorage(newProducts);
+          console.log(cartProducts)
+          return newProducts;
+        });
+      }
 
     return(
         <SessionProvider>
-            <CartContext.Provider value={{cartProducts , setCartProducts , addToCart , removeCartProduct}}>
+            <CartContext.Provider value={{cartProducts , setCartProducts , addToCart , removeCartProduct , clearCart}}>
+                
             {children}
             </CartContext.Provider>
         </SessionProvider>
