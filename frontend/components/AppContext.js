@@ -2,12 +2,13 @@
 import {SessionProvider} from 'next-auth/react'
 import { createContext } from 'react'
 import { useState , useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 
 export const CartContext = createContext({});
 
 
 export function cartProductPrice(cartProduct) {
-        let price = cartProduct.basePrice;
+        let price = cartProduct.price;
         if (cartProduct.size) {
           price += cartProduct.size.price;
         }
@@ -37,8 +38,9 @@ export function AppProvider({children}){
         setCartProducts(prevCartProduct => {
             const newCartProducts = prevCartProduct.filter((v , index) => index != indexToRemove);
             saveCartProductsToLocalStorage(newCartProducts);
+            
             return newCartProducts;
-        })
+        });toast.success('Product Removed !');
     }
 
     useEffect(() => {
