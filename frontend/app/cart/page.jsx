@@ -1,14 +1,31 @@
 'use client'
 import { CartContext, cartProductPrice } from "../../components/AppContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import AddressInputs from './../../components/layout/AddressInputs'
 import Trash from './../../components/icons/Trash'
+import {useProfile} from './../../components/UseProfile'
 
 const CartPage = () => {
+    const [address, setAddress] = useState({});
     const { cartProducts , removeCartProduct } = useContext(CartContext);
-    let total = 0 ;
+    const {data : profileData} = useProfile();
+
+    useEffect(() => {
+
+        if (profileData?.city) {
+            const {phoneNumber , streetAddress , city , pincode , country } = profileData;
+            const addressFromProfile = {phoneNumber , streetAddress , city , pincode , country }
+            setAddress(addressFromProfile);}
+    } , [profileData])
+
+let total = 0 ;
     for (const product of cartProducts){
         total += cartProductPrice(product);
+    }
+
+    function handleAddressChange(propName , value){
+        setAddress(prevAddress => ({...prevAddress , [propName] : value }))
     }
   
     return (
@@ -54,6 +71,7 @@ const CartPage = () => {
           <div className="bg-gray-300 p-4 m-4 rounded-lg duration-1000 hover:bg-gray-200"> <h2>Checkout</h2> 
         <form>
 
+        <AddressInputs addressProps={address} setAddressProps={handleAddressChange}/>
             <button type="submit" className="text-slate-700 p-2">
                 Pay Rs.{total}/-
             </button>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import EditableImage from "./EditableImage";
 import { useProfile } from "../UseProfile";
+import AddressInputs from "./AddressInputs";
 
 export default function UserForm({ user, onSave }) {
   const [userName, setUserName] = useState(user?.name || "");
@@ -14,6 +15,15 @@ export default function UserForm({ user, onSave }) {
   const [country, setCountry] = useState(user?.country || "");
   const [image, setImage] = useState(user?.image || "");
   const { data: loggedInUserData } = useProfile();
+
+
+  function handleAddressChange(propName , value){
+    if(propName === 'city')  setCity(value);
+    if(propName === 'phoneNumber')  setPhoneNumber(value);
+    if(propName === 'pincode')  setPincode(value);
+    if(propName === 'country')  setCountry(value);
+    if(propName === 'streetAddress')  setStreetAddress(value);
+  }
 
   return (
     <div className="flex gap-2 items-center">
@@ -56,58 +66,7 @@ export default function UserForm({ user, onSave }) {
             value={user?.email}
           />
         </label>
-        <label>
-          Phone Number:
-          <input
-            type="tel"
-            className="text-black"
-            onChange={(ev) => setPhoneNumber(ev.target.value)}
-            value={phoneNumber}
-            placeholder="Phone Number"
-          />
-        </label>
-        <label>
-          Street Address:
-          <input
-            type="text"
-            className="text-black"
-            onChange={(ev) => setStreetAddress(ev.target.value)}
-            value={streetAddress}
-            placeholder="Street Address"
-          />
-        </label>
-        <div className="flex gap-4">
-          <label>
-            Pincode:
-            <input
-              type="text"
-              className="text-black"
-              onChange={(ev) => setPincode(ev.target.value)}
-              value={pincode}
-              placeholder="Pincode"
-            />
-          </label>
-          <label>
-            City:
-            <input
-              type="text"
-              className="text-black"
-              onChange={(ev) => setCity(ev.target.value)}
-              value={city}
-              placeholder="City"
-            />
-          </label>
-        </div>
-        <label>
-          Country:
-          <input
-            type="text"
-            className="text-black"
-            onChange={(ev) => setCountry(ev.target.value)}
-            value={country}
-            placeholder="Country"
-          />
-        </label>
+        <AddressInputs addressProps={{phoneNumber , pincode , streetAddress , city , country }} setAddressProps={{handleAddressChange}}/>
 
         {loggedInUserData.admin && (
           <div className="flex p-2 rounded-lg border-2 my-4 border-white ">
