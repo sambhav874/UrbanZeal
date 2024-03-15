@@ -1,3 +1,4 @@
+'use client'
 import React, { useContext, useState } from "react";
 import { CartContext } from "../AppContext";
 import { toast } from "react-hot-toast";
@@ -98,3 +99,4 @@ const StoreItem = (storeItem) => {
 };
 
 export default StoreItem;
+
