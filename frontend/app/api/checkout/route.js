@@ -61,6 +61,6 @@ export async function POST(req) {
     // Consider returning a more informative response
 
 
-      return Response.json(orderDoc._id);
+      return Response.json(`orders/${orderDoc._id}`);
   
 }

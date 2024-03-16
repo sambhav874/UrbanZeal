@@ -17,4 +17,4 @@ const OrderPage = () => {
     );
 }
 
-export default Home;
+export default OrderPage;

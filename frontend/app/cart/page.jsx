@@ -9,6 +9,19 @@ import Trash from './../../components/icons/Trash'
 import { useProfile } from './../../components/UseProfile'
 
 const CartPage = () => {
+
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+          if (window.location.href.includes('canceled=1')) {
+            toast.error('Payment failed 😔');
+          }
+        }
+      }, []);
+    
+
+
+
   const [address, setAddress] = useState({});
   const { cartProducts, removeCartProduct } = useContext(CartContext);
   const { data: profileData } = useProfile();
