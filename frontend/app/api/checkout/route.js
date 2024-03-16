@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { Order } from "../../../models/Order";
-import StoreItems from "../../../models/StoreItems";
+import {StoreItems} from "../../../models/StoreItems";
 import { authOptions } from "./../auth/[...nextauth]/route";
-const stripe = require('stripe')(process.env.STRIPE_SK)
 
 export async function POST(req) {
     mongoose.connect(process.env.MONGO_URI);
@@ -25,6 +24,7 @@ export async function POST(req) {
     for (const cartProduct of cartProducts) {
         try {
             const productInfo = await StoreItems.findById(cartProduct._id);
+            
             if (!productInfo) {
                 console.error(`Product with ID ${cartProduct._id} not found.`);
                 // Consider returning an error response here
@@ -50,7 +50,7 @@ export async function POST(req) {
                     unit_amount: productPrice * 100
                 }
             });
-            console.log({ stripeLineItems });
+            
         } catch (error) {
             console.error("Error fetching product info:", error);
             // Consider returning an error response here
@@ -60,25 +60,7 @@ export async function POST(req) {
     
     // Consider returning a more informative response
 
-    const stripeSession = await stripe.checkout.sessions.create({
-        line_items: stripeLineItems,
-        mode: 'payment',
-        customer_email: userEmail,
-        success_url: process.env.NEXTAUTH_URL + 'orders/' + orderDoc._id.toString() + '?clear-cart=1',
-        cancel_url: process.env.NEXTAUTH_URL + 'cart?canceled=1',
-        metadata: {orderId:orderDoc._id.toString()},
-        payment_intent_data: {
-          metadata:{orderId:orderDoc._id.toString()},
-        },
-        shipping_options: [
-          {
-            shipping_rate_data: {
-              display_name: 'Delivery fee',
-              type: 'fixed_amount',
-              fixed_amount: {amount: 500, currency: 'USD'},
-            },
-          }
-        ],
-      });
+
+      return Response.json(orderDoc._id);
   
 }

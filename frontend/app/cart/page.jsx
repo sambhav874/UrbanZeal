@@ -2,6 +2,7 @@
 
 import { CartContext, cartProductPrice } from "../../components/AppContext";
 import { useContext, useEffect, useState } from "react";
+import toast from 'react-hot-toast'
 import Image from "next/image";
 import AddressInputs from './../../components/layout/AddressInputs'
 import Trash from './../../components/icons/Trash'
@@ -35,16 +36,31 @@ const CartPage = () => {
 
   async function proceedToCheckout(ev) {
     ev.preventDefault();
-    const response = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        address,
-        cartProducts
-      })
+    // address and shopping cart products
+
+    const promise = new Promise((resolve, reject) => {
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          address,
+          cartProducts,
+        }),
+      }).then(async (response) => {
+        if (response.ok) {
+          resolve();
+          window.location = await response.json();
+        } else {
+          reject();
+        }
+      });
+    });
+
+    await toast.promise(promise, {
+      loading: 'Preparing your order...',
+      success: 'Redirecting to payment...',
+      error: 'Something went wrong... Please try again later',
     })
-    const link = await response.json();
-    window.location = link;
   }
 
   console.log({ cartProducts });
