@@ -3,7 +3,7 @@ import {models , Schema, model} from 'mongoose'
 
 const orderSchema = new Schema({
     userEmail : String,
-    phone: String,
+    phoneNumber: String,
     streetAddress: String,
     pincode: String,
     city: String,

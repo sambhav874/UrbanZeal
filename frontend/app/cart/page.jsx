@@ -28,12 +28,13 @@ const CartPage = () => {
 
   useEffect(() => {
     if (profileData?.city) {
-      const { phoneNumber, streetAddress, city, pincode, country } = profileData;
-      const addressFromProfile = { phoneNumber, streetAddress, city, pincode, country };
+      const { phoneNumber, streetAddress, city, pincode, country } = profileData; // Change phoneNumber to phone
+      const addressFromProfile = {  phoneNumber, streetAddress, city, pincode, country }; // Change phoneNumber to phone
       setAddress(addressFromProfile);
     }
   }, [profileData]);
-
+  
+  
   let subtotal = 0;
   if (cartProducts && cartProducts.length > 0) {
     
@@ -49,6 +50,7 @@ const CartPage = () => {
 
   async function proceedToCheckout(ev) {
     ev.preventDefault();
+    
     // address and shopping cart products
 
     const promise = new Promise((resolve, reject) => {
@@ -56,6 +58,7 @@ const CartPage = () => {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
+        
           address,
           cartProducts,
         }),
