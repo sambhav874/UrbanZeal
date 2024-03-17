@@ -1,12 +1,12 @@
 export default function AddressInputs(
-    {addressProps , setAddressProps}
+    {addressProps , setAddressProps , disabled=false}
 ){
 
     const {phoneNumber , streetAddress , pincode , city , country} = addressProps;
     return(<>
         <label>
           Phone Number:
-          <input
+          <input disabled={disabled}
             type="tel"
             className="text-black"
             onChange={(ev) => setAddressProps('phoneNumber' ,ev.target.value)}
@@ -16,7 +16,7 @@ export default function AddressInputs(
         </label>
         <label>
           Street Address:
-          <input
+          <input disabled={disabled}
             type="text"
             className="text-black"
             onChange={(ev) => setAddressProps('streetAddress' ,ev.target.value)}
@@ -27,7 +27,7 @@ export default function AddressInputs(
         <div className="flex gap-4">
           <label>
             Pincode:
-            <input
+            <input disabled={disabled}
               type="text"
               className="text-black"
               onChange={(ev) => setAddressProps('pincode' ,ev.target.value)}
@@ -37,7 +37,7 @@ export default function AddressInputs(
           </label>
           <label>
             City:
-            <input
+            <input disabled={disabled}
               type="text"
               className="text-black"
               onChange={(ev) => setAddressProps('city' ,ev.target.value)}
@@ -48,7 +48,7 @@ export default function AddressInputs(
         </div>
         <label>
           Country:
-          <input
+          <input disabled={disabled}
             type="text"
             className="text-black"
             onChange={(ev) => setAddressProps('country' ,ev.target.value)}

@@ -7,6 +7,7 @@ import Image from "next/image";
 import AddressInputs from './../../components/layout/AddressInputs'
 import Trash from './../../components/icons/Trash'
 import { useProfile } from './../../components/UseProfile'
+import CartProduct from './../../components/store/CartProduct'
 
 const CartPage = () => {
 
@@ -28,8 +29,8 @@ const CartPage = () => {
 
   useEffect(() => {
     if (profileData?.city) {
-      const { phoneNumber, streetAddress, city, pincode, country } = profileData; // Change phoneNumber to phone
-      const addressFromProfile = {  phoneNumber, streetAddress, city, pincode, country }; // Change phoneNumber to phone
+      const { phoneNumber, streetAddress, city, pincode, country } = profileData; // 
+      const addressFromProfile = {  phoneNumber, streetAddress, city, pincode, country };
       setAddress(addressFromProfile);
     }
   }, [profileData]);
@@ -92,26 +93,7 @@ const CartPage = () => {
             <div>No products in the cart.</div>
           )}
           {cartProducts?.length > 0 && cartProducts.map((products, index) => (
-            <div className="flex gap-4 mb-4 border-b items-center py-2">
-              <div className="w-120">
-                <Image src={products.image} width={240} height={180} alt="" />
-              </div>
-              <h2>{products.name} ${products.price}</h2>
-              {products?.size && (
-                <div className="text-sm text-gray-400">Size : <span>{products.size.name}</span></div>
-              )}
-
-              <div className="text-lg font-semibold">
-                Rs.{cartProductPrice(products)}
-              </div>
-
-              <div className="ml-2">
-                <button className="p-2" onClick={() => removeCartProduct(index)}>
-                  <Trash />
-                </button>
-              </div>
-
-            </div>
+            <CartProduct  onRemove={removeCartProduct} products={products} />
           ))}
           <div className="py-4 text-right pr-16">
             <span className="text-gray-500">Subtotal :</span>
