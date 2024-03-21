@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import { Queries } from "../../../models/Query";
 
-export async function POST(req, res) {
-    const { email, query } = req.body;
+export async function POST(req) {
+    const { email, query } = await req.json();
     console.log(email, query);
 
     mongoose.connect(process.env.MONGO_URI);
@@ -26,8 +26,9 @@ export async function POST(req, res) {
         const mailOptions = {
             from: "sambhavjain874@gmail.com",
             to: email,
-            subject: "Your Query",
-            text: query,
+            subject: "Thanks for your query .",
+            text: 
+            `Dear \n\nThank you for reaching out with your query. We have received your message and will get back to you as soon as possible.\n\nQuery details:\n${query}\n\nBest regards,\nUrbanZeal.`,
         };
 
         // Create query in MongoDB
@@ -36,9 +37,9 @@ export async function POST(req, res) {
         // Send email
         const info = await transporter.sendMail(mailOptions);
         console.log("Email sent:", info.response);
-        res.status(200).json(newQuery);
+        return Response.json(newQuery);
     } catch (error) {
         console.error("Error sending email:", error);
-        res.status(500).json({ error: "Error sending email" });
+        return Response.json(error);
     }
 }

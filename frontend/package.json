@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
+    "gsap": "^3.12.5",
     "kill-port": "^2.0.1",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
