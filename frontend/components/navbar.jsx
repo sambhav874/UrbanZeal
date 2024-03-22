@@ -54,21 +54,21 @@ const Navbar = () => {
 
   return (
     <div className="bg-white shadow-lg p-4 flex justify-between items-center">
-      <h1 className="text-2xl md:text-3xl font-bold tracking-wider font-mono">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-wider text-black ">
         UrbanZeal
       </h1>
       
-      <div className="hidden md:flex space-x-6">
-        <Link href="/" className="text-gray-700 hover:text-indigo-500 font-medium">
+      <div className="hidden md:flex space-x-6 ">
+        <Link href="/" className="text-gray-700  hover:text-indigo-500 font-medium">
           Home
         </Link>
-        <Link href="/products/men" className="text-gray-700 hover:text-indigo-500 font-medium">
+        <Link href="/products/Men" className="text-gray-700 hover:text-indigo-500 font-medium">
           Men
         </Link>
-        <Link href="/products/women" className="text-gray-700 hover:text-indigo-500 font-medium">
+        <Link href="/products/Women" className="text-gray-700 hover:text-indigo-500 font-medium">
           Women
         </Link>
-        <Link href="/products/kids" className="text-gray-700 hover:text-indigo-500 font-medium">
+        <Link href="/products/Kids" className="text-gray-700 hover:text-indigo-500 font-medium">
           Kids
         </Link>
         <Link href="/contact" className="text-gray-700 hover:text-indigo-500 font-medium">

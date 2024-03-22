@@ -28,8 +28,6 @@ const HomePage = () => {
       })
       .catch(error => console.error('Error fetching carousel images:', error));
 
-    // Fetch testimonials
-    
   }, []);
 
   return (
