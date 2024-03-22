@@ -3,10 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { CartContext } from "./AppContext";
-import ShoppingCart from './icons/ShoppingCart'
+import ShoppingCart from './icons/ShoppingCart';
+
 
 const Navbar = () => {
   const session = useSession();
+  const { cartProducts } = useContext(CartContext);
   const status = session?.status;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
@@ -14,11 +16,10 @@ const Navbar = () => {
     userName = userName.split(" ")[0];
   }
 
-  const {cartProducts} = useContext(CartContext);
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -52,201 +53,148 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex pt-10 pb-2 text-white top-0 px-16 z-50 items-center justify-between min-w-full">
-      <h1 className="text-2xl md:text-3xl text-left font-bold tracking-wider font-mono type mr-4">
+    <div className="bg-white shadow-lg p-4 flex justify-between items-center">
+      <h1 className="text-2xl md:text-3xl font-bold tracking-wider font-mono">
         UrbanZeal
       </h1>
+      
+      <div className="hidden md:flex space-x-6">
+        <Link href="/" className="text-gray-700 hover:text-indigo-500 font-medium">
+          Home
+        </Link>
+        <Link href="/products/men" className="text-gray-700 hover:text-indigo-500 font-medium">
+          Men
+        </Link>
+        <Link href="/products/women" className="text-gray-700 hover:text-indigo-500 font-medium">
+          Women
+        </Link>
+        <Link href="/products/kids" className="text-gray-700 hover:text-indigo-500 font-medium">
+          Kids
+        </Link>
+        <Link href="/contact" className="text-gray-700 hover:text-indigo-500 font-medium">
+          Contact
+        </Link>
+        <Link href="/cart" className="relative text-gray-700 hover:text-indigo-500 font-medium">
+          <ShoppingCart />
+          {cartProducts.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
+              {cartProducts.length}
+            </span>
+          )}
+        </Link>
+      </div>
+
+      <div className="flex items-center space-x-4">
+        {status === "authenticated" ? (
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+            >
+              {userName}
+            </button>
+            {isDropdownOpen && (
+              <ul className="absolute top-full right-0 mt-2 w-40 bg-whiteborder-gray-200 rounded-lg shadow-lg z-10">
+                <li>
+                  <button
+                    onClick={() => signOut()}
+                    className="block w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </li>
+                <li>
+                  <Link
+                    href={'/profile'}
+                    className="block w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Profile
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
+        ) : (
+          <>
+            <button
+              onClick={() => signIn()}
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+            >
+              Login
+            </button>
+            <Link href="/register" className="text-gray-700 hover:text-indigo-500 font-medium">
+              Register
+            </Link>
+          </>
+        )}
+      </div>
+
+      {/* Mobile Sidebar Button */}
       <button
-        className="text-white text-2xl md:hidden"
+        className="md:hidden text-gray-700 hover:text-indigo-500 font-medium"
         onClick={toggleSidebar}
       >
         ☰
       </button>
 
-      {isLargeScreen ? (
-        <ul className="flex flex-row space-x-6 ml-auto">
-          <li>
+      {/* Mobile Sidebar */}
+      {isSidebarOpen && (
+        <div className="md:hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex flex-col items-center justify-center">
+          <div className="bg-white p-4 rounded-lg space-y-4">
+            <button
+              onClick={toggleSidebar}
+              className="absolute top-0 right-0 m-4 text-gray-700 hover:text-indigo-500 font-medium"
+            >
+              &times;
+            </button>
             <Link
               href="/"
-              className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+              onClick={handleLinkClick}
             >
               Home
             </Link>
-          </li>
-          <li>
             <Link
-              href="/products/men"
-              className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
+              href="/products/Men"
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+              onClick={handleLinkClick}
             >
               Men
             </Link>
-          </li>
-          <li>
             <Link
-              href="/products/women"
-              className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
+              href="/products/Women"
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+              onClick={handleLinkClick}
             >
               Women
             </Link>
-          </li>
-          <li>
             <Link
-              href="/products/kids"
-              className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
+              href="/products/Kids"
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+              onClick={handleLinkClick}
             >
               Kids
             </Link>
-          </li>
-          <li>
             <Link
               href="/contact"
-              className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+              onClick={handleLinkClick}
             >
               Contact
             </Link>
-          </li>
-
-          <li>
-            <Link href="/cart" >
-              
-              <button className="text-white relative">
-                <ShoppingCart />
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
-                  {cartProducts?.length}
+            <Link
+              href="/cart"
+              className="text-gray-700 hover:text-indigo-500 font-medium"
+              onClick={handleLinkClick}
+            >
+              Cart
+              {cartProducts.length > 0 && (
+                <span className="relative -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
+                  {cartProducts.length}
                 </span>
-              </button>
-            </Link>
-          </li>
-          <li>
-
-            <div className="relative">
-              <Link href={'/profile'}
-                className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4 rounded-full border-2 p-4 m-2 border-white"
-                onClick={toggleDropdown}
-              >
-                {userName}
-              </Link>
-              {status === "authenticated" && isDropdownOpen && (
-                <ul className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                  <li>
-                    <button
-                      className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => signOut()}
-                    >
-                      Logout
-                    </button>
-                  </li>
-
-                  
-
-                </ul>
               )}
-            </div>
-          </li>
-        </ul>
-      ) : (
-        <div
-          className={`fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-45 text-white transition-all duration-300 ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <button
-            className="absolute top-4 right-4 m-4 text-white"
-            onClick={toggleSidebar}
-          >
-            &times;
-          </button>
-          <ul className="py-4 mt-8 space-y-8">
-            <li>
-              <Link
-                href="/"
-                className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
-                onClick={handleLinkClick}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/products/Men"
-                className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
-                onClick={handleLinkClick}
-              >
-                Men
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/products/Women"
-                className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
-                onClick={handleLinkClick}
-              >
-                Women
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/products/Kids"
-                className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
-                onClick={handleLinkClick}
-              >
-                Kids
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
-                onClick={handleLinkClick}
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link href="/cart" >
-                <ShoppingCart / >
-                <button
-                  className="text-white hover:text-indigo-500 hover:animate-ping font-bold text-2xl ml-4"
-                  onClick={handleLinkClick}
-                >
-                  Cart
-                  <span className="relative -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
-                    {cartProducts.length}
-                  </span>
-                </button>
-              </Link>
-            </li>
-            <li>
-              <div>
-                {status === "authenticated" ? (
-                  <button
-                    className="bg-primary rounded-full text-white px-8 py-2"
-                    onClick={() => signOut()}
-                  >
-                    Logout
-                  </button>
-                  
-                ) : (
-                  <>
-                    <Link href="/login">Login</Link>
-                    <Link
-                      href="/register"
-                      className="bg-primary rounded-full text-white px-8 py-2"
-                    >
-                      Register
-                    </Link>
-                  </>
-                )}
-              </div>
-            </li>
-            <li>
-            <Link href={'/profile'}
-                className="text-white hover:text-indigo-500 hover:animate-pulse hover:underline duration-500 font-thin text-md ml-4 rounded-full border-2 p-4 m-2 border-white"
-                onClick={toggleDropdown}
-              />
-            </li>
-            
-          </ul>
+            </Link>
+          </div>
         </div>
       )}
     </div>

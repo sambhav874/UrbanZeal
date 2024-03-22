@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger'; // Import ScrollTrigger from GSAP
+import anime from 'animejs/lib/anime.es.js'; // Import anime.js
 
 const FrontendPage = () => {
     const elementRef = useRef(null);
@@ -9,63 +8,146 @@ const FrontendPage = () => {
     let progress = 0;
 
     useEffect(() => {
-        gsap.from(textContainerRef.current.children, { // Use children to target all letters
-            duration: 1,
-            opacity: 0,
-            y: 100,
-            x: 100,
-            stagger: 0.2,
-            ease: "power4.out",
-        });
-        
-        gsap.from(elementRef.current, {
-            opacity: 0,
-            y: 100,
-            duration: 1,
-            
-            ease: 'power3.out',
-        });
+        if (textContainerRef.current) {
+            anime({
+                targets: textContainerRef.current.children,
+                opacity: [0, 1],
+                translateY: [100, 0],
+                translateX: [100, 0],
+                duration: 1000,
+                delay: anime.stagger(200),
+                easing: 'easeOutQuad',
+            });
+        }
+
+        if (elementRef.current) {
+            anime({
+                targets: elementRef.current,
+                opacity: [0, 1],
+                translateY: [100, 0],
+                duration: 1000,
+                easing: 'easeOutQuad',
+            });
+        }
     }, []);
 
     useEffect(() => {
-        // Register ScrollTrigger plugin
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // GSAP animation
-        const anim = gsap.to(elementRef.current, {
-            opacity: 100,
-            color:'white',
-            paused: false // Paused by default
-        });
-        
-        const ST = ScrollTrigger.create({
-            trigger: "body",
-            start: 0,
-            end: "bottom bottom",
-            animation: anim,
-            pin: elementRef.current, // Pinning the content div
-            scrub: true
-        });
-        
-        // The relevant part to keeping the progress
-        ScrollTrigger.addEventListener("refreshInit", () => progress = ST.progress);
-        ScrollTrigger.addEventListener("refresh", () => ST.scroll(progress * ScrollTrigger.maxScroll(window)));
+        // No need for ScrollMagic, handle scrolling animations here with anime.js directly
+        // You can use Intersection Observer API for scroll-triggered animations
     }, []);
 
     return (
         <>
-            <div className="content" ref={elementRef}>
-                <h1>GreenSock Starter Template</h1>
-                <p>This loads <strong>ALL</strong> <a href="https://greensock.com">GSAP</a> files including a trial version of every <a href="https://codepen.io/GreenSock/full/OPqpRJ/">bonus plugin</a> (usable on codepen.io only). Hit the "fork" button in the bottom right and experiment to your heart's content. Enjoy!</p>
-            </div>
+            <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
+                <a className="navbar-brand" href="#">START</a>
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarsExampleDefault"
+                    aria-controls="navbarsExampleDefault"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
 
-            <div className="text-container" ref={textContainerRef}>
-                <div className="letter">e</div>
-                <div className="letter">H</div>
-                <div className="letter">l</div>
-                <div className="letter">l</div>
-                <div className="letter">o</div>
-            </div>
+                <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <a className="nav-link" href="#one">Section 1</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#two">Section 2</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#three">Section 3</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#four">Section 4</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" className="container-fluid">
+                <div className="row no-gutters">
+                    <div className="col text-center">
+                        <h1 className="py-5">SCROLL DOWN TO TRY ANIMATIONS</h1>
+                        <img
+                            src="https://drive.google.com/uc?export=view&id=1g2iw0lEBMYFyKjI9A1jN2wm0glHiXubt"
+                            className="img-fluid"
+                            alt="Responsive image"
+                        />
+                    </div>
+                </div>
+                <section id="intro" className="section">
+                    <div className="row no-gutters">
+                        <div className="col">
+                            <div>
+                                The Neuron scales the steepest climbs and descends with complete
+                                control thanks to its 130 - 140mm suspension, 29” wheels (in sizes
+                                M-XL) and confidence-inspiring geometry.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="one" className="section">
+                    <div className="row no-gutters">
+                        <div className="col">
+                            <div className="rectangle"></div>
+                            <div className="elem" ref={textContainerRef}>
+                                <div className="text-block">
+                                    <h2 className="mb-0">2021</h2>
+                                    <h5>Neuron CF SLX 9</h5>
+                                </div>
+                                <div className="blocks">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="two" className="section">
+                    <div className="row no-gutters">
+                        <div className="col">
+                            <div className="elem">
+                                <div>
+                                    <img
+                                        src="https://drive.google.com/uc?export=view&id=1wx3G8XcML7t9hTiE1ioUkLUiqUHkI_AJ"
+                                        className="img-fluid"
+                                        alt="Responsive image"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="three" className="section">
+                    <div className="image"></div>
+                    <div className="row no-gutters">
+                        <div className="col">
+                            <div className="elem">
+                                <h2>GET OUT THERE</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="four" className="section">
+                    <div className="image"></div>
+                    <div className="row no-gutters">
+                        <div className="col">
+                            <div className="elem">
+                                <h2>GO RIDE</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
         </>
     );
 };

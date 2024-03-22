@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import toast from 'react-hot-toast';
@@ -79,80 +78,80 @@ const Profile = () => {
     <div className="mt-8">
         
       <UserTabs isAdmin={isAdmin}/>
-      <div className="max-w-md mx-auto border mt-8 border-black">
+      <div className="max-w-md mx-auto border mt-8 border-gray-300 bg-white p-4 rounded-lg">
         <div className="flex gap-2 items-center">
           <div>
             <div className="p-2 rounded-lg">
               <EditableImage link={image} setLink={setImage} />
             </div>
           </div>
-          <form className="grow" onSubmit={handleProfileInfoUpdate}>
-            <label>
-              First and Last Name:
+          <form className="flex flex-col" onSubmit={handleProfileInfoUpdate}>
+            <label className="flex flex-col">
+              <span className="text-gray-800">First and Last Name:</span>
               <input
                 type="text"
-                className="text-black"
+                className="text-black border border-gray-300 rounded-md p-2 mt-1"
                 value={userName}
                 onChange={(ev) => setUserName(ev.target.value)}
                 placeholder="First and Last Name"
               />
             </label>
-            <label>
-              Email:
+            <label className="flex flex-col mt-4">
+              <span className="text-gray-800">Email:</span>
               <input
                 type="email"
-                className="text-black"
+                className="text-black border border-gray-300 rounded-md p-2 mt-1"
                 disabled={true}
                 value={session?.user?.email}
               />
             </label>
-            <label>
-              Phone Number:
+            <label className="flex flex-col mt-4">
+              <span className="text-gray-800">Phone Number:</span>
               <input
                 type="tel"
-                className="text-black"
+                className="text-black border border-gray-300 rounded-md p-2 mt-1"
                 onChange={(ev) => setPhoneNumber(ev.target.value)}
                 value={phoneNumber}
                 placeholder="Phone Number"
               />
             </label>
-            <label>
-              Street Address:
+            <label className="flex flex-col mt-4">
+              <span className="text-gray-800">Street Address:</span>
               <input
                 type="text"
-                className="text-black"
+                className="text-black border border-gray-300 rounded-md p-2 mt-1"
                 onChange={(ev) => setStreetAddress(ev.target.value)}
                 value={streetAddress}
                 placeholder="Street Address"
               />
             </label>
-            <div className="flex gap-4">
-              <label>
-                Pincode:
+            <div className="flex gap-4 mt-4">
+              <label className="flex flex-col">
+                <span className="text-gray-800">Pincode:</span>
                 <input
                   type="text"
-                  className="text-black"
+                  className="text-black border border-gray-300 rounded-md p-2 mt-1"
                   onChange={(ev) => setPincode(ev.target.value)}
                   value={pincode}
                   placeholder="Pincode"
                 />
               </label>
-              <label>
-                City:
+              <label className="flex flex-col">
+                <span className="text-gray-800">City:</span>
                 <input
                   type="text"
-                  className="text-black"
+                  className="text-black border border-gray-300 rounded-md p-2 mt-1"
                   onChange={(ev) => setCity(ev.target.value)}
                   value={city}
                   placeholder="City"
                 />
               </label>
             </div>
-            <label>
-              Country:
+            <label className="flex flex-col mt-4">
+              <span className="text-gray-800">Country:</span>
               <input
                 type="text"
-                className="text-black"
+                className="text-black border border-gray-300 rounded-md p-2 mt-1"
                 onChange={(ev) => setCountry(ev.target.value)}
                 value={country}
                 placeholder="Country"
@@ -160,7 +159,7 @@ const Profile = () => {
             </label>
             <button
               type="submit"
-              className="border-2 hover:bg-white hover:text-slate-900 bg-black text-white"
+              className="border-2 hover:bg-gray-200 bg-gray-100 text-gray-800 font-medium rounded-md p-2 mt-4"
             >
               Save
             </button>

@@ -104,51 +104,60 @@ export default function SubcategoriesPage() {
   return (
     <section className="mt-8 max-w-2xl mx-auto">
       <UserTabs isAdmin={true} />
-      <form className="mt-8" onSubmit={handleSubcategorySubmit}>
-        <div className="flex gap-2 items-end">
-          <div className="grow">
-            <label>
-              {editedSubcategory ? 'Update subcategory' : 'New subcategory name'}
-              {editedSubcategory && (
-                <>: <b>{editedSubcategory.name}</b></>
-              )}
-            </label>
-            <input type="text"
-              value={subcategoryName}
-              onChange={ev => setSubcategoryName(ev.target.value)}
-            />
-
-            <label>Category</label>
-            <select
-              value={itemCategory}
-              onChange={(e) => setItemCategory(e.target.value)}
-              required
-            >
-              <option value="">Select category</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-
-            <EditableImage link={image} setLink={setImage} />
-          </div>
-          <div className="pb-2 flex gap-2">
-            <button className="border border-primary" type="submit">
-              {editedSubcategory ? 'Update' : 'Create'}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEditedSubcategory(null);
-                setSubcategoryName('');
-                setItemCategory('');
-                setImage('');
-              }}>
-              Cancel
-            </button>
-          </div>
+      <form className="mt-8 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubcategorySubmit}>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            {editedSubcategory ? 'Update subcategory' : 'New subcategory name'}
+            {editedSubcategory && (
+              <>: <b>{editedSubcategory.name}</b></>
+            )}
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            value={subcategoryName}
+            onChange={ev => setSubcategoryName(ev.target.value)}
+            placeholder="Subcategory Name"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Category
+          </label>
+          <select
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={itemCategory}
+            onChange={(e) => setItemCategory(e.target.value)}
+            required
+          >
+            <option value="">Select category</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <EditableImage link={image} setLink={setImage} />
+        <div className="flex items-center justify-between">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            {editedSubcategory ? 'Update' : 'Create'}
+          </button>
+          <button
+            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+            type="button"
+            onClick={() => {
+              setEditedSubcategory(null);
+              setSubcategoryName('');
+              setItemCategory('');
+              setImage('');
+            }}
+          >
+            Cancel
+          </button>
         </div>
       </form>
       <div>
@@ -161,7 +170,9 @@ export default function SubcategoriesPage() {
               {c.name}
             </div>
             <div className="flex gap-1">
-              <button type="button"
+              <button
+                className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                type="button"
                 onClick={() => {
                   setEditedSubcategory(c);
                   setSubcategoryName(c.name);
