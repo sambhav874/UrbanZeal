@@ -53,10 +53,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white shadow-lg p-4 flex justify-between items-center">
-      <h1 className="text-2xl md:text-3xl font-bold tracking-wider text-black ">
-        UrbanZeal
-      </h1>
+    <div className="bg-white shadow-lg p-4 flex justify-end items-center gap-4">
+      
       
       <div className="hidden md:flex space-x-6 ">
         <Link href="/" className="text-gray-700  hover:text-indigo-500 font-medium">
