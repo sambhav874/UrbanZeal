@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Carousel from '../components/Carousel';
-import StoreItem from '../components/store/StoreItem';
+import StoreItemTile from '../components/store/StoreItemTile';
 import Header from '../components/header/page';
 import Featured from './../components/featured/page'
 
@@ -45,14 +45,14 @@ const HomePage = () => {
         <Carousel images={carousel} />
       </div>
 
-      <Featured featuredProducts={featuredProducts}/>
+      <Featured featuredProducts={featuredProducts} />
       
 
       {/* Explore Collections */}
 <div className="bg-gray-100 py-12">
   <div className="container mx-auto px-4">
     <h2 className="text-2xl font-bold mb-6">Explore Collections</h2>
-    {/* Add links to different clothing collections */}
+    
     <div className="flex flex-wrap justify-center gap-6">
       <Link href="/products">
         <button className="text-lg font-medium text-gray-800 hover:text-gray-900 focus:outline-none">

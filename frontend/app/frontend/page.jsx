@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import ScrollMagic from 'scrollmagic';
 import { TweenMax, Power2 } from 'gsap';
+import Featured from './../../components/featured/page'
 
 const ScrollMagicExample = () => {
   useEffect(() => {
@@ -26,7 +27,9 @@ const ScrollMagicExample = () => {
       <div className="animated-element" style={{ opacity: 0 }}>
         This element will be animated when scrolled
       </div>
+      <div><Featured /></div>
     </div>
+
   );
 };
 
