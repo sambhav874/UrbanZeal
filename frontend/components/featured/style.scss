@@ -5,7 +5,7 @@
   
     
     h2 {
-      font-size: 22px;
+      font-size: 100px;
       text-transform: uppercase;
       font-weight: 500;
     }
@@ -13,7 +13,7 @@
     .featured-row-layout,
     .featured-column-layout {
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
   
     .featured-row-layout {
@@ -26,7 +26,7 @@
       }
     }
     .featured-column-layout {
-      grid-template-columns: 100px auto;
+      grid-template-columns: 300px auto;
       align-items: flex-end;
       img {
         width: 100%;

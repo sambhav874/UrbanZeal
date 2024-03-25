@@ -26,6 +26,7 @@ const HomePage = () => {
       .then(carouselImages => {
         const images = carouselImages.images.map(image => image.imageUrl);
         setCarousel(images);
+        console.log(images)
       })
       .catch(error => console.error('Error fetching carousel images:', error));
 
@@ -40,7 +41,7 @@ const HomePage = () => {
 
       {/* Hero section with Carousel */}
       <Header />
-      <div className="container mx-auto py-12 px-4 text-gray-800">
+      <div className=" bg-red-300 mx-auto py-12 px-4 text-gray-800">
       
         <Carousel images={carousel} />
       </div>

@@ -6,13 +6,13 @@ mongoose.connect(process.env.MONGO_URI);
 
 export async function POST(req, res) {
   try {
-    const { imageUrl, menImageUrl, womenImageUrl, kidsImageUrl } = await req.json();
-    console.log(imageUrl, menImageUrl, womenImageUrl, kidsImageUrl)
+    const { imageImageUrl, menImageUrl, womenImageUrl, kidsImageUrl } = await req.json();
+    console.log(imageImageUrl, menImageUrl, womenImageUrl, kidsImageUrl)
     if (await isAdmin()) {
       const createdDocs = [];
       // Create documents only if the URLs are provided
-      if (imageUrl) {
-        const imageDoc = await Image.create({ imageUrl });
+      if (imageImageUrl) {
+        const imageDoc = await Image.create({ imageUrl : imageImageUrl });
         createdDocs.push(imageDoc);
       }
 

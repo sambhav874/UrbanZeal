@@ -104,7 +104,7 @@ const Carousel = () => {
                     <div className="grid grid-cols-1 gap-4">
                         {carouselImages.images.map(carouselImage => (
                             <div key={carouselImage._id} className="carousel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300 hover:shadow-xl relative">
-                                <Image src={carouselImage.imageUrl} width={200} height={200} alt="Carousel Image" className="object-cover w-full h-full" />
+                                <Image src={carouselImage.imageImageUrl} width={200} height={200} alt="Carousel Image" className="object-cover w-full h-full" />
                                 <div className="absolute bottom-2 left-2">
                                     <DeleteButton label="Delete" onDelete={() => handleDelete(carouselImage._id, 'image')} className="bg-red-500  text-white rounded-full p-2 cursor-pointer" />
                                 </div>
