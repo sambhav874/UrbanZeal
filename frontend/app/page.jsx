@@ -6,6 +6,7 @@ import Carousel from '../components/Carousel';
 import StoreItemTile from '../components/store/StoreItemTile';
 import Header from '../components/header/page';
 import Featured from './../components/featured/page'
+import Collection from './../components/collections/page';
 
 const HomePage = () => {
   const [carousel, setCarousel] = useState([]);
@@ -47,12 +48,14 @@ const HomePage = () => {
       </div>
 
       <Featured featuredProducts={featuredProducts} />
+
+
+      <Collection images={carousel} />
       
 
       {/* Explore Collections */}
 <div className="bg-gray-100 py-12">
-  <div className="container mx-auto px-4">
-    <h2 className="text-2xl font-bold mb-6">Explore Collections</h2>
+  
     
     <div className="flex flex-wrap justify-center gap-6">
       <Link href="/products">
@@ -71,23 +74,9 @@ const HomePage = () => {
         </button>
       </Link>
     </div>
-  </div>
+ 
 </div>
 
-      {/* Testimonials */}
-      
-
-      {/* Call-to-action button */}
-      <div className="container mx-auto px-4 py-12 text-center">
-        <Link href="/products" className='text-white bg-blue-500 hover:bg-blue-600 py-3 px-8 rounded-md font-bold inline-block'>
-          
-            Explore More
-          
-        </Link>
-      </div>
-
-      {/* Footer */}
-      {/* Use Footer component */}
     </div>
   );
 };

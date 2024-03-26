@@ -1,0 +1,42 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@100;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@100;700&display=swap");
+.header-container{
+
+position: relative;
+
+.header-menu{
+  position: absolute;
+  left: 0px;
+  top: 100px;
+  letter-spacing: 1px;
+  font-family: 'Syncopate', sans-serif;
+  color: #626262;
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  li {
+    margin: 10px 0;
+  }
+}
+
+h1 {
+  font-size: 20vw;
+  text-transform: uppercase;
+  text-align: center;
+
+  font-family: 'Bai Jamjuree', sans-serif;
+  font-weight: 600;
+ 
+ 
+}
+}
+.lineParent{
+overflow: hidden;
+.lineChildren{
+  transform: translate(0, 500px);
+}
+}

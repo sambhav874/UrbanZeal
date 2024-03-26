@@ -7,7 +7,7 @@ export default function Featured({ featuredProducts }) {
     
 
   return (
-    <section className="featured-section bg-slate-300 py-6" data-scroll-section>
+    <section className="featured-section bg-slate-300 py-6" data-scroll-section data-scroll-speed='0.3'>
       <div className="featured-column-layout">
         <h2>Featured Products</h2>
         
