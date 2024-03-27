@@ -7,6 +7,9 @@ import StoreItemTile from '../components/store/StoreItemTile';
 import Header from '../components/header/page';
 import Featured from './../components/featured/page'
 import Collection from './../components/collections/page';
+import Gallery from './../components/test/page';
+import dynamic from 'next/dynamic'
+
 
 const HomePage = () => {
   const [carousel, setCarousel] = useState([]);
@@ -50,7 +53,7 @@ const HomePage = () => {
       <Featured featuredProducts={featuredProducts} />
 
 
-      <Collection images={carousel} />
+      <Gallery />
       
 
       {/* Explore Collections */}
