@@ -1,73 +1,78 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { Controller, Scene } from 'scrollmagic';
+'use client'
+import { useLayoutEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import Link from 'next/link'; // Import Link for Next.js navigation
 
-export default function Collection({ images }) {
-  const [imageIndex, setImageIndex] = useState(0);
-  const divRef = useRef(null);
-  const controller = useRef(null);
+export default function Collection() {
+  const comp = useRef(null);
+  // Track intro slider visibility
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      controller.current = new Controller();
-    }
+  useLayoutEffect(() => {
+    
 
-    return () => {
-      if (controller.current) {
-        controller.current.destroy();
-      }
-    };
+      let ctx = gsap.context(() => {
+        const t1 = gsap.timeline({ repeat: -1 });
+        t1.from("#intro-slider", {
+          xPercent: "-100",
+          duration: 5,
+          delay: 0.3,
+        })
+          .from(["#title-1", "#title-2", "#title-3"], {
+            opacity: 0,
+            y: "+=75",
+            stagger: 0.5,
+          })
+          .to(["#title-1", "#title-2", "#title-3"], {
+            opacity: 0,
+            y: "-=75",
+            delay: 0.3,
+            stagger: 0.5,
+          })
+          .to("#intro-slider", {
+            xPercent: "-100",
+            duration: 2,
+             // Hide intro slider on animation complete
+          })
+          .from("#welcome", {
+            opacity: 0,
+            duration: 2,
+            
+          });
+      }, comp);
+
+      return () => ctx.revert();
+    
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && divRef.current) {
-      const newScene = new Scene({
-        triggerElement: divRef.current,
-        duration: '20%',
-        triggerHook: 0.9,
-        reverse: true, // Revert animation when scrolling back up
-        offset: 100, // Offset for trigger position
-        onEnter: () => {
-          setImageIndex((prevIndex) => {
-            if (prevIndex < images.length - 1) {
-              return prevIndex + 1;
-            } else {
-              return 0;
-            }
-          });
-        },
-      });
-
-      newScene.addTo(controller.current);
-
-      return () => {
-        if (newScene) {
-          newScene.destroy();
-        }
-      };
-    }
-  }, [images]);
-
   return (
-    <section className="py-12 bg-gray-100 header-container min-h-screen flex justify-center items-center">
-      <div className="text-center mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 header-menu">Explore Our Collection</h2>
-        <div ref={divRef} >
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Image ${index + 1}`}
-              className={`w-full object-cover absolute top-0 left-0 opacity-0 ${
-                index === imageIndex ? 'opacity-100' : ''
-              }`}
-            />
-          ))}
-          <Link href="/products" className=" bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-700 hover:to-indigo-700 py-3 px-8 rounded-full text-lg font-bold shadow-md transition duration-300 ease-in-out transform hover:scale-105 absolute bottom-0 right-0 mb-4 mr-4">
-            Shop Now
-          </Link>
+    <div className="relative" ref={comp}>
+       
+        <div
+          id="intro-slider"
+          className="h-screen px-10 bg-gray-50 absolute top-0 left-0 font-spaceGrotesk z-10 w-full flex flex-col gap-10 tracking-tight"
+        >
+          
+          <h1 className="text-9xl" id="title-1">
+            Mens
+          </h1>
+          <h1 className="text-9xl" id="title-2">
+            Women
+          </h1>
+          <h1 className="text-9xl" id="title-3">
+            Kids
+          </h1>
         </div>
+      
+      <div className="h-screen flex bg-gray-950 justify-center place-items-center">
+        <Link href="/products">
+          <p
+            id="welcome"
+            className={`text-9xl font-bold text-gray-100 font-spaceGrotesk `}
+          >
+            Collections.
+          </p>
+        </Link>
       </div>
-    </section>
+    </div>
   );
 }

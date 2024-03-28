@@ -7,8 +7,8 @@ import StoreItemTile from '../components/store/StoreItemTile';
 import Header from '../components/header/page';
 import Featured from './../components/featured/page'
 import Collection from './../components/collections/page';
-import Gallery from './../components/test/page';
-import dynamic from 'next/dynamic'
+
+
 
 
 const HomePage = () => {
@@ -45,7 +45,7 @@ const HomePage = () => {
 
       {/* Hero section with Carousel */}
       <Header />
-      <div className=" bg-red-300 mx-auto py-12 px-4 text-gray-800">
+      <div className=" bg-black  mx-auto py-20 px-8 text-gray-800">
       
         <Carousel images={carousel} />
       </div>
@@ -53,7 +53,8 @@ const HomePage = () => {
       <Featured featuredProducts={featuredProducts} />
 
 
-      <Gallery />
+<Collection />
+      
       
 
       {/* Explore Collections */}
