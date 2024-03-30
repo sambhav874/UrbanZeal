@@ -23,3 +23,30 @@
 .blue {
   background-color: blue;
 }
+
+.square{
+    width:15px;
+    height:15px;
+    margin: 15px;
+    background-color: pink;
+}
+
+.square1{
+    width:30px;
+    height:30px;
+    margin: 15px;
+    background-color: lime;
+}
+
+.square2{
+    width:30px;
+    height:30px;
+    margin: 15px;
+    background-color: yellow;
+}
+.square3{
+    width:30px;
+    height:30px;
+    margin: 15px;
+    
+}

@@ -29,10 +29,10 @@ const ProductPage = () => {
   return (
     <div className="container mx-auto mt-8">
       <h1 className="text-3xl font-semibold mb-4">Our categories</h1>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="gap-4">
         {categories.map(product => (
           
-          <div key={product._id}  > 
+          <div key={product._id} className='min-h-screen flex justify-center items-center' > 
           <Link href={`/products/${product.name}`}>
               <p className="text-xl font-semibold mb-2">{product.name}</p>
             </Link>
