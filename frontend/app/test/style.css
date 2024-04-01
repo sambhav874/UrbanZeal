@@ -50,3 +50,42 @@
     margin: 15px;
     
 }
+
+
+.slider-section{
+    height: 22vh;
+    bottom:0;
+    position: fixed;
+    width: 100%;
+
+}
+
+.wheel{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex ; 
+    align-items: center;
+    justify-content: center;
+    width: 300vw;
+    max-width: 2000px;
+    max-height: 2000px;
+}
+
+.wheel-card{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6%;
+    max-width: 200px;
+    aspect-ratio: 1/1;
+    cursor: pointer
+}
+
+img{
+    width: 100%;
+    pointer-events: none;
+    z-index: 999;
+    cursor: pointer
+}

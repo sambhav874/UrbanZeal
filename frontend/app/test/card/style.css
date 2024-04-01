@@ -1,0 +1,50 @@
+/* Overall Structure */
+.body {
+  padding: 0;
+  margin: 0;
+  height: 100vh; /* Change to 100vh for full viewport height */
+  width: 100vw;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6vh; /* Reduced height for smaller header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Carousel Section */
+.slider-section {
+  height: 100vh; /* Adjust to fill the viewport height */
+  position: relative; /* Adjust to allow the carousel to scroll within the section */
+  overflow: hidden; /* Ensure the section doesn't overflow */
+}
+
+.wheel {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the carousel */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto; /* Allow the carousel to adjust its width based on the images */
+  height: auto; /* Allow the carousel to adjust its height based on the images */
+}
+
+.wheel-card {
+  position: relative; /* Adjust positioning */
+  width: auto; /* Adjust to fit the image size */
+  height: auto; /* Adjust to fit the image size */
+  cursor: pointer;
+}
+
+.wheel-card img {
+  width: 100%; /* Ensure the image fills its container */
+  height: 100%; /* Ensure the image fills its container */
+  object-fit: cover; /* Ensure the image covers its container */
+}

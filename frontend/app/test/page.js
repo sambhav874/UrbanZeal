@@ -187,41 +187,48 @@ export default function Test() {
     );
   }, []);
 
-  const imageContainerRef = useRef(null);
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger); // Register ScrollTrigger plugin
-
-    const imageElements = imageContainerRef.current.children;
-
-    // Create a timeline for image transitions
-    const imageTimeline = gsap.timeline({
-      repeat: -1, // Repeat infinitely
-      paused: true, // Start paused
-    });
-
-    
-    const elements = gsap.utils.toArray(imageElements);
-    console.log(elements)
-    gsap.to(elements, {
-        xPercent: -100 * (elements.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          start: "top top",
-          trigger: imageContainerRef.current,
-          scroller: ".container",
-          pin: true,
-          scrub: 0.5,
-          snap: 1 / (elements.length - 1),
-          end: () => `+=${imageContainerRef.current.offsetWidth}`,
-        },
+    gsap.registerPlugin(ScrollTrigger);
+    let wheel = document.querySelector(".wheel");
+    let images = gsap.utils.toArray(".wheel-card");
+    function setup() {
+      let radius = wheel.offsetWidth / 2;
+      let center = wheel.offsetWidth / 2;
+      let total = imagez.length;
+      let slice = (2 * Math.PI) / total;
+  
+      images.forEach((item, i) => {
+        let angle = i * slice;
+        let x = center * radius * Math.sin(angle);
+        let y = center * radius * Math.cos(angle);
+  
+        gsap.to(item, {
+          rotation: angle + "-rad",
+          xPercent: -50,
+          yPercent: -50,
+          x: x,
+          y: y,
+        });
       });
-      ScrollTrigger.refresh();
-    
-  }, []);
+    }
+  
+    gsap.to(".wheel", {
+      rotate: () => -360,
+      ease: "none",
+      duration: imagez.length,
+      scrollTrigger: {
+        start: 0,
+        end: "max",
+        scrub: 1,
+        snap: 1 / imagez.length,
+        
+      },
+    });
+    setup();
 
-  const handleUpdateActiveImage = (index) => {
-    setActiveImage(index + 1);
-  };
+  }, []);
+  
+
   return (
     <>
       <div ref={containerRef} className="container">
@@ -300,12 +307,16 @@ export default function Test() {
         <h1 className="vvvv text-5xl font-bold font-mono">Sambhav Jain</h1>
       </div>
 
-      <div className="min-h-screen flex m-10 wrapper" ref={imageContainerRef}>
+      
 
+      <section className="slider-section bg-slate-500">
+        <div className="wheel">
         {imagez.map((img , index) => (
-            <Image src={img} key={index} alt={`Image ${index + 1}`} updateActiveImage={handleUpdateActiveImage}  width={400} height={600} />
+            <div className="wheel-card" key={index}> 
+            <img src={img} key={index} alt={`Image ${index + 1}`}  width={400} height={600} /></div>
         ))}
-      </div>
+        </div>
+      </section>
     </>
   );
 }
