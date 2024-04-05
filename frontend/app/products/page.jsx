@@ -25,10 +25,14 @@ const ProductPage = () => {
   useEffect(() => {
     // GSAP animation for productCategory div
     categories.forEach((product, index) => {
-      const width1 = window.innerWidth;
-      const direction = index % 2 === 0 ? 1 : -1; // Alternate animation direction
-      gsap.to(reff.current.children[index], {
-        x: direction * (width1 / 2),
+      const startPosition = index % 2 === 0 ? -100 : 100; // Start position off-screen (left/right)
+
+      const animation = gsap.fromTo(reff.current.children[index], {
+        x: startPosition, // Start with div collapsed off-screen
+        width: 0 // Start with width collapsed
+      }, {
+        x: 0, // Animate to the center of the screen
+        width: '100%', // Expand the width to fill the screen
         duration: 1, // Add a duration
         ease: "power2.inOut", // Add easing
         scrollTrigger: {
@@ -38,7 +42,9 @@ const ProductPage = () => {
           scrub: true,
         },
       });
-      
+
+      // Clean up animation when component unmounts
+      return () => animation.kill();
     });
   }, [categories]); // Watch for changes in categories array
 
@@ -48,10 +54,10 @@ const ProductPage = () => {
   return (
     <div className="container mx-auto mt-8">
       <h1 className="text-6xl font-semibold m-8 text-center">Our categories</h1>
-      <Image src={Imggg} width={64} height={64} alt='' className='min-h-screen min-w-screen'/>
+      <Image src={Imggg} alt='' className='min-h-screen w-[200vh]'/>
       <div className="gap-4" ref={reff}>
         {categories.map((product, index) => (
-          <div key={product._id} className={`min-h-screen flex items-center productCategory ${index % 2 === 0 ? 'text-right' : 'text-left'}`} style={{ backgroundColor: colors[index % colors.length] }}>
+          <div key={product._id} className={`flex items-center min-h-screen w-screen productCategory ${index % 2 === 0 ? 'text-center justify-start' : 'text-center justify-end'}`} style={{ backgroundColor: colors[index % colors.length] }}>
             <div>
               <Link href={`/products/${product.name}`}>
                 <p className="text-3xl font-bold mb-2 mx-4">{product.name}</p>
