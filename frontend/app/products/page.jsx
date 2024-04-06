@@ -25,7 +25,7 @@ const ProductPage = () => {
   useEffect(() => {
     // GSAP animation for productCategory div
     categories.forEach((product, index) => {
-      const startPosition = index % 2 === 0 ? -100 : 100; // Start position off-screen (left/right)
+      const startPosition = index % 2 === 0 ? -200 : 200; // Start position off-screen (left/right)
 
       const animation = gsap.fromTo(reff.current.children[index], {
         x: startPosition, // Start with div collapsed off-screen
@@ -49,15 +49,15 @@ const ProductPage = () => {
   }, [categories]); // Watch for changes in categories array
 
   // Define an array of background colors
-  const colors = ["#ff9999", "#99ff99", "#9999ff", "#ffff99", "#99ffff", "#ff99ff", "#ffcc99", "#ccff99", "#99ccff", "#cc99ff"];
+  const colors = ["#ff9999", "#ffffff",'#000000', "#9999ff", "#ffff99", "#99ffff", "#ff99ff", "#ffcc99", "#ccff99", "#99ccff", "#cc99ff"];
 
   return (
     <div className="container mx-auto mt-8">
       <h1 className="text-6xl font-semibold m-8 text-center">Our categories</h1>
-      <Image src={Imggg} alt='' className='min-h-screen w-[200vh]'/>
+      <Image src={Imggg} alt='' className='min-h-screen w-[200vh] filter grayscale'/>
       <div className="gap-4" ref={reff}>
         {categories.map((product, index) => (
-          <div key={product._id} className={`flex items-center min-h-screen w-screen productCategory ${index % 2 === 0 ? 'text-center justify-start' : 'text-center justify-end'}`} style={{ backgroundColor: colors[index % colors.length] }}>
+          <div key={product._id} className={`flex items-center min-h-screen w-screen productCategory ${index % 2 === 0 ? 'text-center justify-start bg-black text-white' : 'text-center justify-end'}`}>
             <div>
               <Link href={`/products/${product.name}`}>
                 <p className="text-3xl font-bold mb-2 mx-4">{product.name}</p>
