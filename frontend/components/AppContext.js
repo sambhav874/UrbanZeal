@@ -18,6 +18,7 @@ export function cartProductPrice(cartProduct) {
 
 export function AppProvider({children}){
 
+    const [products, setProducts] = useState([]);
     const [cartProducts , setCartProducts] = useState([]);
    
     const ls = typeof window !== 'undefined' ? window.localStorage : null ;
@@ -49,6 +50,21 @@ export function AppProvider({children}){
         }
     } , [])
 
+    async function fetchProducts() {
+        fetch('/api/store-items')
+      .then(res => res.json())
+      .then(items => {
+        // Filter items with category 'Women'
+        
+        setProducts(items)// Assuming you want the latest 5 items
+      });
+        
+      }
+    
+      useEffect(() => {
+        fetchProducts(); // Fetch products when component mounts
+      }, []);
+    
     function addToCart(product, size=null, ) {
         setCartProducts(prevProducts => {
           const cartProduct = {...product, size};
@@ -61,7 +77,7 @@ export function AppProvider({children}){
 
     return(
         <SessionProvider>
-            <CartContext.Provider value={{cartProducts , setCartProducts , addToCart , removeCartProduct , clearCart}}>
+            <CartContext.Provider value={{cartProducts , setCartProducts , addToCart , removeCartProduct , clearCart , products}}>
                 
             {children}
             </CartContext.Provider>

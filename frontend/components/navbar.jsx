@@ -5,10 +5,11 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { CartContext } from "./AppContext";
 import ShoppingCart from './icons/ShoppingCart';
 
-
 const Navbar = () => {
   const session = useSession();
   const { cartProducts } = useContext(CartContext);
+  const { products } = useContext(CartContext);
+  console.log(products) // Access products from context
   const status = session?.status;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
@@ -19,7 +20,8 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -52,12 +54,45 @@ const Navbar = () => {
     setIsDropdownOpen(false);
   };
 
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+    filterProducts(e.target.value);
+  };
+
+  const filterProducts = (query) => {
+    const filteredProducts = products.filter(product =>
+      product.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredProducts(filteredProducts);
+  };
+
   return (
-    <div className="bg-white shadow-lg p-4 flex justify-end items-center gap-4">
-      
-      
-      <div className="hidden md:flex space-x-6 ">
-        <Link href="/" className="text-gray-700  hover:text-indigo-500 font-medium">
+    <div className="bg-white shadow-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="items-center space-x-4 w-full relative ">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 w-full"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+        />
+        {filteredProducts.length > 0 && (
+          <div className="absolute z-40 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+            {filteredProducts.map(product => (
+              <div key={product.id} className="p-2 border-b border-gray-300">
+                <Link href={`/product/${product.id}`}>
+                  <p className="text-gray-700 font-medium cursor-pointer transition duration-300 ease-in-out hover:text-indigo-500 hover:bg-gray-100 rounded-md px-2 py-1">
+                    {product.name}
+                  </p>
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="hidden md:flex space-x-6">
+        <Link href="/" className="text-gray-700 hover:text-indigo-500 font-medium">
           Home
         </Link>
         <Link href="/products/Men" className="text-gray-700 hover:text-indigo-500 font-medium">
