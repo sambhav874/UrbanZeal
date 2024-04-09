@@ -9,7 +9,7 @@ const Navbar = () => {
   const session = useSession();
   const { cartProducts } = useContext(CartContext);
   const { products } = useContext(CartContext);
-  console.log(products) // Access products from context
+  console.log(products); // Access products from context
   const status = session?.status;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
@@ -22,6 +22,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false); // New state to control visibility of search results
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -41,6 +42,21 @@ const Navbar = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Add event listener for clicks outside the search results container
+    const handleClickOutside = (event) => {
+      if (showSearchResults && !event.target.closest(".search-results")) {
+        setShowSearchResults(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showSearchResults]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -52,15 +68,17 @@ const Navbar = () => {
   const handleLinkClick = () => {
     setIsSidebarOpen(false);
     setIsDropdownOpen(false);
+    setShowSearchResults(false); // Hide search results when clicking on a link
   };
 
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
     filterProducts(e.target.value);
+    setShowSearchResults(true); // Show search results when input changes
   };
 
   const filterProducts = (query) => {
-    const filteredProducts = products.filter(product =>
+    const filteredProducts = products.filter((product) =>
       product.name.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredProducts(filteredProducts);
@@ -68,7 +86,7 @@ const Navbar = () => {
 
   return (
     <div className="bg-white shadow-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div className="items-center space-x-4 w-full relative ">
+      <div className="items-center space-x-4 w-full relative">
         <input
           type="text"
           placeholder="Search products..."
@@ -76,9 +94,9 @@ const Navbar = () => {
           value={searchQuery}
           onChange={handleSearchInputChange}
         />
-        {filteredProducts.length > 0 && (
-          <div className="absolute z-40 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-            {filteredProducts.map(product => (
+        {showSearchResults && filteredProducts.length > 0 && (
+          <div className="absolute z-40 w-full bg-white border border-gray-300 rounded-md shadow-lg search-results">
+            {filteredProducts.map((product) => (
               <div key={product.id} className="p-2 border-b border-gray-300">
                 <Link href={`/product/${product.id}`}>
                   <p className="text-gray-700 font-medium cursor-pointer transition duration-300 ease-in-out hover:text-indigo-500 hover:bg-gray-100 rounded-md px-2 py-1">
@@ -127,7 +145,7 @@ const Navbar = () => {
               {userName}
             </button>
             {isDropdownOpen && (
-              <ul className="absolute top-full right-0 mt-2 w-40 bg-whiteborder-gray-200 rounded-lg shadow-lg z-10">
+              <ul className="absolute top-full right-0 mt-2 w-40 bg-white border-gray-200 rounded-lg shadow-lg z-10">
                 <li>
                   <button
                     onClick={() => signOut()}
