@@ -42,7 +42,7 @@ export default function StoreItemsPage() {
       <div className="grid grid-cols-3 gap-2">
         {storeItems?.length > 0 && storeItems.map(c => (
           <Link key={c._id} href={'store-items/edit/'+c._id} className="bg-gray-200 flex-col rounded-xl p-4 flex gap-1 mb-1 items-center  text-black">
-            <div className="relative"> <Image src={c.image} className="rounded-md" alt={''} width={200} height={200}  /></div>
+            <div className="relative"> <Image src={c.image[0]} className="rounded-md" alt={''} width={200} height={200}  /></div>
              
               {c.name}
             
