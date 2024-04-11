@@ -1,32 +1,29 @@
 'use client'
-
+import React, { useState, useEffect } from 'react';
 import { useProfile } from './../../../components/UseProfile';
 import Link from 'next/link';
-import EditableImage from './../../../components/layout/EditableImage';
-import UserTabs from './../../../components/layout/UserTabs';
-import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
 import Left from './../../../components/icons/Left';
 import { redirect } from 'next/navigation';
+import EditableImage from './../../../components/layout/EditableImage';
 import StoreItemSizeProp from '../../../components/layout/StoreItemSizeProp';
+import toast from 'react-hot-toast';
 
 export default function newStoreItemPage() {
   const [itemCategory, setItemCategory] = useState('');
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
   const [itemPrice, setItemPrice] = useState('');
-  const [image, setImage] = useState('');
+  const [images, setImages] = useState([]);
   const [sizes, setSizes] = useState([]);
-  const [itemsubCategory , setItemsubCategory] = useState('');
-
+  const [itemsubCategory, setItemsubCategory] = useState('');
   const [redirectTo, setRedirect] = useState(false);
   const { loading, data } = useProfile();
   const [categories, setCategories] = useState([]);
-  const [subcategories, setsubCategories] = useState([]); // New state for categories
+  const [subcategories, setsubCategories] = useState([]);
 
   useEffect(() => {
     fetchCategories();
-    fetchSubCategories(); // Fetch categories on component mount
+    fetchSubCategories();
   }, []);
 
   async function fetchCategories() {
@@ -56,13 +53,11 @@ export default function newStoreItemPage() {
   async function handleFormSubmit(ev) {
     ev.preventDefault();
 
-    // Check if all required fields are filled
-    if (!itemName || !itemPrice || !itemDescription || !itemCategory || !image) {
-      toast.error('Please fill in all required fields.');
+    if (!itemName || !itemPrice || !itemDescription || !itemCategory || !images.length) {
+      toast.error('Please fill in all required fields and upload at least one image.');
       return;
     }
 
-    // Convert price to a valid number before sending to API
     const priceAsNumber = parseFloat(itemPrice);
     if (isNaN(priceAsNumber)) {
       toast.error('Invalid price format. Please enter a valid number.');
@@ -70,13 +65,13 @@ export default function newStoreItemPage() {
     }
 
     const data = {
-      image,
+      image: images,
       name: itemName,
       description: itemDescription,
       price: priceAsNumber,
       category: itemCategory,
-      subcategory: itemsubCategory ,
-      sizes: sizes,
+      subcategory: itemsubCategory,
+      sizes,
     };
 
     const savingPromise = new Promise(async (resolve, reject) => {
@@ -102,15 +97,13 @@ export default function newStoreItemPage() {
       error: 'Error Saving The Item, Try Again Later',
     });
 
-    // Clear form fields after successful submission
     setItemName('');
     setItemDescription('');
     setItemPrice('');
     setItemCategory('');
     setItemsubCategory('');
-    setImage('');
-    setSizes('');
-
+    setImages([]);
+    setSizes([]);
     setRedirect(true);
   }
 
@@ -128,21 +121,15 @@ export default function newStoreItemPage() {
 
   return (
     <div className="my-8">
-      <UserTabs isAdmin={true} />
-
-      <div className="my-8  max-w-md mx-auto">
-        <Link
-          className="flex w-full text-gray-700 justify-center gap-2 font-semibold border border-gray-300 rounded-xl px-6 py-2"
-          href={'/store-items/'}
-        >
+      <div className="my-8 max-w-md mx-auto">
+        <Link className="flex w-full text-gray-700 justify-center gap-2 font-semibold border border-gray-300 rounded-xl px-6 py-2" href={'/store-items/'}>
           <Left style={{ width: '12px', height: '12px' }} /> Show all the store items
         </Link>
       </div>
-
-      <form onSubmit={handleFormSubmit} className="mt-8 max-w-md  mx-auto">
+      <form onSubmit={handleFormSubmit} className="mt-8 max-w-md mx-auto">
         <div className="flex items-start gap-4" style={{ gridTemplateColumns: '3fr 7fr' }}>
           <div>
-            <EditableImage link={image} setLink={setImage} />
+            <EditableImage links={images} setLinks={setImages} />
           </div>
           <div className="grow">
             <label>Store items Name</label>
@@ -152,11 +139,7 @@ export default function newStoreItemPage() {
             <label>Description</label>
             <input type="text" value={itemDescription} onChange={(e) => setItemDescription(e.target.value)} required></input>
             <label>Category</label>
-            <select
-              value={itemCategory}
-              onChange={(e) => setItemCategory(e.target.value)}
-              required
-            >
+            <select value={itemCategory} onChange={(e) => setItemCategory(e.target.value)} required>
               <option value="">Select category</option>
               {categories.map(category => (
                 <option key={category._id} value={category.name}>
@@ -164,11 +147,7 @@ export default function newStoreItemPage() {
                 </option>
               ))}
             </select>
-            <select
-              value={itemsubCategory}
-              onChange={(e) => setItemsubCategory(e.target.value)}
-              required
-            >
+            <select value={itemsubCategory} onChange={(e) => setItemsubCategory(e.target.value)} required>
               <option value="">Select sub category</option>
               {subcategories.map(subcategory => (
                 <option key={subcategory._id} value={subcategory.name}>

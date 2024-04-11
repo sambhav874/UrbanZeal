@@ -6,6 +6,7 @@ export async function POST(req){
     mongoose.connect(process.env.MONGO_URI);
     const data = await req.json();
     const storeItemsDoc = await StoreItems.create(data);
+    console.log(storeItemsDoc);
     console.log(data);
     
     return Response.json(storeItemsDoc);

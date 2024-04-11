@@ -6,7 +6,7 @@ const extraPriceSchema = new Schema({
 })
 
 const storeItemsSchema = new Schema({
-    image : { type : String},
+    image : { type : [String]},
     name: { type : String},
     description: { type : String},
     price: { type : Number},
