@@ -60,6 +60,8 @@ const Kids = () => {
         ))}
       </div>
 
+      
+
       <div className="text-3xl font-bold font-serif mt-12 mb-6 store">Store Items</div>
       <div className="flex flex-row overflow-scroll m-2">
         {items.map(product => (
