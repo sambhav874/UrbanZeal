@@ -56,8 +56,6 @@ const HomePage = () => {
 <Collection />
       
       
-
-      {/* Explore Collections */}
 <div className="bg-gray-100 py-12">
   
     
