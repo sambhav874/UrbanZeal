@@ -1,90 +1,87 @@
-import { useState } from 'react';
-import toast from 'react-hot-toast';
+import Image from "next/image";
+import toast from 'react-hot-toast'
 
-export default function EditableImage({ links, setLinks }) {
-  const [selectedFiles, setSelectedFiles] = useState([]);
-
+export default function EditableImage({ link, setLink }) {
   async function handleFileChange(ev) {
     const files = ev.target.files;
 
-    if (files?.length > 0) {
-      const newSelectedFiles = Array.from(files);
-      setSelectedFiles(newSelectedFiles);
-    }
-  }
-
-  async function handleUpload() {
-    const uploadPromises = selectedFiles.map(async (file) => {
+    if (files?.length === 1) {
       const data = new FormData();
-      data.set("file", file);
+      data.set("file", files[0]);
+
+      const loadingToastId = toast.promise(
+        new Promise((resolve, reject) => {
+          fetch("/api/upload", {
+            method: "POST",
+            body: data,
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`Upload failed: ${response.statusText}`);
+              }
+              return response.json();
+            })
+            .then((responseData) => {
+              const imageURL =
+                responseData.url ||
+                responseData.path ||
+                responseData.imageUrl ||
+                responseData.link;
+              if (!imageURL) {
+                throw new Error("Missing image URL in response");
+              }
+              resolve(imageURL);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }),
+        {
+          loading: "Uploading...",
+          success: "Profile image uploaded!",
+          error: "Upload failed. Please try again.",
+        }
+      );
 
       try {
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: data,
-        });
-        if (!response.ok) {
-          throw new Error(`Upload failed: ${response.statusText}`);
-        }
-        const responseData = await response.json();
-        const imageURL =
-          responseData.url ||
-          responseData.path ||
-          responseData.imageUrl ||
-          responseData.link;
-        if (!imageURL) {
-          throw new Error("Missing image URL in response");
-        }
-        return imageURL;
+        const imageURL = await loadingToastId;
+        setLink(imageURL);
       } catch (error) {
         console.error("Error uploading image:", error);
         toast.error("Upload failed. Please try again.");
-        return null;
       }
-    });
-
-    const uploadedImages = await Promise.all(uploadPromises);
-    const filteredImages = uploadedImages.filter((image) => image !== null);
-    setLinks([...links, ...filteredImages]);
-    setSelectedFiles([]);
-  }
-
-  function handleRemove(index) {
-    const updatedLinks = [...links];
-    updatedLinks.splice(index, 1);
-    setLinks(updatedLinks);
+    }
   }
 
   return (
-    <div>
-      {links.map((link, index) => (
-        <div key={index} className="relative inline-block">
-          <img
-            src={link}
-            className="w-32 h-32 rounded-lg mb-2 mr-2"
-            alt={`Image ${index}`}
-          />
-          <button
-            className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-            onClick={() => handleRemove(index)}
-          >
-            X
-          </button>
+    <>
+      {link && (
+        <Image
+          src={`${link}`}
+          className="w-full h-full rounded-lg mb-2"
+          width={250}
+          height={250}
+          alt="User Avatar"
+        />
+      )}
+      {!link && (
+        <div className="bg-gray-200 p-4 text-gray-500 rounded-lg mb-1 text-center">
+            No image
         </div>
-      ))}
-      <input
-        type="file"
-        multiple
-        
-        onChange={handleFileChange}
-      ></input>
-      <button
-        className="block rounded-lg p-2 text-center border-gray-300 cursor-pointer border"
-        type="button"
-        onClick={handleUpload}
-      >
-        Add Images
-      </button>
-    </div>
+      )}
+      <label>
+        <input
+          type="file"
+          className="hidden"
+          onChange={handleFileChange}
+        ></input>
+        <span
+          className="block rounded-lg p-2 text-center border-gray-300 cursor-pointer border"
+          type="button"
+        >
+          Change Avatar
+        </span>
+      </label>
+    </>
   );
 }
