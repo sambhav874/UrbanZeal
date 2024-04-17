@@ -4,7 +4,7 @@ import { useProfile } from './../../../components/UseProfile';
 import Link from 'next/link';
 import Left from './../../../components/icons/Left';
 import { redirect } from 'next/navigation';
-import EditableImage from './../../../components/layout/EditableImage';
+import EditableMultipleImage from './../../../components/layout/EditableMultipleImage';
 import StoreItemSizeProp from '../../../components/layout/StoreItemSizeProp';
 import toast from 'react-hot-toast';
 
@@ -129,7 +129,7 @@ export default function newStoreItemPage() {
       <form onSubmit={handleFormSubmit} className="mt-8 max-w-md mx-auto">
         <div className="flex items-start gap-4" style={{ gridTemplateColumns: '3fr 7fr' }}>
           <div>
-            <EditableImage links={images} setLinks={setImages} />
+            <EditableMultipleImage links={images} setLinks={setImages} />
           </div>
           <div className="grow">
             <label>Store items Name</label>
