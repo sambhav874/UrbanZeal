@@ -12,8 +12,7 @@ const StoreItem = (storeItem) => {
   const { addToCart } = useContext(CartContext);
 
   function handleAddToCartButtonClick() {
-    const hasOptions = sizes.length > 0;
-    if (hasOptions && !showPopUp) {
+    if (!showPopUp) {
       setShowPopUp(true);
     } else {
       addToCart(storeItem, selectedSize);
