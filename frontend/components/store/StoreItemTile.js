@@ -11,7 +11,7 @@ export default function StoreItemTile({ onAddToCart, ...item }) {
           <span className="font-semibold text-gray-800">{category}</span>
           <span className="font-semibold text-gray-800">{price}</span>
         </div>
-        <div className="image-container flex justify-center items-center h-40">
+        <div className=" flex justify-center items-center h-40">
           <img src={image[0]} className="w-40 h-auto" alt={name} />
         </div>
         <p className="heading text-3xl font-semibold my-6">{name}</p>

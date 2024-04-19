@@ -26,9 +26,10 @@ const StoreItem = (storeItem) => {
       {showPopUp && (
         <div onClick={() => setShowPopUp(false)} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
           <div onClick={ev => ev.stopPropagation()} className="flex flex-col p-4 m-2 space-y-8 bg-white rounded-2xl shadow-2xl md:flex-row md:space-y-0 md:space-x-8 md:m-0 md:p-10 max-w-3xl">
-            <div className="mx-auto hover:scale-105 mb-4 bg-white rounded-xl text-white duration-1000 hover:bg-animate-pulse shadow-black shadow-2xl">
-              <Image src={image[0]} alt={name + ' image'} height={100} width={270} />
-            </div>
+          <div className="mx-auto hover:scale-105 flex  mb-4 bg-white rounded-xl text-white duration-1000 hover:bg-animate-pulse shadow-black shadow-2xl">
+  <img src={image[0]} alt={name + ' image'} style={{  width: 400 }} />
+</div>
+
             <div className="flex-col  space-y-4">
               <div className="flex-col mb-4 space-y-3 text-center md:text-left">
                 <div className="inline-block px-3 py-1 text-sm text-white bg-black rounded-full">
