@@ -79,7 +79,7 @@ const MenProductPage = () => {
       </div>
 
       {/* Display items */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 items-center md:grid-cols-1 gap-4">
         {sortedItems.length > 0 ? (
           sortedItems.map(item => (
             <StoreItem key={item._id} {...item} />
