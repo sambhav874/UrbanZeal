@@ -53,7 +53,7 @@ const MenProductPage = () => {
   return (
     <div className="max-w-4xl  m-8">
       {/* Banner or Hero Image */}
-      <div className="relative my-6">
+      <div className="relative my-8">
         <img
           className="w-full h-64 object-cover rounded-lg shadow-md banner-image" 
           src={banner} 
@@ -67,8 +67,8 @@ const MenProductPage = () => {
       </div>
 
       {/* Sorting options */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Sort by</h2>
+      <div className="flex justify-between items-center my-4">
+        <h2 className="text-xl font-semibold my-3">Sort by</h2>
         <select
           className="text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           onChange={(e) => handleSortChange(e.target.value)}
@@ -79,7 +79,7 @@ const MenProductPage = () => {
       </div>
 
       {/* Display items */}
-      <div className="grid grid-cols-2 items-center md:grid-cols-1 gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {sortedItems.length > 0 ? (
           sortedItems.map(item => (
             <StoreItem key={item._id} {...item} />
