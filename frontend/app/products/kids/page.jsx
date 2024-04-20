@@ -6,8 +6,6 @@ import StoreItem from '../../../components/store/StoreItem';
 import '../style.css'; // Import your stylesheet
 
 const Kids = () => {
-  'use client'; // Add the 'use client' directive if needed
-
   const [subCategories, setSubCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [carousel, setCarousel] = useState([]);
@@ -16,7 +14,7 @@ const Kids = () => {
     fetch('/api/subcategories')
       .then(res => res.json())
       .then(subCategory => {
-        const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'Kids');
+        const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'Kids'); // Fetch subcategories for Kids
         setSubCategories(subCatArray);
       });
 
@@ -24,21 +22,21 @@ const Kids = () => {
       .then(res => res.json())
       .then(items => {
         // Filter items with category 'Kids'
-        const kidsItems = items.filter(item => item.category === 'kids');
+        const kidsItems = items.filter(item => item.category === 'Kids');
         setItems(kidsItems.slice(-5)); // Assuming you want the latest 5 items
       });
 
     fetch('/api/carousel')
       .then(res => res.json())
       .then(carouselImages => {
-        const kidsImages = carouselImages.kidsImages.map(kidsImage => kidsImage.kidsImageUrl);
+        const kidsImages = carouselImages.kidsImages.map(kidsImage => kidsImage.kidsImageUrl); // Fetch carousel images for Kids
         setCarousel(kidsImages);
       })
       .catch(error => console.error('Error fetching kids images:', error));
   }, []);
 
   return (
-    <div className="container mx-auto mt-8 px-4 text-center"> {/* Use 'use client' here if not added at the beginning */}
+    <div className="max-w-4xl mx-auto mt-8 px-4 text-center">
       <div className="text-4xl font-bold mb-8 store">Kids</div>
       <Carousel images={carousel} />
 
@@ -60,13 +58,11 @@ const Kids = () => {
         ))}
       </div>
 
-      
-
       <div className="text-3xl font-bold font-serif mt-12 mb-6 store">Store Items</div>
       <div className="flex flex-row overflow-scroll m-2">
         {items.map(product => (
-          <div className="p-4 store">
-            <StoreItem key={product._id} {...product} />
+          <div className="p-4 store" key={product._id}>
+            <StoreItem {...product} />
           </div>
         ))}
       </div>
