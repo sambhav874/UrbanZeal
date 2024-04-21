@@ -1,10 +1,9 @@
-'use client'
 import { useState, useContext } from 'react';
 import { toast } from 'react-hot-toast';
 import { CartContext } from '../AppContext';
-import StoreItemTile from './../store/StoreItemTile';
+import FeaturedItemTile from './../store/FeaturedItemTile';
 
-const StoreItem = (storeItem) => {
+const FeaturedItem = (storeItem) => {
   const { image, name, price, description, sizes, category } = storeItem;
   const [selectedSize, setSelectedSize] = useState(sizes?.[0] || null);
   const [showPopUp, setShowPopUp] = useState(false);
@@ -38,13 +37,13 @@ const StoreItem = (storeItem) => {
   return (
     <>
       {showPopUp && (
-        <div onClick={() => setShowPopUp(false)} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
-          <div onClick={ev => ev.stopPropagation()} className="flex flex-col p-4 m-2 space-y-8 bg-white rounded-2xl shadow-2xl md:flex-row md:space-y-0 md:space-x-8 md:m-0 md:p-10 max-w-3xl">
-            <div className="relative  hover:scale-105  bg-white rounded-xl text-white duration-1000 hover:bg-animate-pulse shadow-black shadow-lg overflow-hidden" style={{ width: 350 }}>
+        <div onClick={() => setShowPopUp(false)} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+          <div onClick={ev => ev.stopPropagation()} className="flex z-40 flex-col p-4 m-2 space-y-8 bg-white rounded-2xl shadow-2xl md:flex-row md:space-y-0 md:space-x-8 md:m-0 md:p-10 max-w-3xl">
+            <div className="relative z-50 hover:scale-105  bg-white rounded-xl text-white duration-1000 hover:bg-animate-pulse shadow-black shadow-lg overflow-hidden" style={{ width: 350 }}>
               {/* Left button as carousel control */}
-              <button onClick={prevSlide} className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 -translate-x-1/2 focus:outline-none border-none" >&#10094;</button>
+              <button onClick={prevSlide} className="absolute top-1/2 left-4 z-50 transform -translate-y-1/2 -translate-x-1/2 focus:outline-none border-none" >&#10094;</button>
               {/* Right button as carousel control */}
-              <button onClick={nextSlide} className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 translate-x-1/2 focus:outline-none border-none" >&#10095;</button>
+              <button onClick={nextSlide} className="absolute top-1/2 right-4 z-50 transform -translate-y-1/2 translate-x-1/2 focus:outline-none border-none" >&#10095;</button>
               {/* Image */}
               <img src={image[currentImageIndex]} alt={name + ' image'} className="w-full h-full rounded-xl" />
             </div>
@@ -90,9 +89,9 @@ const StoreItem = (storeItem) => {
           </div>
         </div>
       )}
-      <StoreItemTile onAddToCart={handleAddToCartButtonClick} {...storeItem} />
+      <FeaturedItemTile onAddToCart={handleAddToCartButtonClick} {...storeItem} />
     </>
   );
 };
 
-export default StoreItem;
+export default FeaturedItem;

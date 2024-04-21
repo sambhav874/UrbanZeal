@@ -1,5 +1,5 @@
 import React from "react";
-import FeaturedItemTile from "../store/FeaturedItemTile";
+import FeaturedItem from "../store/FeaturedItem";
 import "./style.scss";
 
 export default function Featured({ featuredProducts }) {
@@ -12,7 +12,7 @@ export default function Featured({ featuredProducts }) {
         <h2>Featured Products</h2>
         
       </div><div className="flex gap-8 overflow-x-scroll py-6 ">
-      {featuredProducts?.map(product => <div className="grid gap-4"><FeaturedItemTile  key={product._id}  {...product} /></div>)}
+      {featuredProducts?.map(product => <div className="grid gap-4"><FeaturedItem  key={product._id}  {...product} /></div>)}
         </div>
     </section>
 
