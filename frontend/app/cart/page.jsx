@@ -1,5 +1,4 @@
 'use client'
-// CartPage.jsx
 import React, { useContext, useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import AddressInputs from './../../components/layout/AddressInputs';
@@ -67,32 +66,36 @@ const CartPage = () => {
       <div className="text-center">
         <h1 className="text-white text-4xl font-bold">Cart</h1>
       </div>
-
-      <div className="mt-8  grid gap-8 grid-cols-2 overflow-y-scroll">
-        <div className="overflow-y-scroll">
-        
+  
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        {/* Cart Items */}
+        <div className="bg-white rounded-lg shadow-md overflow-y-auto max-h-screen p-4">
           {cartProducts?.length === 0 && (
-            <div>No products in the cart.</div>
+            <div className="p-4 text-center text-gray-500">
+              Your cart is empty.
+            </div>
           )}
-          
           {cartProducts?.length > 0 && cartProducts.map((product, index) => (
-            
             <CartProduct key={index} product={product} onRemove={removeCartProduct} />
           ))}
-          <div className="py-4 text-right pr-16">
-            <span className="text-gray-500">Subtotal :</span>
-            <span className="text-lg font-semibold">Rs. {subtotal}</span>
-          </div>
-          <div className="py-4 text-right pr-16">
-            <span className="text-gray-500">Delivery :</span>
-            <span className="text-lg font-semibold">Rs. 30</span>
-          </div>
         </div>
-        <div className="bg-gray-300 p-4 m-4 rounded-lg duration-1000 hover:bg-gray-200">
+  
+        {/* Fixed Summary and Checkout Section */}
+        <div className="sticky top-0 h-full bg-white rounded-lg shadow-md p-4 md:p-8">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Summary</h2>
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-gray-500">Subtotal :</span>
+            <span className="text-lg font-semibold text-gray-800">Rs.{subtotal}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-500">Delivery :</span>
+            <span className="text-lg font-semibold text-gray-800">Rs30</span>
+          </div>
+          <hr className="my-4 border-gray-200" />
           <h2>Checkout</h2>
           <form onSubmit={proceedToCheckout}>
             <AddressInputs addressProps={address} setAddressProps={handleAddressChange} />
-            <button type="submit" className="text-slate-700 p-2">
+            <button type="submit" className="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Pay Rs. {subtotal + 30}/-
             </button>
           </form>
@@ -100,6 +103,7 @@ const CartPage = () => {
       </div>
     </section>
   );
+  
 };
 
 export default CartPage;
