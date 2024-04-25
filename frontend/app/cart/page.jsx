@@ -6,6 +6,7 @@ import Trash from './../../components/icons/Trash';
 import { useProfile } from './../../components/UseProfile';
 import CartProduct from './../../components/store/CartProduct';
 import { CartContext, cartProductPrice } from "../../components/AppContext";
+import './style.css'
 
 const CartPage = () => {
   useEffect(() => {
@@ -61,12 +62,18 @@ const CartPage = () => {
     })
   }
 
+  // Define the custom font style
+  const customFontStyle = {
+    fontFamily: 'Bai Jamjuree, sans-serif' // Use the imported font name here
+  };
+
   return (
     <section className="my-8">
-      <div className="text-center">
-        <h1 className="text-white text-4xl font-bold">Cart</h1>
+      <div style={customFontStyle} className="text-center">
+        
+        <h1  className=" text-4xl font-bold tracking-wide text-black ">Cart</h1>
       </div>
-  
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         {/* Cart Items */}
         <div className="bg-white rounded-lg shadow-md overflow-y-auto max-h-screen p-4">
@@ -79,7 +86,7 @@ const CartPage = () => {
             <CartProduct key={index} product={product} onRemove={removeCartProduct} />
           ))}
         </div>
-  
+
         {/* Fixed Summary and Checkout Section */}
         <div className="sticky top-0 h-full bg-white rounded-lg shadow-md p-4 md:p-8">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Summary</h2>
@@ -103,7 +110,6 @@ const CartPage = () => {
       </div>
     </section>
   );
-  
 };
 
 export default CartPage;
