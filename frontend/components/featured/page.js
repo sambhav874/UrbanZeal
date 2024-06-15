@@ -4,6 +4,7 @@ import "./style.scss";
 
 export default function Featured({ featuredProducts }) {
 
+  console.log(featuredProducts)
     
 
   return (
@@ -12,7 +13,7 @@ export default function Featured({ featuredProducts }) {
         <h2>Featured Products</h2>
         
       </div><div className="flex gap-8 overflow-x-scroll py-6 ">
-      {featuredProducts?.map(product => <div className="grid gap-4"><FeaturedItem  key={product._id}  {...product} /></div>)}
+      {featuredProducts?.map(product => <div key={product._id} className="grid gap-4"><FeaturedItem  {...product} /></div>)}
         </div>
     </section>
 

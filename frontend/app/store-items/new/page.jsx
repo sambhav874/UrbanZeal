@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import { useProfile } from './../../../components/UseProfile';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import EditableMultipleImage from './../../../components/layout/EditableMultiple
 import StoreItemSizeProp from '../../../components/layout/StoreItemSizeProp';
 import toast from 'react-hot-toast';
 
-export default function newStoreItemPage() {
+export default function NewStoreItemPage() {
   const [itemCategory, setItemCategory] = useState('');
   const [itemName, setItemName] = useState('');
   const [itemDescription, setItemDescription] = useState('');
