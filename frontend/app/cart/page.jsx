@@ -11,7 +11,7 @@ import './style.css'
 const CartPage = () => {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.href.includes('canceled=1')) {
-      toast.error('Payment failed 😔');
+      toast.error('Payment failed');
     }
   }, []);
 
