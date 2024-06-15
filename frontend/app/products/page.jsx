@@ -48,9 +48,7 @@ const ProductPage = () => {
     });
   }, [categories]); // Watch for changes in categories array
 
-  // Define an array of background colors
-  const colors = ["#ff9999", "#ffffff",'#000000', "#9999ff", "#ffff99", "#99ffff", "#ff99ff", "#ffcc99", "#ccff99", "#99ccff", "#cc99ff"];
-
+  
   return (
     <div className="container mx-auto mt-8">
       <h1 className="text-6xl font-semibold m-8 text-center">Our categories</h1>

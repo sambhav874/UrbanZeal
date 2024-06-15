@@ -9,6 +9,7 @@ const Men = () => {
   const [subCategories, setSubCategories] = useState([]);
   const [carousel, setCarousel] = useState([]);
   const [items, setItems] = useState([]);
+  console.log("Subcat" + subCategories)
 
   useEffect(() => {
     fetch('/api/subcategories')
@@ -16,6 +17,7 @@ const Men = () => {
       .then(subCategory => {
         const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'Men');
         setSubCategories(subCatArray);
+        
       });
 
     fetch('/api/store-items')

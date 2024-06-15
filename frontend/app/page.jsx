@@ -54,30 +54,6 @@ const HomePage = () => {
 
 
 <Collection />
-      
-      
-<div className="bg-gray-100 py-12">
-  
-    
-    <div className="flex flex-wrap justify-center gap-6">
-      <Link href="/products">
-        <button className="text-lg font-medium text-gray-800 hover:text-gray-900 focus:outline-none">
-          Men's Collection
-        </button>
-      </Link>
-      <Link href="/products">
-        <button className="text-lg font-medium text-gray-800 hover:text-gray-900 focus:outline-none">
-          Women's Collection
-        </button>
-      </Link>
-      <Link href="/products">
-        <button className="text-lg font-medium text-gray-800 hover:text-gray-900 focus:outline-none">
-          Kids' Collection
-        </button>
-      </Link>
-    </div>
- 
-</div>
 
     </div>
   );
