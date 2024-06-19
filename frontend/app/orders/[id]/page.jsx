@@ -48,7 +48,7 @@ const OrderPage = () => {
             {order && (
                 <div className='grid grid-cols-2 gap-16'>
                     <div>{order.cartProducts.map(product => (
-                        <CartProduct products={product} />
+                        <CartProduct products={product} key={product._id} />
                         
                     ))}
                     
@@ -62,7 +62,7 @@ const OrderPage = () => {
                     </div>
                     <div className='bg-gray-100 p-4 rounded-lg'>
                         <div>Address Info
-                            <AddressInputs disabled={true} addressProps={...order} />
+                            <AddressInputs disabled={true} {...order} />
                         </div>
                     </div>
                 </div>

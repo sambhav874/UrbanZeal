@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import {User} from './../../../models/User'
-import { isAdmin } from '../auth/[...nextauth]/route';
+import { isAdmin } from '../auth/[...nextauth]/utils/isAdmin';
 
 export async function GET(){
     

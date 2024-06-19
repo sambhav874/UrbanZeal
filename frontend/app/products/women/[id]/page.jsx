@@ -59,7 +59,7 @@ const WomenProductPage = () => {
         />
         {/* Overlay with text */}
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <h1 className="text-4xl font-bold text-white opacity-100">Women's {id} Collection</h1>
+          <h1 className="text-4xl font-bold text-white opacity-100">Womens {id} Collection</h1>
         </div>
       </div>
 

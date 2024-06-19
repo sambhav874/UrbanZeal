@@ -1,4 +1,4 @@
-import { authOptions } from "./../auth/[...nextauth]/route";
+import { authOptions } from "../auth/[...nextauth]/auth";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { User } from "./../../../models/User";

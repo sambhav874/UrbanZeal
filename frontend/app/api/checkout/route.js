@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { Order } from "../../../models/Order";
 import {StoreItems} from "../../../models/StoreItems";
-import { authOptions } from "./../auth/[...nextauth]/route";
+import { authOptions } from "../auth/[...nextauth]/auth";
 
 export async function POST(req) {
     mongoose.connect(process.env.MONGO_URI);

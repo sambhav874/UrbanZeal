@@ -60,7 +60,7 @@ const MenProductPage = () => {
           alt="Men's Subcategory"
         />
          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 ">
-    <h1 className="text-4xl font-bold text-white opacity-100">Men's {id} Collection</h1>
+    <h1 className="text-4xl font-bold text-white opacity-100">Mens {id} Collection</h1>
   </div>
     
   
