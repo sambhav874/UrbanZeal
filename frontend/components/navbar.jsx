@@ -113,13 +113,13 @@ const Navbar = () => {
         <Link href="/" className="text-gray-700 hover:text-indigo-500 font-medium">
           Home
         </Link>
-        <Link href="/products/Men" className="text-gray-700 hover:text-indigo-500 font-medium">
+        <Link href="/products/men" className="text-gray-700 hover:text-indigo-500 font-medium">
           Men
         </Link>
-        <Link href="/products/Women" className="text-gray-700 hover:text-indigo-500 font-medium">
+        <Link href="/products/women" className="text-gray-700 hover:text-indigo-500 font-medium">
           Women
         </Link>
-        <Link href="/products/Kids" className="text-gray-700 hover:text-indigo-500 font-medium">
+        <Link href="/products/kids" className="text-gray-700 hover:text-indigo-500 font-medium">
           Kids
         </Link>
         <Link href="/contact" className="text-gray-700 hover:text-indigo-500 font-medium">
@@ -190,57 +190,57 @@ const Navbar = () => {
 
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
-        <div className="md:hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex flex-col items-center justify-center">
-          <div className="bg-white p-4 rounded-lg space-y-4">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex flex-col items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg space-y-4 relative w-4/5 max-w-sm mx-auto">
             <button
               onClick={toggleSidebar}
-              className="absolute top-0 right-0 m-4 text-gray-700 hover:text-indigo-500 font-medium"
+              className="absolute top-2 right-2 text-gray-700 hover:text-indigo-500 font-medium"
             >
               &times;
             </button>
             <Link
               href="/"
-              className="text-gray-700 hover:text-indigo-500 font-medium"
+              className="block text-gray-700 hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Home
             </Link>
             <Link
-              href="/products/Men"
-              className="text-gray-700 hover:text-indigo-500 font-medium"
+              href="/products/men"
+              className="block text-gray-700 hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Men
             </Link>
             <Link
-              href="/products/Women"
-              className="text-gray-700 hover:text-indigo-500 font-medium"
+              href="/products/women"
+              className="block text-gray-700 hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Women
             </Link>
             <Link
-              href="/products/Kids"
-              className="text-gray-700 hover:text-indigo-500 font-medium"
+              href="/products/kids"
+              className="block text-gray-700 hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Kids
             </Link>
             <Link
               href="/contact"
-              className="text-gray-700 hover:text-indigo-500 font-medium"
+              className="block text-gray-700 hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Contact
             </Link>
             <Link
               href="/cart"
-              className="text-gray-700 hover:text-indigo-500 font-medium"
+              className="block text-gray-700 hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Cart
               {cartProducts.length > 0 && (
-                <span className="relative -top-2 -right-2 bg-red-500 text-white text-xs rounded-full p-1">
+                <span className="relative ml-2 bg-red-500 text-white text-xs rounded-full p-1">
                   {cartProducts.length}
                 </span>
               )}
