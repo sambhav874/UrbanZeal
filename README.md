@@ -9,4 +9,4 @@ Technologies Used :
 -GSAP
 -AWS(S3 : storing user assets)
 
-(Project Under Development : Admin Page Done .)
+(Project Under Development)

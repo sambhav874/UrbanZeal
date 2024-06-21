@@ -27,7 +27,7 @@ const WomenProductPage = () => {
         setSortedItems(womenItems); // Initialize sorted items with the original items
       });
 
-    // Fetch subcategory details (if available)
+    
     fetch(`/api/subcategories`)
       .then(res => res.json())
       .then(subcategories => {
