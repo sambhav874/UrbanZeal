@@ -25,7 +25,7 @@ const MenProductPage = () => {
   .then(res => res.json())
   .then(subcategories => {
     
-      const menSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "Men" && subcategory.name === id);
+      const menSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "men" && subcategory.name === id);
       console.log(menSubcategory);
       
         const head = menSubcategory[0].image;

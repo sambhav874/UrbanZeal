@@ -37,7 +37,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="bg-white overflow-hidden">
+    <div className="bg-white overflow-hidden ">
       <Head>
         <title>UrbanZeal | Home</title>
         <meta name="description" content="Welcome to UrbanZeal - Explore our latest collection of clothing." />

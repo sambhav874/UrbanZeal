@@ -41,10 +41,10 @@ const Kids = () => {
       <Carousel images={carousel} />
 
       <h2 className="text-3xl font-semibold store my-12">Our categories</h2>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 gap-6 ">
         {subCategories.map(subcategory => (
           <div key={subcategory._id}>
-            <Link href={`/products/Kids/${subcategory.name}`}>
+            <Link href={`/products/kids/${subcategory.name}`}>
               <div className="border border-gray-200 rounded-md overflow-hidden shadow-md p-4">
                 <img src={subcategory.image} alt={subcategory.name} className="w-full h-60 object-cover" />
                 <div className="mt-4">

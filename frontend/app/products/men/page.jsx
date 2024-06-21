@@ -38,15 +38,15 @@ const Men = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 px-4 text-center"> {/* Use 'use client' here if needed */}
+    <div className=" mx-auto mt-8 px-4 text-center"> {/* Use 'use client' here if needed */}
       <div className="text-4xl font-bold mb-8 store">Men</div>
       <Carousel images={carousel} />
 
       <h2 className="text-3xl font-semibold store my-12">Our categories</h2>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 gap-6">
         {subCategories.map(subcategory => (
           <div key={subcategory._id}>
-            <Link href={`/products/Men/${subcategory.name}`}>
+            <Link href={`/products/men/${subcategory.name}`}>
               <div className="border border-gray-200 rounded-md overflow-hidden shadow-md p-4">
                 <img src={subcategory.image} alt={subcategory.name} className="w-full h-60 object-cover" />
                 <div className="mt-4">
