@@ -21,7 +21,7 @@ const KidsProductPage = () => {
     fetch('/api/store-items')
       .then(res => res.json())
       .then(items => {
-        const kidsItems = items.filter(item => item.category === 'Kids' && item.subcategory === id);
+        const kidsItems = items.filter(item => (item.category === 'Kids' || item.category === 'kids') && item.subcategory === id);
         setItems(kidsItems);
         setSortedItems(kidsItems); // Initialize sorted items with the original items
       });
@@ -30,7 +30,7 @@ const KidsProductPage = () => {
     fetch(`/api/subcategories`)
       .then(res => res.json())
       .then(subcategories => {
-        const kidsSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "Kids" && subcategory.name === id);
+        const kidsSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "kids" || subcategory.parentCategory === 'Kids' && subcategory.name === id);
         const head = kidsSubcategory[0].image;
         setBanner(head);
       })

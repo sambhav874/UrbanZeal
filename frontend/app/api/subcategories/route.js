@@ -16,7 +16,7 @@ export async function POST(req) {
 
 export async function PUT(req) {
     mongoose.connect(process.env.MONGO_URI);
-    const {_id, name , parentCategory} = await req.json();
+    const {_id, name , parentCategory , image} = await req.json();
     if (await isAdmin()) {
       
       await Subcategory.updateOne({_id}, {name , parentCategory , image});

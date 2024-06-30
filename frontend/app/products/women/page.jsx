@@ -14,7 +14,7 @@ const Women = () => {
     fetch('/api/subcategories')
       .then(res => res.json())
       .then(subCategory => {
-        const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'Women');
+        const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'Women' || subcat.parentCategory === 'women');
         setSubCategories(subCatArray);
       });
 
@@ -22,7 +22,7 @@ const Women = () => {
       .then(res => res.json())
       .then(items => {
         // Filter items with category 'Women'
-        const womenItems = items.filter(item => item.category === 'Women');
+        const womenItems = items.filter(item => item.category === 'women' || item.category === 'Women' );
         setItems(womenItems.slice(0, 5)); // Assuming you want the latest 5 items
       });
 

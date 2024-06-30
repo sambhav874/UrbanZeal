@@ -14,7 +14,7 @@ const MenProductPage = () => {
     fetch('/api/store-items')
       .then(res => res.json())
       .then(items => {
-        const menItems = items.filter(item => item.category === 'Men' && item.subcategory === id);
+        const menItems = items.filter(item => (item.category === 'Men' || item.category === 'men') && item.subcategory === id);
         setItems(menItems);
         
         setSortedItems(menItems); // Initialize sorted items with the original items
@@ -25,7 +25,7 @@ const MenProductPage = () => {
   .then(res => res.json())
   .then(subcategories => {
     
-      const menSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "men" && subcategory.name === id);
+      const menSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "men" || subcategory.parentCategory === 'Men' && subcategory.name === id);
       console.log(menSubcategory);
       
         const head = menSubcategory[0].image;

@@ -15,7 +15,7 @@ const Men = () => {
     fetch('/api/subcategories')
       .then(res => res.json())
       .then(subCategory => {
-        const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'Men');
+        const subCatArray = subCategory.filter(subcat => subcat.parentCategory === 'men' || subcat.parentCategory === 'Men');
         setSubCategories(subCatArray);
         
       });
@@ -24,7 +24,7 @@ const Men = () => {
       .then(res => res.json())
       .then(items => {
         // Filter items with category 'Men'
-        const menItems = items.filter(item => item.category === 'Men');
+        const menItems = items.filter(item => item.category === 'men' || item.category === 'Men' );
         setItems(menItems.slice(-5)); // Assuming you want the latest 5 items
       });
 

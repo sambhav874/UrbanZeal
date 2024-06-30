@@ -22,7 +22,7 @@ const WomenProductPage = () => {
       .then(res => res.json())
       .then(items => {
         // Filter items with category 'Women'
-        const womenItems = items.filter(item => item.category === 'Women' && item.subcategory === id);
+        const womenItems = items.filter(item => (item.category === 'Women' || item.category === 'women') && item.subcategory === id);
         setItems(womenItems);
         setSortedItems(womenItems); // Initialize sorted items with the original items
       });
@@ -31,7 +31,7 @@ const WomenProductPage = () => {
     fetch(`/api/subcategories`)
       .then(res => res.json())
       .then(subcategories => {
-        const womenSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "Women" && subcategory.name === id);
+        const womenSubcategory = subcategories.filter(subcategory => subcategory.parentCategory === "women" || subcategory.parentCategory === 'Women' && subcategory.name === id);
         const head = womenSubcategory[0].image;
         setBanner(head);
       })
