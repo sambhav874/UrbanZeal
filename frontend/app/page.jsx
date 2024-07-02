@@ -14,6 +14,7 @@ import Collection from './../components/collections/page';
 const HomePage = () => {
   const [carousel, setCarousel] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  
 
   useEffect(() => {
     // Fetch featured products

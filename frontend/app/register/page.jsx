@@ -1,9 +1,11 @@
 "use client"
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 const Register = () => {
     const [email, setEmail] = useState('');
+    const [name , setName] = useState('');
     const [password, setPassword] = useState('');
     const [userCreated, setUserCreated] = useState(false);
     const [creatingUser, setCreatingUser] = useState(false);
@@ -19,7 +21,7 @@ const Register = () => {
 
     const response = await fetch('/api/register', {
         method: 'POST',
-        body: JSON.stringify({email, password}),
+        body: JSON.stringify({name , email, password}),
         headers: {'Content-Type': 'application/json'},
       });
 
@@ -54,6 +56,10 @@ const Register = () => {
                 <form className="mt-8 space-y-6" onSubmit={handleFormSubmit} method="POST">
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
+                    <div>
+                            <label htmlFor="name" className="sr-only">Name</label>
+                            <input id="name" name="name" type="name" autoComplete="name" value={name} disabled={creatingUser} onChange={ev => setName(ev.target.value)} required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Name" />
+                        </div>
                         <div>
                             <label htmlFor="email" className="sr-only">Email address</label>
                             <input id="email" name="email" type="email" autoComplete="email" value={email} disabled={creatingUser} onChange={ev => setEmail(ev.target.value)} required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" />
