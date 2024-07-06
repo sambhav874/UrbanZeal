@@ -76,7 +76,6 @@ const Profile = () => {
 
   return (
     <div className="mt-8">
-        
       <UserTabs isAdmin={isAdmin}/>
       <div className="max-w-md mx-auto border mt-8 border-gray-300 bg-white p-4 rounded-lg">
         <div className="flex gap-2 items-center">
