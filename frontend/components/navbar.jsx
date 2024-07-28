@@ -7,9 +7,7 @@ import ShoppingCart from './icons/ShoppingCart';
 
 const Navbar = () => {
   const session = useSession();
-  const { cartProducts } = useContext(CartContext);
-  const { products } = useContext(CartContext);
-  console.log(products); // Access products from context
+  const { cartProducts, products } = useContext(CartContext);
   const status = session?.status;
   const userData = session.data?.user;
   let userName = userData?.name || userData?.email;
@@ -85,7 +83,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white shadow-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div className="bg-white shadow-lg p-4 flex flex-col md:flex-row justify-between items-center gap-4 relative">
       <div className="items-center space-x-4 w-full relative">
         <input
           type="text"
@@ -190,17 +188,17 @@ const Navbar = () => {
 
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex flex-col items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg space-y-4 relative w-4/5 max-w-sm mx-auto">
             <button
               onClick={toggleSidebar}
-              className="absolute top-2 right-2 text-gray-700 hover:text-indigo-500 font-medium"
+              className="absolute top-0 right-0  text-gray-700 hover:text-indigo-500 font-medium"
             >
               &times;
             </button>
             <Link
               href="/"
-              className="block text-gray-700 hover:text-indigo-500 font-medium"
+              className="block text-gray-700  hover:text-indigo-500 font-medium"
               onClick={handleLinkClick}
             >
               Home
